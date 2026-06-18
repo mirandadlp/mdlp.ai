@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="mdlp.io — AI consultant helping ambitious companies design, implement, and scale intelligent systems, automation, and digital transformation." />
-  <title>mdlp.io — AI Systems · Automation · Strategic Technology</title>
+  <meta name="description" content="mdlp.ai — AI consultant helping ambitious companies design, implement, and scale intelligent systems, automation, and digital transformation." />
+  <title>mdlp.ai — AI Systems · Automation · Strategic Technology</title>
 
   <!-- Fonts: Space Grotesk (display) + Inter (body) for a modern tech feel -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -14,7 +14,7 @@
   <!-- Styles inlined so this works as a single downloadable file -->
   <style>
 /* =================================================================
-   mdlp.io — Premium AI Consultant Portfolio
+   mdlp.ai — Premium AI Consultant Portfolio
    styles.css
    Theme: dark futuristic / space-tech with glowing neon accents
    ================================================================= */
@@ -128,6 +128,88 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+
+/* Distant nebula glow + a faint planet for extra depth on the space theme */
+.nebula {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.nebula__planet {
+  position: absolute;
+  top: 8%; left: -90px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 30%, #3a2b6b, #170f33 60%, #0a0820 100%);
+  box-shadow:
+    inset -22px -10px 50px rgba(0,0,0,0.7),
+    0 0 80px 6px rgba(139,92,255,0.25);
+  opacity: 0.55;
+  animation: floaty 14s ease-in-out infinite;
+}
+
+/* Shooting stars streak across the sky on a loop */
+.shooting-star {
+  position: fixed;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 8px 1px rgba(255,255,255,0.9);
+}
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  top: 50%; right: 0;
+  width: 160px; height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(270deg, rgba(255,255,255,0.85), transparent);
+}
+.shooting-star--1 { top: 14%; left: 70%; animation: shoot 7s ease-in 2s infinite; }
+.shooting-star--2 { top: 26%; left: 88%; animation: shoot 9s ease-in 5s infinite; }
+.shooting-star--3 { top: 6%;  left: 55%; animation: shoot 11s ease-in 8s infinite; }
+@keyframes shoot {
+  0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
+  8%   { opacity: 1; }
+  22%  { opacity: 1; }
+  30%  { transform: translate(-520px, 180px) rotate(18deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ---------- Trailing starlet cursor ---------- */
+/* Hide the system cursor on devices that support hover (desktop) so the
+   custom glowing star + trailing starlets take over. */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, input, textarea, label, .card, .cap { cursor: none; }
+}
+/* The main star that sits on the pointer */
+.cursor-star {
+  position: fixed;
+  top: 0; left: 0;
+  width: 16px; height: 16px;
+  margin: -8px 0 0 -8px;
+  z-index: 9999;
+  pointer-events: none;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 6px var(--cyan));
+  transition: transform .12s ease-out;
+}
+/* Each trailing starlet left behind as the pointer moves */
+.starlet {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 1px currentColor;
+  will-change: transform, opacity;
 }
 
 /* Scroll progress bar */
@@ -753,6 +835,14 @@ body::after {
   <canvas id="starfield" aria-hidden="true"></canvas>
   <!-- Moving gradient aurora that drifts across the page -->
   <div class="aurora" aria-hidden="true"></div>
+  <!-- Deep-space depth: distant nebula glow + a faint planet -->
+  <div class="nebula" aria-hidden="true">
+    <div class="nebula__planet"></div>
+  </div>
+  <!-- Looping shooting stars -->
+  <div class="shooting-star shooting-star--1" aria-hidden="true"></div>
+  <div class="shooting-star shooting-star--2" aria-hidden="true"></div>
+  <div class="shooting-star shooting-star--3" aria-hidden="true"></div>
 
   <!-- Scroll progress bar -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
@@ -761,7 +851,7 @@ body::after {
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#hero" class="nav__brand">
-        <span class="nav__logo">md<span class="accent">lp</span>.io</span>
+        <span class="nav__logo">md<span class="accent">lp</span>.ai</span>
       </a>
 
       <nav class="nav__links" id="navLinks">
@@ -793,7 +883,7 @@ body::after {
       </div>
 
       <div class="hero__content container">
-        <p class="hero__eyebrow reveal">AI CONSULTANT · STRATEGY · AUTOMATION</p>
+        <p class="hero__eyebrow reveal">THE AI CONSULTANT COMPANIES TRUST</p>
 
         <h1 class="hero__title reveal">
           <span class="line">AI Systems.</span>
@@ -802,8 +892,9 @@ body::after {
         </h1>
 
         <p class="hero__subtitle reveal">
-          mdlp.io helps ambitious companies design, implement, and scale
-          intelligent systems that save time, improve operations, and unlock growth.
+          I'm mdlp.ai — an AI consultant with deep, proven experience building
+          intelligent systems that save time, cut costs, and unlock growth.
+          If you want it done right, you've found the right partner.
         </p>
 
         <div class="hero__actions reveal">
@@ -854,19 +945,15 @@ body::after {
         <div class="about__text">
           <p class="section__eyebrow reveal">About</p>
           <h2 class="section__title reveal">
-            A consultant who pairs <span class="gradient-text">deep AI expertise</span> with executive-level strategy.
+            The <span class="gradient-text">obvious choice</span> for AI done right.
           </h2>
           <p class="about__lead reveal">
-            I'm an AI consultant operating at the intersection of artificial
-            intelligence, automation, technology, and leadership. I help organizations
-            move past experiments and into intelligent systems that run reliably in
-            the real world.
+            Years of hands-on experience across AI, automation, technology, and
+            leadership — turning ambitious ideas into systems that ship and scale.
           </p>
           <p class="about__body reveal">
-            With a background spanning AI implementation, business process automation,
-            modern technology stacks, and the strategic leadership required to drive
-            change, I translate ambitious vision into shipped, measurable systems —
-            and lead teams through the transformation it takes to get there.
+            I've designed AI implementations, automated entire operations, and led
+            teams through digital transformation. Real systems. Real results. No hype.
           </p>
 
           <ul class="about__pills reveal">
@@ -887,9 +974,9 @@ body::after {
       <div class="container">
         <div class="section__head">
           <p class="section__eyebrow reveal">Services</p>
-          <h2 class="section__title reveal">What I help companies build</h2>
+          <h2 class="section__title reveal">What I build for you</h2>
           <p class="section__sub reveal">
-            End-to-end engagements — from strategy and design to implementation and scale.
+            Strategy to launch. Done right, the first time.
           </p>
         </div>
 
@@ -899,8 +986,7 @@ body::after {
             <div class="card__icon">⚡</div>
             <h3 class="card__title">AI Consulting</h3>
             <p class="card__desc">
-              Strategy, roadmaps, and architecture for adopting AI with clarity —
-              identifying where intelligence creates real leverage.
+              Clear strategy and architecture for adopting AI where it creates real leverage.
             </p>
           </article>
 
@@ -908,8 +994,7 @@ body::after {
             <div class="card__icon">🔁</div>
             <h3 class="card__title">Workflow Automation</h3>
             <p class="card__desc">
-              Replace manual, repetitive operations with reliable automations that
-              save hours and remove friction across your business.
+              Reliable automations that erase manual work and save hours every week.
             </p>
           </article>
 
@@ -917,8 +1002,7 @@ body::after {
             <div class="card__icon">🤖</div>
             <h3 class="card__title">Chatbot & Agent Development</h3>
             <p class="card__desc">
-              Custom AI agents and assistants that handle support, sales, research,
-              and internal operations around the clock.
+              Custom AI agents that handle support, sales, and operations 24/7.
             </p>
           </article>
 
@@ -926,8 +1010,7 @@ body::after {
             <div class="card__icon">📈</div>
             <h3 class="card__title">CRM & Sales Pipeline Systems</h3>
             <p class="card__desc">
-              Intelligent pipelines that capture, qualify, and nurture leads —
-              connecting your tools into one revenue engine.
+              Smart pipelines that capture, qualify, and convert — one revenue engine.
             </p>
           </article>
 
@@ -935,8 +1018,7 @@ body::after {
             <div class="card__icon">🧭</div>
             <h3 class="card__title">Leadership & Digital Transformation</h3>
             <p class="card__desc">
-              Hands-on leadership to guide teams through change, align stakeholders,
-              and embed new technology into how you operate.
+              Hands-on leadership that guides teams through change and makes it stick.
             </p>
           </article>
 
@@ -944,8 +1026,7 @@ body::after {
             <div class="card__icon">🌐</div>
             <h3 class="card__title">Website & Funnel Strategy</h3>
             <p class="card__desc">
-              High-converting websites and funnels engineered with modern systems
-              to turn attention into qualified opportunities.
+              High-converting sites and funnels that turn attention into customers.
             </p>
           </article>
         </div>
@@ -959,9 +1040,9 @@ body::after {
       <div class="container">
         <div class="section__head">
           <p class="section__eyebrow reveal">Capabilities</p>
-          <h2 class="section__title reveal">Where I create impact</h2>
+          <h2 class="section__title reveal">Proven across every layer</h2>
           <p class="section__sub reveal">
-            Futuristic systems, delivered with executive precision.
+            Deep experience, delivered with executive precision.
           </p>
         </div>
 
@@ -969,35 +1050,35 @@ body::after {
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">01</span>
             <h3 class="cap__title">AI Implementation</h3>
-            <p class="cap__desc">Production-grade AI woven into your real workflows — not slideware.</p>
+            <p class="cap__desc">Production AI in your real workflows — not slideware.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">02</span>
             <h3 class="cap__title">Business Process Automation</h3>
-            <p class="cap__desc">Operations that run themselves, freeing your team for higher-value work.</p>
+            <p class="cap__desc">Operations that run themselves, so your team scales.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">03</span>
             <h3 class="cap__title">Customer Journey Design</h3>
-            <p class="cap__desc">Seamless, intelligent journeys from first touch to loyal advocate.</p>
+            <p class="cap__desc">Seamless journeys from first touch to loyal customer.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">04</span>
             <h3 class="cap__title">Executive-Level Strategy</h3>
-            <p class="cap__desc">Clear direction that connects technology decisions to business outcomes.</p>
+            <p class="cap__desc">Tech decisions tied directly to business outcomes.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal cap--wide" tabindex="0">
             <span class="cap__index">05</span>
             <h3 class="cap__title">Modern Website Systems</h3>
-            <p class="cap__desc">Fast, beautiful, conversion-focused platforms built on modern foundations.</p>
+            <p class="cap__desc">Fast, beautiful, conversion-focused platforms.</p>
             <div class="cap__beam"></div>
           </article>
         </div>
@@ -1005,35 +1086,35 @@ body::after {
     </section>
 
     <!-- ============================================================= -->
-    <!-- 5. WHY mdlp.io                                                -->
+    <!-- 5. WHY mdlp.ai                                                -->
     <!-- ============================================================= -->
     <section class="section why" id="why">
       <div class="container">
         <div class="section__head">
-          <p class="section__eyebrow reveal">Why mdlp.io</p>
-          <h2 class="section__title reveal">Built for companies that intend to win</h2>
+          <p class="section__eyebrow reveal">Why mdlp.ai</p>
+          <h2 class="section__title reveal">Why I'm the right choice</h2>
         </div>
 
         <div class="why__grid">
           <div class="why__item glass reveal">
             <h3>Clarity</h3>
-            <p>Complex technology distilled into a sharp, actionable plan everyone understands.</p>
+            <p>Complex tech distilled into a plan everyone understands.</p>
           </div>
           <div class="why__item glass reveal">
             <h3>Execution</h3>
-            <p>Systems that actually ship — measured by outcomes, not intentions.</p>
+            <p>Systems that ship — measured by results, not promises.</p>
           </div>
           <div class="why__item glass reveal">
             <h3>Innovation</h3>
-            <p>At the frontier of AI, applied pragmatically to your business reality.</p>
+            <p>At the frontier of AI, applied to your reality.</p>
           </div>
           <div class="why__item glass reveal">
             <h3>Leadership</h3>
-            <p>Steady guidance through change, aligning people, process, and technology.</p>
+            <p>Steady guidance that aligns people, process, and tech.</p>
           </div>
           <div class="why__item glass reveal">
-            <h3>High-End Strategy</h3>
-            <p>Premium thinking that connects every decision to long-term growth.</p>
+            <h3>Experience</h3>
+            <p>Years of shipped AI work behind every recommendation.</p>
           </div>
         </div>
       </div>
@@ -1046,13 +1127,12 @@ body::after {
       <div class="container contact__grid">
         <div class="contact__intro">
           <p class="section__eyebrow reveal">Contact</p>
-          <h2 class="section__title reveal">Let's build something <span class="gradient-text">intelligent</span>.</h2>
+          <h2 class="section__title reveal">Let's build something <span class="gradient-text">extraordinary</span>.</h2>
           <p class="contact__lead reveal">
-            Tell me about your company and what you're trying to achieve. I'll come
-            back with a clear, honest perspective on how AI and automation can help.
+            Tell me your goal. I'll show you exactly how AI gets you there.
           </p>
           <div class="contact__meta reveal">
-            <a href="mailto:hello@mdlp.io" class="contact__email">hello@mdlp.io</a>
+            <a href="mailto:hello@mdlp.ai" class="contact__email">hello@mdlp.ai</a>
             <p>Remote-first · Working with companies worldwide</p>
           </div>
         </div>
@@ -1087,8 +1167,8 @@ body::after {
   <!-- ===== Footer ===== -->
   <footer class="footer">
     <div class="container footer__inner">
-      <span class="nav__logo">md<span class="accent">lp</span>.io</span>
-      <p>© <span id="year"></span> mdlp.io · AI Systems, Automation & Strategic Technology</p>
+      <span class="nav__logo">md<span class="accent">lp</span>.ai</span>
+      <p>© <span id="year"></span> mdlp.ai · AI Systems, Automation & Strategic Technology</p>
       <a href="#hero" class="footer__top">Back to top ↑</a>
     </div>
   </footer>
@@ -1096,7 +1176,7 @@ body::after {
   <!-- Script inlined so this works as a single downloadable file -->
   <script>
 /* =================================================================
-   mdlp.io — Premium AI Consultant Portfolio
+   mdlp.ai — Premium AI Consultant Portfolio
    script.js
    Handles: starfield particles, scroll reveal, nav behaviour,
    animated counters, smooth scrolling, and the contact form.
@@ -1404,7 +1484,76 @@ body::after {
   }
 
   /* ===============================================================
-     9. Footer year
+     9. TRAILING STARLET CURSOR
+     Replaces the pointer with a glowing star that leaves a trail of
+     fading, drifting starlets. Desktop + fine-pointer only.
+     =============================================================== */
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (finePointer && !reduceMotion) {
+    // The star that rides on the pointer (inline SVG so it needs no assets)
+    const star = document.createElement("div");
+    star.className = "cursor-star";
+    star.innerHTML =
+      '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">' +
+      '<path d="M12 0l2.9 8.3L24 12l-9.1 3.7L12 24l-2.9-8.3L0 12l9.1-3.7z"/></svg>';
+    document.body.appendChild(star);
+
+    const trailColors = ["#38e8ff", "#8b5cff", "#ff5cf0", "#ffffff"];
+    let lastSpawn = 0;
+
+    function spawnStarlet(x, y) {
+      const el = document.createElement("div");
+      el.className = "starlet";
+      const size = Math.random() * 5 + 2;
+      const color = trailColors[Math.floor(Math.random() * trailColors.length)];
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      el.style.color = color;          // drives the glow via currentColor
+      el.style.background = color;
+      document.body.appendChild(el);
+
+      // animate: drift slightly, shrink, and fade out
+      const driftX = (Math.random() - 0.5) * 26;
+      const driftY = (Math.random() - 0.5) * 26 + 10; // bias downward like falling sparks
+      el.animate(
+        [
+          { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+          { transform: "translate(calc(-50% + " + driftX + "px), calc(-50% + " + driftY + "px)) scale(0)", opacity: 0 }
+        ],
+        { duration: 700 + Math.random() * 400, easing: "ease-out" }
+      ).onfinish = function () { el.remove(); };
+    }
+
+    window.addEventListener("mousemove", function (e) {
+      // position the main star
+      star.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+
+      // throttle starlet spawning so the trail stays elegant, not spammy
+      const now = performance.now();
+      if (now - lastSpawn > 24) {
+        spawnStarlet(e.clientX, e.clientY);
+        lastSpawn = now;
+      }
+    });
+
+    // little pop when clicking
+    window.addEventListener("mousedown", function () {
+      star.style.transform += " scale(1.6)";
+    });
+    window.addEventListener("mouseup", function () {
+      star.style.transform = star.style.transform.replace(" scale(1.6)", "");
+    });
+
+    // hide the star when the pointer leaves the window
+    document.addEventListener("mouseleave", function () { star.style.opacity = "0"; });
+    document.addEventListener("mouseenter", function () { star.style.opacity = "1"; });
+  }
+
+  /* ===============================================================
+     10. Footer year
      =============================================================== */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();

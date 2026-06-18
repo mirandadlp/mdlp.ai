@@ -1,5 +1,5 @@
 /* =================================================================
-   mdlp.io — Premium AI Consultant Portfolio
+   mdlp.ai — Premium AI Consultant Portfolio
    script.js
    Handles: starfield particles, scroll reveal, nav behaviour,
    animated counters, smooth scrolling, and the contact form.
@@ -307,7 +307,76 @@
   }
 
   /* ===============================================================
-     9. Footer year
+     9. TRAILING STARLET CURSOR
+     Replaces the pointer with a glowing star that leaves a trail of
+     fading, drifting starlets. Desktop + fine-pointer only.
+     =============================================================== */
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (finePointer && !reduceMotion) {
+    // The star that rides on the pointer (inline SVG so it needs no assets)
+    const star = document.createElement("div");
+    star.className = "cursor-star";
+    star.innerHTML =
+      '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">' +
+      '<path d="M12 0l2.9 8.3L24 12l-9.1 3.7L12 24l-2.9-8.3L0 12l9.1-3.7z"/></svg>';
+    document.body.appendChild(star);
+
+    const trailColors = ["#38e8ff", "#8b5cff", "#ff5cf0", "#ffffff"];
+    let lastSpawn = 0;
+
+    function spawnStarlet(x, y) {
+      const el = document.createElement("div");
+      el.className = "starlet";
+      const size = Math.random() * 5 + 2;
+      const color = trailColors[Math.floor(Math.random() * trailColors.length)];
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      el.style.color = color;          // drives the glow via currentColor
+      el.style.background = color;
+      document.body.appendChild(el);
+
+      // animate: drift slightly, shrink, and fade out
+      const driftX = (Math.random() - 0.5) * 26;
+      const driftY = (Math.random() - 0.5) * 26 + 10; // bias downward like falling sparks
+      el.animate(
+        [
+          { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+          { transform: "translate(calc(-50% + " + driftX + "px), calc(-50% + " + driftY + "px)) scale(0)", opacity: 0 }
+        ],
+        { duration: 700 + Math.random() * 400, easing: "ease-out" }
+      ).onfinish = function () { el.remove(); };
+    }
+
+    window.addEventListener("mousemove", function (e) {
+      // position the main star
+      star.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+
+      // throttle starlet spawning so the trail stays elegant, not spammy
+      const now = performance.now();
+      if (now - lastSpawn > 24) {
+        spawnStarlet(e.clientX, e.clientY);
+        lastSpawn = now;
+      }
+    });
+
+    // little pop when clicking
+    window.addEventListener("mousedown", function () {
+      star.style.transform += " scale(1.6)";
+    });
+    window.addEventListener("mouseup", function () {
+      star.style.transform = star.style.transform.replace(" scale(1.6)", "");
+    });
+
+    // hide the star when the pointer leaves the window
+    document.addEventListener("mouseleave", function () { star.style.opacity = "0"; });
+    document.addEventListener("mouseenter", function () { star.style.opacity = "1"; });
+  }
+
+  /* ===============================================================
+     10. Footer year
      =============================================================== */
   const yearEl = document.getElementById("year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();

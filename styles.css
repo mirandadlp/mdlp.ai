@@ -1,5 +1,5 @@
 /* =================================================================
-   mdlp.io — Premium AI Consultant Portfolio
+   mdlp.ai — Premium AI Consultant Portfolio
    styles.css
    Theme: dark futuristic / space-tech with glowing neon accents
    ================================================================= */
@@ -113,6 +113,88 @@ body::after {
   z-index: -1;
   pointer-events: none;
   background: radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+
+/* Distant nebula glow + a faint planet for extra depth on the space theme */
+.nebula {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.nebula__planet {
+  position: absolute;
+  top: 8%; left: -90px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 30%, #3a2b6b, #170f33 60%, #0a0820 100%);
+  box-shadow:
+    inset -22px -10px 50px rgba(0,0,0,0.7),
+    0 0 80px 6px rgba(139,92,255,0.25);
+  opacity: 0.55;
+  animation: floaty 14s ease-in-out infinite;
+}
+
+/* Shooting stars streak across the sky on a loop */
+.shooting-star {
+  position: fixed;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 8px 1px rgba(255,255,255,0.9);
+}
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  top: 50%; right: 0;
+  width: 160px; height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(270deg, rgba(255,255,255,0.85), transparent);
+}
+.shooting-star--1 { top: 14%; left: 70%; animation: shoot 7s ease-in 2s infinite; }
+.shooting-star--2 { top: 26%; left: 88%; animation: shoot 9s ease-in 5s infinite; }
+.shooting-star--3 { top: 6%;  left: 55%; animation: shoot 11s ease-in 8s infinite; }
+@keyframes shoot {
+  0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
+  8%   { opacity: 1; }
+  22%  { opacity: 1; }
+  30%  { transform: translate(-520px, 180px) rotate(18deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ---------- Trailing starlet cursor ---------- */
+/* Hide the system cursor on devices that support hover (desktop) so the
+   custom glowing star + trailing starlets take over. */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, input, textarea, label, .card, .cap { cursor: none; }
+}
+/* The main star that sits on the pointer */
+.cursor-star {
+  position: fixed;
+  top: 0; left: 0;
+  width: 16px; height: 16px;
+  margin: -8px 0 0 -8px;
+  z-index: 9999;
+  pointer-events: none;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 6px var(--cyan));
+  transition: transform .12s ease-out;
+}
+/* Each trailing starlet left behind as the pointer moves */
+.starlet {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 1px currentColor;
+  will-change: transform, opacity;
 }
 
 /* Scroll progress bar */

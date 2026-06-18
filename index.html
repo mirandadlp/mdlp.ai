@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="mdlp.io — AI consultant helping ambitious companies design, implement, and scale intelligent systems, automation, and digital transformation." />
-  <title>mdlp.io — AI Systems · Automation · Strategic Technology</title>
+  <meta name="description" content="mdlp.ai — AI consultant helping ambitious companies design, implement, and scale intelligent systems, automation, and digital transformation." />
+  <title>mdlp.ai — AI Systems · Automation · Strategic Technology</title>
 
   <!-- Fonts: Space Grotesk (display) + Inter (body) for a modern tech feel -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,6 +19,14 @@
   <canvas id="starfield" aria-hidden="true"></canvas>
   <!-- Moving gradient aurora that drifts across the page -->
   <div class="aurora" aria-hidden="true"></div>
+  <!-- Deep-space depth: distant nebula glow + a faint planet -->
+  <div class="nebula" aria-hidden="true">
+    <div class="nebula__planet"></div>
+  </div>
+  <!-- Looping shooting stars -->
+  <div class="shooting-star shooting-star--1" aria-hidden="true"></div>
+  <div class="shooting-star shooting-star--2" aria-hidden="true"></div>
+  <div class="shooting-star shooting-star--3" aria-hidden="true"></div>
 
   <!-- Scroll progress bar -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
@@ -27,7 +35,7 @@
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#hero" class="nav__brand">
-        <span class="nav__logo">md<span class="accent">lp</span>.io</span>
+        <span class="nav__logo">md<span class="accent">lp</span>.ai</span>
       </a>
 
       <nav class="nav__links" id="navLinks">
@@ -59,7 +67,7 @@
       </div>
 
       <div class="hero__content container">
-        <p class="hero__eyebrow reveal">AI CONSULTANT · STRATEGY · AUTOMATION</p>
+        <p class="hero__eyebrow reveal">THE AI CONSULTANT COMPANIES TRUST</p>
 
         <h1 class="hero__title reveal">
           <span class="line">AI Systems.</span>
@@ -68,8 +76,9 @@
         </h1>
 
         <p class="hero__subtitle reveal">
-          mdlp.io helps ambitious companies design, implement, and scale
-          intelligent systems that save time, improve operations, and unlock growth.
+          I'm mdlp.ai — an AI consultant with deep, proven experience building
+          intelligent systems that save time, cut costs, and unlock growth.
+          If you want it done right, you've found the right partner.
         </p>
 
         <div class="hero__actions reveal">
@@ -120,19 +129,15 @@
         <div class="about__text">
           <p class="section__eyebrow reveal">About</p>
           <h2 class="section__title reveal">
-            A consultant who pairs <span class="gradient-text">deep AI expertise</span> with executive-level strategy.
+            The <span class="gradient-text">obvious choice</span> for AI done right.
           </h2>
           <p class="about__lead reveal">
-            I'm an AI consultant operating at the intersection of artificial
-            intelligence, automation, technology, and leadership. I help organizations
-            move past experiments and into intelligent systems that run reliably in
-            the real world.
+            Years of hands-on experience across AI, automation, technology, and
+            leadership — turning ambitious ideas into systems that ship and scale.
           </p>
           <p class="about__body reveal">
-            With a background spanning AI implementation, business process automation,
-            modern technology stacks, and the strategic leadership required to drive
-            change, I translate ambitious vision into shipped, measurable systems —
-            and lead teams through the transformation it takes to get there.
+            I've designed AI implementations, automated entire operations, and led
+            teams through digital transformation. Real systems. Real results. No hype.
           </p>
 
           <ul class="about__pills reveal">
@@ -153,9 +158,9 @@
       <div class="container">
         <div class="section__head">
           <p class="section__eyebrow reveal">Services</p>
-          <h2 class="section__title reveal">What I help companies build</h2>
+          <h2 class="section__title reveal">What I build for you</h2>
           <p class="section__sub reveal">
-            End-to-end engagements — from strategy and design to implementation and scale.
+            Strategy to launch. Done right, the first time.
           </p>
         </div>
 
@@ -165,8 +170,7 @@
             <div class="card__icon">⚡</div>
             <h3 class="card__title">AI Consulting</h3>
             <p class="card__desc">
-              Strategy, roadmaps, and architecture for adopting AI with clarity —
-              identifying where intelligence creates real leverage.
+              Clear strategy and architecture for adopting AI where it creates real leverage.
             </p>
           </article>
 
@@ -174,8 +178,7 @@
             <div class="card__icon">🔁</div>
             <h3 class="card__title">Workflow Automation</h3>
             <p class="card__desc">
-              Replace manual, repetitive operations with reliable automations that
-              save hours and remove friction across your business.
+              Reliable automations that erase manual work and save hours every week.
             </p>
           </article>
 
@@ -183,8 +186,7 @@
             <div class="card__icon">🤖</div>
             <h3 class="card__title">Chatbot & Agent Development</h3>
             <p class="card__desc">
-              Custom AI agents and assistants that handle support, sales, research,
-              and internal operations around the clock.
+              Custom AI agents that handle support, sales, and operations 24/7.
             </p>
           </article>
 
@@ -192,8 +194,7 @@
             <div class="card__icon">📈</div>
             <h3 class="card__title">CRM & Sales Pipeline Systems</h3>
             <p class="card__desc">
-              Intelligent pipelines that capture, qualify, and nurture leads —
-              connecting your tools into one revenue engine.
+              Smart pipelines that capture, qualify, and convert — one revenue engine.
             </p>
           </article>
 
@@ -201,8 +202,7 @@
             <div class="card__icon">🧭</div>
             <h3 class="card__title">Leadership & Digital Transformation</h3>
             <p class="card__desc">
-              Hands-on leadership to guide teams through change, align stakeholders,
-              and embed new technology into how you operate.
+              Hands-on leadership that guides teams through change and makes it stick.
             </p>
           </article>
 
@@ -210,8 +210,7 @@
             <div class="card__icon">🌐</div>
             <h3 class="card__title">Website & Funnel Strategy</h3>
             <p class="card__desc">
-              High-converting websites and funnels engineered with modern systems
-              to turn attention into qualified opportunities.
+              High-converting sites and funnels that turn attention into customers.
             </p>
           </article>
         </div>
@@ -225,9 +224,9 @@
       <div class="container">
         <div class="section__head">
           <p class="section__eyebrow reveal">Capabilities</p>
-          <h2 class="section__title reveal">Where I create impact</h2>
+          <h2 class="section__title reveal">Proven across every layer</h2>
           <p class="section__sub reveal">
-            Futuristic systems, delivered with executive precision.
+            Deep experience, delivered with executive precision.
           </p>
         </div>
 
@@ -235,35 +234,35 @@
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">01</span>
             <h3 class="cap__title">AI Implementation</h3>
-            <p class="cap__desc">Production-grade AI woven into your real workflows — not slideware.</p>
+            <p class="cap__desc">Production AI in your real workflows — not slideware.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">02</span>
             <h3 class="cap__title">Business Process Automation</h3>
-            <p class="cap__desc">Operations that run themselves, freeing your team for higher-value work.</p>
+            <p class="cap__desc">Operations that run themselves, so your team scales.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">03</span>
             <h3 class="cap__title">Customer Journey Design</h3>
-            <p class="cap__desc">Seamless, intelligent journeys from first touch to loyal advocate.</p>
+            <p class="cap__desc">Seamless journeys from first touch to loyal customer.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal" tabindex="0">
             <span class="cap__index">04</span>
             <h3 class="cap__title">Executive-Level Strategy</h3>
-            <p class="cap__desc">Clear direction that connects technology decisions to business outcomes.</p>
+            <p class="cap__desc">Tech decisions tied directly to business outcomes.</p>
             <div class="cap__beam"></div>
           </article>
 
           <article class="cap reveal cap--wide" tabindex="0">
             <span class="cap__index">05</span>
             <h3 class="cap__title">Modern Website Systems</h3>
-            <p class="cap__desc">Fast, beautiful, conversion-focused platforms built on modern foundations.</p>
+            <p class="cap__desc">Fast, beautiful, conversion-focused platforms.</p>
             <div class="cap__beam"></div>
           </article>
         </div>
@@ -271,35 +270,35 @@
     </section>
 
     <!-- ============================================================= -->
-    <!-- 5. WHY mdlp.io                                                -->
+    <!-- 5. WHY mdlp.ai                                                -->
     <!-- ============================================================= -->
     <section class="section why" id="why">
       <div class="container">
         <div class="section__head">
-          <p class="section__eyebrow reveal">Why mdlp.io</p>
-          <h2 class="section__title reveal">Built for companies that intend to win</h2>
+          <p class="section__eyebrow reveal">Why mdlp.ai</p>
+          <h2 class="section__title reveal">Why I'm the right choice</h2>
         </div>
 
         <div class="why__grid">
           <div class="why__item glass reveal">
             <h3>Clarity</h3>
-            <p>Complex technology distilled into a sharp, actionable plan everyone understands.</p>
+            <p>Complex tech distilled into a plan everyone understands.</p>
           </div>
           <div class="why__item glass reveal">
             <h3>Execution</h3>
-            <p>Systems that actually ship — measured by outcomes, not intentions.</p>
+            <p>Systems that ship — measured by results, not promises.</p>
           </div>
           <div class="why__item glass reveal">
             <h3>Innovation</h3>
-            <p>At the frontier of AI, applied pragmatically to your business reality.</p>
+            <p>At the frontier of AI, applied to your reality.</p>
           </div>
           <div class="why__item glass reveal">
             <h3>Leadership</h3>
-            <p>Steady guidance through change, aligning people, process, and technology.</p>
+            <p>Steady guidance that aligns people, process, and tech.</p>
           </div>
           <div class="why__item glass reveal">
-            <h3>High-End Strategy</h3>
-            <p>Premium thinking that connects every decision to long-term growth.</p>
+            <h3>Experience</h3>
+            <p>Years of shipped AI work behind every recommendation.</p>
           </div>
         </div>
       </div>
@@ -312,13 +311,12 @@
       <div class="container contact__grid">
         <div class="contact__intro">
           <p class="section__eyebrow reveal">Contact</p>
-          <h2 class="section__title reveal">Let's build something <span class="gradient-text">intelligent</span>.</h2>
+          <h2 class="section__title reveal">Let's build something <span class="gradient-text">extraordinary</span>.</h2>
           <p class="contact__lead reveal">
-            Tell me about your company and what you're trying to achieve. I'll come
-            back with a clear, honest perspective on how AI and automation can help.
+            Tell me your goal. I'll show you exactly how AI gets you there.
           </p>
           <div class="contact__meta reveal">
-            <a href="mailto:hello@mdlp.io" class="contact__email">hello@mdlp.io</a>
+            <a href="mailto:hello@mdlp.ai" class="contact__email">hello@mdlp.ai</a>
             <p>Remote-first · Working with companies worldwide</p>
           </div>
         </div>
@@ -353,8 +351,8 @@
   <!-- ===== Footer ===== -->
   <footer class="footer">
     <div class="container footer__inner">
-      <span class="nav__logo">md<span class="accent">lp</span>.io</span>
-      <p>© <span id="year"></span> mdlp.io · AI Systems, Automation & Strategic Technology</p>
+      <span class="nav__logo">md<span class="accent">lp</span>.ai</span>
+      <p>© <span id="year"></span> mdlp.ai · AI Systems, Automation & Strategic Technology</p>
       <a href="#hero" class="footer__top">Back to top ↑</a>
     </div>
   </footer>
