@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="mdlp.io — AI consultant helping ambitious companies design, implement, and scale intelligent systems, automation, and digital transformation." />
+  <title>mdlp.io — AI Systems · Automation · Strategic Technology</title>
+
+  <!-- Fonts: Space Grotesk (display) + Inter (body) for a modern tech feel -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Styles inlined so this works as a single downloadable file -->
+  <style>
+/* =================================================================
+   mdlp.io — Premium AI Consultant Portfolio
+   styles.css
+   Theme: dark futuristic / space-tech with glowing neon accents
+   ================================================================= */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --bg:            #05060f;   /* deep space base */
+  --bg-2:          #0a0d1f;   /* slightly lighter panel base */
+  --surface:       rgba(255, 255, 255, 0.04);
+  --surface-brd:   rgba(255, 255, 255, 0.10);
+
+  --text:          #eef1ff;   /* high-contrast near-white */
+  --text-dim:      #aab1cf;   /* readable muted text */
+  --text-faint:    #767ea3;   /* subtle placeholder text */
+
+  /* Neon accents */
+  --cyan:          #38e8ff;
+  --violet:        #8b5cff;
+  --magenta:       #ff5cf0;
+  --accent-grad:   linear-gradient(120deg, #38e8ff 0%, #8b5cff 50%, #ff5cf0 100%);
+
+  --glow-cyan:     rgba(56, 232, 255, 0.45);
+  --glow-violet:   rgba(139, 92, 255, 0.45);
+
+  --radius:        18px;
+  --radius-sm:     12px;
+  --maxw:          1180px;
+
+  --ease:          cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ---------- Reset / base ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;       /* smooth scrolling between sections */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Inter", system-ui, sans-serif;
+  font-weight: 400;
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  letter-spacing: 0.1px;
+}
+
+h1, h2, h3, .nav__logo {
+  font-family: "Space Grotesk", "Inter", sans-serif;
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+/* Gradient text helper */
+.gradient-text {
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.accent { color: var(--cyan); }
+
+/* =================================================================
+   Animated background
+   ================================================================= */
+
+/* Star-field canvas */
+#starfield {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  display: block;
+}
+
+/* Drifting aurora gradient blobs behind everything */
+.aurora {
+  position: fixed;
+  inset: -20%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 40% at 20% 25%, rgba(56,232,255,0.18), transparent 60%),
+    radial-gradient(45% 45% at 80% 20%, rgba(139,92,255,0.20), transparent 60%),
+    radial-gradient(40% 40% at 60% 85%, rgba(255,92,240,0.14), transparent 60%);
+  filter: blur(20px);
+  animation: auroraDrift 24s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(3%, -2%, 0) scale(1.08); }
+  100% { transform: translate3d(-3%, 2%, 0) scale(1.04); }
+}
+
+/* subtle vignette so text stays readable */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 200;
+  background: var(--accent-grad);
+  box-shadow: 0 0 12px var(--glow-cyan);
+}
+
+/* =================================================================
+   Navigation (sticky glassmorphism)
+   ================================================================= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  transition: background .4s var(--ease), backdrop-filter .4s var(--ease), border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(8, 10, 24, 0.6);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--surface-brd);
+}
+.nav__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav__logo { font-size: 1.35rem; letter-spacing: -0.03em; }
+.nav__links { display: flex; align-items: center; gap: 30px; }
+.nav__links a {
+  font-size: 0.95rem;
+  color: var(--text-dim);
+  position: relative;
+  transition: color .25s;
+}
+.nav__links a:not(.nav__cta)::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  height: 2px; width: 0;
+  background: var(--accent-grad);
+  transition: width .3s var(--ease);
+}
+.nav__links a:not(.nav__cta):hover { color: var(--text); }
+.nav__links a:not(.nav__cta):hover::after { width: 100%; }
+
+.nav__cta {
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--surface-brd);
+  background: var(--surface);
+  color: var(--text) !important;
+  font-weight: 500;
+  transition: transform .25s var(--ease), box-shadow .25s, border-color .25s;
+}
+.nav__cta:hover {
+  transform: translateY(-2px);
+  border-color: var(--cyan);
+  box-shadow: 0 0 22px var(--glow-cyan);
+}
+
+/* Mobile toggle */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none; border: none; cursor: pointer;
+  padding: 6px;
+}
+.nav__toggle span {
+  width: 26px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =================================================================
+   Buttons
+   ================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: transform .25s var(--ease), box-shadow .3s, background .3s;
+  will-change: transform;
+}
+.btn--primary {
+  background: var(--accent-grad);
+  color: #06070f;
+  box-shadow: 0 0 0 rgba(56,232,255,0);
+}
+.btn--primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 40px var(--glow-violet);
+}
+.btn--ghost {
+  background: var(--surface);
+  border-color: var(--surface-brd);
+  color: var(--text);
+}
+.btn--ghost:hover {
+  transform: translateY(-3px);
+  border-color: var(--cyan);
+  box-shadow: 0 0 26px var(--glow-cyan);
+}
+.btn--full { width: 100%; justify-content: center; }
+.btn__arrow { transition: transform .25s var(--ease); }
+.btn:hover .btn__arrow { transform: translateX(5px); }
+
+/* =================================================================
+   Section scaffolding + scroll reveal
+   ================================================================= */
+.section { padding: 120px 0; position: relative; }
+
+.section__head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+.section__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.78rem;
+  color: var(--cyan);
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+.section__title { font-size: clamp(2rem, 4.5vw, 3.1rem); margin-bottom: 18px; }
+.section__sub { color: var(--text-dim); font-size: 1.08rem; }
+
+/* Reveal-on-scroll: starts hidden, JS adds .in-view */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+.reveal.in-view { opacity: 1; transform: none; }
+
+/* Reusable glass surface */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--surface-brd);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+}
+
+/* =================================================================
+   1. HERO
+   ================================================================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 120px;
+  overflow: hidden;
+}
+.hero__content { position: relative; z-index: 2; max-width: 880px; }
+
+.hero__eyebrow {
+  letter-spacing: 0.34em;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  margin-bottom: 26px;
+  font-weight: 600;
+}
+.hero__title {
+  font-size: clamp(2.6rem, 7.5vw, 5.6rem);
+  margin-bottom: 28px;
+}
+.hero__title .line { display: block; }
+/* staggered entrance for each headline line */
+.hero__title .line {
+  opacity: 0;
+  transform: translateY(40px);
+  animation: lineUp .9s var(--ease) forwards;
+}
+.hero__title .line:nth-child(1) { animation-delay: .15s; }
+.hero__title .line:nth-child(2) { animation-delay: .32s; }
+.hero__title .line:nth-child(3) { animation-delay: .49s; }
+@keyframes lineUp { to { opacity: 1; transform: none; } }
+
+.hero__subtitle {
+  font-size: clamp(1.05rem, 2vw, 1.3rem);
+  color: var(--text-dim);
+  max-width: 620px;
+  margin-bottom: 38px;
+}
+.hero__actions { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 64px; }
+
+/* Floating stat cards */
+.hero__stats { display: flex; flex-wrap: wrap; gap: 18px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-brd);
+  border-radius: var(--radius-sm);
+  padding: 18px 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  min-width: 150px;
+}
+.stat-card__num {
+  display: block;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.stat-card__label { font-size: 0.85rem; color: var(--text-dim); }
+
+/* gentle floating motion for cards/orb */
+.float { animation: floaty 6s ease-in-out infinite; }
+.float--delay   { animation-delay: 1.2s; }
+.float--delay-2 { animation-delay: 2.4s; }
+@keyframes floaty {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-10px); }
+}
+
+/* --- Glowing animated orb --- */
+.hero__orb {
+  position: absolute;
+  top: 50%; right: -6%;
+  transform: translateY(-50%);
+  width: 540px; height: 540px;
+  z-index: 1;
+  pointer-events: none;
+  animation: floaty 9s ease-in-out infinite;
+}
+.orb__core {
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #aef4ff, var(--cyan) 35%, var(--violet) 75%, transparent 100%);
+  box-shadow: 0 0 120px 30px var(--glow-violet), 0 0 60px 10px var(--glow-cyan);
+  filter: blur(2px);
+  animation: pulse 5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1);   opacity: .95; }
+  50%     { transform: scale(1.08); opacity: 1; }
+}
+.orb__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.10);
+}
+.orb__ring--1 { inset: 4%;  border-color: rgba(56,232,255,0.28); animation: spin 18s linear infinite; }
+.orb__ring--2 { inset: 16%; border-color: rgba(139,92,255,0.28); animation: spin 26s linear infinite reverse; }
+.orb__ring--3 { inset: 26%; border-color: rgba(255,92,240,0.22); animation: spin 34s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* scroll cue */
+.hero__scroll {
+  position: absolute;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  width: 26px; height: 42px;
+  border: 2px solid var(--surface-brd);
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+.hero__scroll-dot {
+  width: 4px; height: 8px;
+  margin-top: 7px;
+  border-radius: 4px;
+  background: var(--cyan);
+  animation: scrollDot 1.8s ease-in-out infinite;
+}
+@keyframes scrollDot {
+  0%   { transform: translateY(0);    opacity: 1; }
+  70%  { transform: translateY(14px); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* =================================================================
+   2. ABOUT
+   ================================================================= */
+.about__grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 60px;
+  align-items: center;
+}
+.about__visual { perspective: 1000px; }
+.about__panel {
+  position: relative;
+  padding: 34px;
+  font-family: "Space Grotesk", monospace;
+  overflow: hidden;
+  transform: rotateY(8deg) rotateX(4deg);
+  transition: transform .5s var(--ease);
+}
+.about__panel:hover { transform: rotateY(0) rotateX(0); }
+.about__panel-glow {
+  position: absolute;
+  top: -40%; left: -20%;
+  width: 80%; height: 180%;
+  background: radial-gradient(circle, var(--glow-violet), transparent 70%);
+  filter: blur(30px);
+  animation: floaty 7s ease-in-out infinite;
+}
+.about__code-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.95rem;
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
+.dot--g { background: #46f1b0; color: #46f1b0; }
+.dot--b { background: var(--cyan); color: var(--cyan); }
+.dot--p { background: var(--violet); color: var(--violet); }
+.about__signature {
+  position: relative;
+  margin-top: 22px;
+  color: var(--cyan);
+  font-size: 0.9rem;
+}
+
+.about__text .section__title { font-size: clamp(1.8rem, 3.4vw, 2.6rem); margin: 14px 0 22px; }
+.about__lead { font-size: 1.15rem; color: var(--text); margin-bottom: 18px; }
+.about__body { color: var(--text-dim); margin-bottom: 26px; }
+.about__pills { list-style: none; display: flex; flex-wrap: wrap; gap: 12px; }
+.about__pills li {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--surface-brd);
+  background: var(--surface);
+  font-size: 0.88rem;
+  color: var(--text-dim);
+  transition: border-color .25s, color .25s, transform .25s;
+}
+.about__pills li:hover { border-color: var(--cyan); color: var(--text); transform: translateY(-2px); }
+
+/* =================================================================
+   3. SERVICES — card grid
+   ================================================================= */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 22px;
+}
+.card {
+  position: relative;
+  padding: 32px 28px;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid var(--surface-brd);
+  overflow: hidden;
+  transition: transform .4s var(--ease), border-color .4s, box-shadow .4s;
+  cursor: default;
+}
+/* animated glowing top border on hover */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--accent-grad);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .4s;
+}
+.card:hover, .card:focus-visible {
+  transform: translateY(-8px);
+  border-color: transparent;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 40px var(--glow-violet);
+  outline: none;
+}
+.card:hover::before, .card:focus-visible::before { opacity: 1; }
+.card__icon {
+  font-size: 1.8rem;
+  width: 56px; height: 56px;
+  display: grid; place-items: center;
+  border-radius: 14px;
+  background: var(--surface);
+  border: 1px solid var(--surface-brd);
+  margin-bottom: 20px;
+  transition: transform .4s var(--ease);
+}
+.card:hover .card__icon { transform: scale(1.1) rotate(-6deg); }
+.card__title { font-size: 1.25rem; margin-bottom: 10px; }
+.card__desc { color: var(--text-dim); font-size: 0.96rem; }
+
+/* =================================================================
+   4. CAPABILITIES
+   ================================================================= */
+.caps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.cap {
+  position: relative;
+  padding: 34px 28px;
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  border: 1px solid var(--surface-brd);
+  overflow: hidden;
+  transition: transform .4s var(--ease), box-shadow .4s, border-color .4s;
+}
+.cap--wide { grid-column: span 3; }
+.cap:hover, .cap:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--cyan);
+  box-shadow: 0 0 40px var(--glow-cyan);
+  outline: none;
+}
+.cap__index {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.22);
+  display: block;
+  margin-bottom: 12px;
+}
+.cap__title { font-size: 1.3rem; margin-bottom: 10px; }
+.cap__desc { color: var(--text-dim); font-size: 0.98rem; }
+/* sweeping light beam across the card on hover */
+.cap__beam {
+  position: absolute;
+  top: 0; left: -60%;
+  width: 50%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(56,232,255,0.10), transparent);
+  transform: skewX(-18deg);
+  transition: left .7s var(--ease);
+}
+.cap:hover .cap__beam { left: 120%; }
+
+/* =================================================================
+   5. WHY
+   ================================================================= */
+.why__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.why__item {
+  padding: 30px 26px;
+  transition: transform .4s var(--ease), box-shadow .4s, border-color .4s;
+}
+.why__item:hover {
+  transform: translateY(-6px);
+  border-color: var(--violet);
+  box-shadow: 0 0 36px var(--glow-violet);
+}
+.why__item h3 {
+  font-size: 1.25rem;
+  margin-bottom: 10px;
+  background: var(--accent-grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.why__item p { color: var(--text-dim); font-size: 0.95rem; }
+
+/* =================================================================
+   6. CONTACT
+   ================================================================= */
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+.contact__intro .section__title { font-size: clamp(2rem, 4vw, 3rem); margin: 14px 0 20px; }
+.contact__lead { color: var(--text-dim); font-size: 1.08rem; margin-bottom: 30px; }
+.contact__meta { color: var(--text-dim); font-size: 0.95rem; }
+.contact__email {
+  display: inline-block;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--cyan);
+  margin-bottom: 8px;
+  transition: text-shadow .25s;
+}
+.contact__email:hover { text-shadow: 0 0 18px var(--glow-cyan); }
+
+/* form */
+.contact__form { padding: 36px; display: flex; flex-direction: column; gap: 22px; }
+.field { position: relative; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 16px 14px 8px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--surface-brd);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: vertical;
+  transition: border-color .25s, box-shadow .25s;
+}
+.field textarea { min-height: 110px; }
+.field input:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(56,232,255,0.12);
+}
+/* floating labels */
+.field label {
+  position: absolute;
+  left: 15px; top: 15px;
+  color: var(--text-faint);
+  font-size: 1rem;
+  pointer-events: none;
+  transition: transform .2s var(--ease), color .2s, font-size .2s;
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-12px);
+  font-size: 0.72rem;
+  color: var(--cyan);
+}
+.form__status { font-size: 0.92rem; min-height: 1.2em; }
+.form__status.error   { color: var(--magenta); }
+.form__status.success { color: #46f1b0; }
+
+/* =================================================================
+   Footer
+   ================================================================= */
+.footer { padding: 50px 0; border-top: 1px solid var(--surface-brd); }
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer__inner p { color: var(--text-dim); font-size: 0.9rem; }
+.footer__top { color: var(--text-dim); font-size: 0.9rem; transition: color .25s; }
+.footer__top:hover { color: var(--cyan); }
+
+/* =================================================================
+   Responsive
+   ================================================================= */
+@media (max-width: 900px) {
+  .about__grid, .contact__grid { grid-template-columns: 1fr; }
+  .about__visual { order: 2; }
+  .about__panel { transform: none; }
+  .caps { grid-template-columns: 1fr 1fr; }
+  .cap--wide { grid-column: span 2; }
+  .hero__orb { opacity: 0.55; right: -30%; width: 420px; height: 420px; }
+}
+
+@media (max-width: 720px) {
+  .section { padding: 90px 0; }
+
+  /* slide-in mobile menu */
+  .nav__toggle { display: flex; }
+  .nav__links {
+    position: fixed;
+    inset: 0 0 0 30%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 40px;
+    background: rgba(8,10,24,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-left: 1px solid var(--surface-brd);
+    transform: translateX(100%);
+    transition: transform .4s var(--ease);
+  }
+  .nav__links.open { transform: translateX(0); }
+  .nav__links a { font-size: 1.2rem; }
+
+  .caps { grid-template-columns: 1fr; }
+  .cap--wide { grid-column: span 1; }
+  .hero__orb { display: none; }
+  .hero__stats { gap: 12px; }
+  .stat-card { flex: 1 1 100%; }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+  </style>
+</head>
+<body>
+  <!-- ===== Animated background layers ===== -->
+  <!-- Particle / star-field canvas sits behind all content -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <!-- Moving gradient aurora that drifts across the page -->
+  <div class="aurora" aria-hidden="true"></div>
+
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ===== Sticky glassmorphism navigation ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#hero" class="nav__brand">
+        <span class="nav__logo">md<span class="accent">lp</span>.io</span>
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#services">Services</a>
+        <a href="#capabilities">Capabilities</a>
+        <a href="#why">Why mdlp</a>
+        <a href="#contact" class="nav__cta">Let's Talk</a>
+      </nav>
+
+      <!-- Mobile menu toggle -->
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============================================================= -->
+    <!-- 1. HERO                                                       -->
+    <!-- ============================================================= -->
+    <section class="hero" id="hero">
+      <!-- Glowing animated orb -->
+      <div class="hero__orb" aria-hidden="true">
+        <div class="orb__core"></div>
+        <div class="orb__ring orb__ring--1"></div>
+        <div class="orb__ring orb__ring--2"></div>
+        <div class="orb__ring orb__ring--3"></div>
+      </div>
+
+      <div class="hero__content container">
+        <p class="hero__eyebrow reveal">AI CONSULTANT · STRATEGY · AUTOMATION</p>
+
+        <h1 class="hero__title reveal">
+          <span class="line">AI Systems.</span>
+          <span class="line">Automation.</span>
+          <span class="line gradient-text">Strategic Technology.</span>
+        </h1>
+
+        <p class="hero__subtitle reveal">
+          mdlp.io helps ambitious companies design, implement, and scale
+          intelligent systems that save time, improve operations, and unlock growth.
+        </p>
+
+        <div class="hero__actions reveal">
+          <a href="#contact" class="btn btn--primary">
+            Work With Me <span class="btn__arrow">→</span>
+          </a>
+          <a href="#services" class="btn btn--ghost">View Services</a>
+        </div>
+
+        <!-- Floating stat cards -->
+        <div class="hero__stats reveal">
+          <div class="stat-card float">
+            <span class="stat-card__num" data-count="120" data-suffix="+">0</span>
+            <span class="stat-card__label">Workflows Automated</span>
+          </div>
+          <div class="stat-card float float--delay">
+            <span class="stat-card__num" data-count="40" data-suffix="+">0</span>
+            <span class="stat-card__label">AI Systems Shipped</span>
+          </div>
+          <div class="stat-card float float--delay-2">
+            <span class="stat-card__num" data-count="98" data-suffix="%">0</span>
+            <span class="stat-card__label">Client Retention</span>
+          </div>
+        </div>
+      </div>
+
+      <a href="#about" class="hero__scroll" aria-label="Scroll down">
+        <span class="hero__scroll-dot"></span>
+      </a>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- 2. ABOUT                                                      -->
+    <!-- ============================================================= -->
+    <section class="section about" id="about">
+      <div class="container about__grid">
+        <div class="about__visual reveal">
+          <div class="about__panel glass">
+            <div class="about__panel-glow"></div>
+            <div class="about__code-line"><span class="dot dot--g"></span> initializing systems…</div>
+            <div class="about__code-line"><span class="dot dot--b"></span> mapping operations</div>
+            <div class="about__code-line"><span class="dot dot--p"></span> deploying AI agents</div>
+            <div class="about__code-line"><span class="dot dot--g"></span> scaling intelligence</div>
+            <div class="about__signature">— building the future, in production</div>
+          </div>
+        </div>
+
+        <div class="about__text">
+          <p class="section__eyebrow reveal">About</p>
+          <h2 class="section__title reveal">
+            A consultant who pairs <span class="gradient-text">deep AI expertise</span> with executive-level strategy.
+          </h2>
+          <p class="about__lead reveal">
+            I'm an AI consultant operating at the intersection of artificial
+            intelligence, automation, technology, and leadership. I help organizations
+            move past experiments and into intelligent systems that run reliably in
+            the real world.
+          </p>
+          <p class="about__body reveal">
+            With a background spanning AI implementation, business process automation,
+            modern technology stacks, and the strategic leadership required to drive
+            change, I translate ambitious vision into shipped, measurable systems —
+            and lead teams through the transformation it takes to get there.
+          </p>
+
+          <ul class="about__pills reveal">
+            <li>Artificial Intelligence</li>
+            <li>Automation</li>
+            <li>Technology Strategy</li>
+            <li>Leadership</li>
+            <li>Digital Transformation</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- 3. SERVICES                                                   -->
+    <!-- ============================================================= -->
+    <section class="section services" id="services">
+      <div class="container">
+        <div class="section__head">
+          <p class="section__eyebrow reveal">Services</p>
+          <h2 class="section__title reveal">What I help companies build</h2>
+          <p class="section__sub reveal">
+            End-to-end engagements — from strategy and design to implementation and scale.
+          </p>
+        </div>
+
+        <div class="cards">
+          <!-- Each card lifts and glows on hover -->
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon">⚡</div>
+            <h3 class="card__title">AI Consulting</h3>
+            <p class="card__desc">
+              Strategy, roadmaps, and architecture for adopting AI with clarity —
+              identifying where intelligence creates real leverage.
+            </p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon">🔁</div>
+            <h3 class="card__title">Workflow Automation</h3>
+            <p class="card__desc">
+              Replace manual, repetitive operations with reliable automations that
+              save hours and remove friction across your business.
+            </p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon">🤖</div>
+            <h3 class="card__title">Chatbot & Agent Development</h3>
+            <p class="card__desc">
+              Custom AI agents and assistants that handle support, sales, research,
+              and internal operations around the clock.
+            </p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon">📈</div>
+            <h3 class="card__title">CRM & Sales Pipeline Systems</h3>
+            <p class="card__desc">
+              Intelligent pipelines that capture, qualify, and nurture leads —
+              connecting your tools into one revenue engine.
+            </p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon">🧭</div>
+            <h3 class="card__title">Leadership & Digital Transformation</h3>
+            <p class="card__desc">
+              Hands-on leadership to guide teams through change, align stakeholders,
+              and embed new technology into how you operate.
+            </p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon">🌐</div>
+            <h3 class="card__title">Website & Funnel Strategy</h3>
+            <p class="card__desc">
+              High-converting websites and funnels engineered with modern systems
+              to turn attention into qualified opportunities.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- 4. PORTFOLIO / CAPABILITIES                                   -->
+    <!-- ============================================================= -->
+    <section class="section capabilities" id="capabilities">
+      <div class="container">
+        <div class="section__head">
+          <p class="section__eyebrow reveal">Capabilities</p>
+          <h2 class="section__title reveal">Where I create impact</h2>
+          <p class="section__sub reveal">
+            Futuristic systems, delivered with executive precision.
+          </p>
+        </div>
+
+        <div class="caps">
+          <article class="cap reveal" tabindex="0">
+            <span class="cap__index">01</span>
+            <h3 class="cap__title">AI Implementation</h3>
+            <p class="cap__desc">Production-grade AI woven into your real workflows — not slideware.</p>
+            <div class="cap__beam"></div>
+          </article>
+
+          <article class="cap reveal" tabindex="0">
+            <span class="cap__index">02</span>
+            <h3 class="cap__title">Business Process Automation</h3>
+            <p class="cap__desc">Operations that run themselves, freeing your team for higher-value work.</p>
+            <div class="cap__beam"></div>
+          </article>
+
+          <article class="cap reveal" tabindex="0">
+            <span class="cap__index">03</span>
+            <h3 class="cap__title">Customer Journey Design</h3>
+            <p class="cap__desc">Seamless, intelligent journeys from first touch to loyal advocate.</p>
+            <div class="cap__beam"></div>
+          </article>
+
+          <article class="cap reveal" tabindex="0">
+            <span class="cap__index">04</span>
+            <h3 class="cap__title">Executive-Level Strategy</h3>
+            <p class="cap__desc">Clear direction that connects technology decisions to business outcomes.</p>
+            <div class="cap__beam"></div>
+          </article>
+
+          <article class="cap reveal cap--wide" tabindex="0">
+            <span class="cap__index">05</span>
+            <h3 class="cap__title">Modern Website Systems</h3>
+            <p class="cap__desc">Fast, beautiful, conversion-focused platforms built on modern foundations.</p>
+            <div class="cap__beam"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- 5. WHY mdlp.io                                                -->
+    <!-- ============================================================= -->
+    <section class="section why" id="why">
+      <div class="container">
+        <div class="section__head">
+          <p class="section__eyebrow reveal">Why mdlp.io</p>
+          <h2 class="section__title reveal">Built for companies that intend to win</h2>
+        </div>
+
+        <div class="why__grid">
+          <div class="why__item glass reveal">
+            <h3>Clarity</h3>
+            <p>Complex technology distilled into a sharp, actionable plan everyone understands.</p>
+          </div>
+          <div class="why__item glass reveal">
+            <h3>Execution</h3>
+            <p>Systems that actually ship — measured by outcomes, not intentions.</p>
+          </div>
+          <div class="why__item glass reveal">
+            <h3>Innovation</h3>
+            <p>At the frontier of AI, applied pragmatically to your business reality.</p>
+          </div>
+          <div class="why__item glass reveal">
+            <h3>Leadership</h3>
+            <p>Steady guidance through change, aligning people, process, and technology.</p>
+          </div>
+          <div class="why__item glass reveal">
+            <h3>High-End Strategy</h3>
+            <p>Premium thinking that connects every decision to long-term growth.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- 6. CONTACT                                                    -->
+    <!-- ============================================================= -->
+    <section class="section contact" id="contact">
+      <div class="container contact__grid">
+        <div class="contact__intro">
+          <p class="section__eyebrow reveal">Contact</p>
+          <h2 class="section__title reveal">Let's build something <span class="gradient-text">intelligent</span>.</h2>
+          <p class="contact__lead reveal">
+            Tell me about your company and what you're trying to achieve. I'll come
+            back with a clear, honest perspective on how AI and automation can help.
+          </p>
+          <div class="contact__meta reveal">
+            <a href="mailto:hello@mdlp.io" class="contact__email">hello@mdlp.io</a>
+            <p>Remote-first · Working with companies worldwide</p>
+          </div>
+        </div>
+
+        <!-- Sleek glass contact form -->
+        <form class="contact__form glass reveal" id="contactForm" novalidate>
+          <div class="field">
+            <input type="text" id="name" name="name" required placeholder=" " />
+            <label for="name">Name</label>
+          </div>
+          <div class="field">
+            <input type="email" id="email" name="email" required placeholder=" " />
+            <label for="email">Email</label>
+          </div>
+          <div class="field">
+            <input type="text" id="company" name="company" placeholder=" " />
+            <label for="company">Company</label>
+          </div>
+          <div class="field">
+            <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
+            <label for="message">Message</label>
+          </div>
+          <button type="submit" class="btn btn--primary btn--full">
+            Send Message <span class="btn__arrow">→</span>
+          </button>
+          <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span class="nav__logo">md<span class="accent">lp</span>.io</span>
+      <p>© <span id="year"></span> mdlp.io · AI Systems, Automation & Strategic Technology</p>
+      <a href="#hero" class="footer__top">Back to top ↑</a>
+    </div>
+  </footer>
+
+  <!-- Script inlined so this works as a single downloadable file -->
+  <script>
+/* =================================================================
+   mdlp.io — Premium AI Consultant Portfolio
+   script.js
+   Handles: starfield particles, scroll reveal, nav behaviour,
+   animated counters, smooth scrolling, and the contact form.
+   ================================================================= */
+
+(function () {
+  "use strict";
+
+  // Respect reduced-motion preference for heavier effects
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ===============================================================
+     1. STAR-FIELD / PARTICLE CANVAS
+     A lightweight animated field of drifting, twinkling stars with
+     occasional connecting lines for a "constellation" tech feel.
+     =============================================================== */
+  const canvas = document.getElementById("starfield");
+  const ctx = canvas ? canvas.getContext("2d") : null;
+  let stars = [];
+  let width = 0;
+  let height = 0;
+  // Track the pointer so the field subtly parallaxes toward the cursor
+  const mouse = { x: -9999, y: -9999 };
+
+  function sizeCanvas() {
+    if (!canvas) return;
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    buildStars();
+  }
+
+  function buildStars() {
+    // Density scales with screen size, capped for performance
+    const count = Math.min(160, Math.floor((width * height) / 11000));
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.6 + 0.4,        // radius
+        vx: (Math.random() - 0.5) * 0.18,    // velocity
+        vy: (Math.random() - 0.5) * 0.18,
+        tw: Math.random() * Math.PI * 2       // twinkle phase
+      });
+    }
+  }
+
+  const palette = ["56,232,255", "139,92,255", "255,92,240", "255,255,255"];
+
+  function drawStars(t) {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i];
+
+      // drift
+      s.x += s.vx;
+      s.y += s.vy;
+
+      // wrap around edges
+      if (s.x < 0) s.x = width;
+      if (s.x > width) s.x = 0;
+      if (s.y < 0) s.y = height;
+      if (s.y > height) s.y = 0;
+
+      // gentle pull toward the cursor for parallax life
+      const dx = mouse.x - s.x;
+      const dy = mouse.y - s.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 120) {
+        s.x += dx * 0.0009 * (120 - dist) / 120 * 4;
+        s.y += dy * 0.0009 * (120 - dist) / 120 * 4;
+      }
+
+      // twinkle
+      const twinkle = 0.5 + 0.5 * Math.sin(t * 0.002 + s.tw);
+      const color = palette[i % palette.length];
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + color + "," + (0.35 + twinkle * 0.55) + ")";
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = "rgba(" + color + ",0.8)";
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+
+    // draw faint connecting lines between nearby stars
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const a = stars[i], b = stars[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = "rgba(120,140,255," + (0.10 * (1 - d / 120)) + ")";
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate(t) {
+    drawStars(t);
+    requestAnimationFrame(animate);
+  }
+
+  if (canvas && ctx && !reduceMotion) {
+    sizeCanvas();
+    window.addEventListener("resize", sizeCanvas);
+    window.addEventListener("mousemove", function (e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener("mouseout", function () {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+    requestAnimationFrame(animate);
+  } else if (canvas) {
+    // Static, subtle dots for reduced-motion users
+    sizeCanvas();
+    drawStars(0);
+  }
+
+  /* ===============================================================
+     2. STICKY NAV — add shadow/blur once the user scrolls,
+     and update the top scroll-progress bar.
+     =============================================================== */
+  const nav = document.getElementById("nav");
+  const progress = document.getElementById("scrollProgress");
+
+  function onScroll() {
+    const y = window.scrollY;
+    if (nav) nav.classList.toggle("scrolled", y > 30);
+
+    if (progress) {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docH > 0 ? (y / docH) * 100 : 0;
+      progress.style.width = pct + "%";
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ===============================================================
+     3. MOBILE MENU TOGGLE
+     =============================================================== */
+  const toggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  function closeMenu() {
+    if (!toggle || !navLinks) return;
+    toggle.classList.remove("open");
+    navLinks.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+  }
+
+  if (toggle && navLinks) {
+    toggle.addEventListener("click", function () {
+      const open = navLinks.classList.toggle("open");
+      toggle.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+    // close after clicking any link
+    navLinks.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", closeMenu);
+    });
+  }
+
+  /* ===============================================================
+     4. SCROLL REVEAL — fade/slide elements in as they enter view.
+     Counters fire when the hero stats become visible.
+     =============================================================== */
+  const revealEls = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    // Fallback: just show everything
+    revealEls.forEach(function (el) { el.classList.add("in-view"); });
+  }
+
+  /* ===============================================================
+     5. ANIMATED COUNTERS for the hero stat cards
+     =============================================================== */
+  const counters = document.querySelectorAll(".stat-card__num");
+
+  function runCounter(el) {
+    const target = parseInt(el.getAttribute("data-count"), 10) || 0;
+    const suffix = el.getAttribute("data-suffix") || "";
+    const duration = 1600;
+    const start = performance.now();
+
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      // easeOutCubic for a satisfying deceleration
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  if ("IntersectionObserver" in window && counters.length) {
+    const co = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          runCounter(entry.target);
+          co.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (c) { co.observe(c); });
+  } else {
+    counters.forEach(function (c) {
+      c.textContent = c.getAttribute("data-count") + (c.getAttribute("data-suffix") || "");
+    });
+  }
+
+  /* ===============================================================
+     6. CARD TILT — subtle 3D tilt toward the cursor on service cards
+     =============================================================== */
+  if (!reduceMotion) {
+    document.querySelectorAll(".card").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        const rect = card.getBoundingClientRect();
+        const cx = e.clientX - rect.left - rect.width / 2;
+        const cy = e.clientY - rect.top - rect.height / 2;
+        const rx = (-cy / rect.height) * 6;   // rotateX
+        const ry = (cx / rect.width) * 6;     // rotateY
+        card.style.transform =
+          "translateY(-8px) perspective(700px) rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.transform = "";
+      });
+    });
+  }
+
+  /* ===============================================================
+     7. SMOOTH ANCHOR SCROLL (with offset for the fixed nav)
+     =============================================================== */
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      const id = link.getAttribute("href");
+      if (id.length <= 1) return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: top, behavior: "smooth" });
+    });
+  });
+
+  /* ===============================================================
+     8. CONTACT FORM — client-side validation + friendly feedback.
+     (No backend here; wire up to your provider of choice.)
+     =============================================================== */
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("formStatus");
+
+  function isEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+
+      if (!name || !email || !message) {
+        setStatus("Please fill in your name, email, and message.", "error");
+        return;
+      }
+      if (!isEmail(email)) {
+        setStatus("Please enter a valid email address.", "error");
+        return;
+      }
+
+      // Simulate a successful send (replace with a real endpoint / Formspree / API)
+      setStatus("Thanks, " + name + "! Your message is on its way — I'll be in touch shortly.", "success");
+      form.reset();
+    });
+  }
+
+  function setStatus(msg, type) {
+    if (!status) return;
+    status.textContent = msg;
+    status.className = "form__status " + type;
+  }
+
+  /* ===============================================================
+     9. Footer year
+     =============================================================== */
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
+
+  </script>
+</body>
+</html>
