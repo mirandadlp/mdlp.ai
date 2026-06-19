@@ -15,6 +15,14 @@
 </head>
 <body>
   <!-- ===== Animated background layers ===== -->
+  <!-- Fullscreen background video. Place your file at assets/background.mp4
+       (see assets/README.txt). Falls back gracefully to the starfield if absent. -->
+  <video class="bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="assets/background.mp4" type="video/mp4" />
+  </video>
+  <!-- Darkening overlay so text stays high-contrast over the video -->
+  <div class="bg-video-overlay" aria-hidden="true"></div>
+
   <!-- Particle / star-field canvas sits behind all content -->
   <canvas id="starfield" aria-hidden="true"></canvas>
   <!-- Moving gradient aurora that drifts across the page -->
