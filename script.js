@@ -24,8 +24,8 @@
 
     // Headline as segments, mirroring the hero: the accent word "transform"
     // renders in the Playfair Display italic accent, everything else in Inter.
-    const LINE_1 = [{ t: "A new way to" }];
-    const LINE_2 = [{ t: "transform", accent: true }, { t: " with AI" }];
+    const LINE_1 = [{ t: "A New Era of" }];
+    const LINE_2 = [{ t: "AI " }, { t: "Transformation", accent: true }];
 
     // Timing — tweak these to taste
     const START_DELAY = 450;  // let the video paint before typing
