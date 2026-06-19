@@ -22,9 +22,10 @@
     const line1 = document.getElementById("introLine1");
     const line2 = document.getElementById("introLine2");
 
-    // The two headline lines (kept identical to the hero headline)
-    const TEXT_1 = "A new way to";
-    const TEXT_2 = "transform with AI";
+    // Headline as segments, mirroring the hero: the accent word "transform"
+    // renders in the Playfair Display italic accent, everything else in Inter.
+    const LINE_1 = [{ t: "A new way to" }];
+    const LINE_2 = [{ t: "transform", accent: true }, { t: " with AI" }];
 
     // Timing — tweak these to taste
     const START_DELAY = 450;  // let the video paint before typing
@@ -48,21 +49,42 @@
       }, 1000);
     }
 
+    function lineLength(line) {
+      return line.reduce(function (n, seg) { return n + seg.t.length; }, 0);
+    }
+
+    // Build a line's HTML revealed up to `count` characters, wrapping the
+    // accent segment in the italic accent span.
+    function renderLine(line, count) {
+      let html = "";
+      let remaining = count;
+      line.forEach(function (seg) {
+        if (remaining <= 0) return;
+        const part = seg.t.slice(0, Math.min(seg.t.length, remaining));
+        html += seg.accent
+          ? '<span class="italic-accent">' + part + "</span>"
+          : part;
+        remaining -= part.length;
+      });
+      return html;
+    }
+
     // Reduced motion: show the headline instantly, then reveal
     if (reduceMotion) {
-      line1.textContent = TEXT_1;
-      line2.textContent = TEXT_2;
+      line1.innerHTML = renderLine(LINE_1, lineLength(LINE_1));
+      line2.innerHTML = renderLine(LINE_2, lineLength(LINE_2));
       window.setTimeout(revealSite, 600);
       return;
     }
 
     // Type a single line character by character, then call done()
-    function typeLine(el, text, done) {
+    function typeLine(el, line, done) {
       el.classList.add("is-typing");
+      const total = lineLength(line);
       let i = 0;
       (function step() {
-        el.textContent = text.slice(0, i);
-        if (i < text.length) {
+        el.innerHTML = renderLine(line, i);
+        if (i < total) {
           i += 1;
           window.setTimeout(step, CHAR_SPEED);
         } else if (typeof done === "function") {
@@ -72,11 +94,11 @@
     }
 
     window.setTimeout(function () {
-      typeLine(line1, TEXT_1, function () {
+      typeLine(line1, LINE_1, function () {
         line1.classList.remove("is-typing");
         line2.classList.add("is-typing");           // caret blinks on line 2
         window.setTimeout(function () {
-          typeLine(line2, TEXT_2, function () {
+          typeLine(line2, LINE_2, function () {
             window.setTimeout(function () {
               line2.classList.remove("is-typing");
               revealSite();

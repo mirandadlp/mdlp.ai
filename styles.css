@@ -25,9 +25,14 @@
   --glow-cyan:     rgba(56, 232, 255, 0.28);
   --glow-violet:   rgba(139, 92, 255, 0.28);
 
-  /* Typography */
-  --font-serif:    "Playfair Display", Georgia, "Times New Roman", serif;
-  --font-sans:     "Inter", ui-sans-serif, system-ui, sans-serif;
+  /* Typography
+     Primary = Inter (headings, body, stats, nav, buttons, labels)
+     Accent  = Playfair Display Italic (rare emphasized title words only) */
+  --font-primary: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-accent:  "Playfair Display", Georgia, "Times New Roman", serif;
+  /* Back-compat aliases used elsewhere in this file */
+  --font-sans:     var(--font-primary);
+  --font-serif:    var(--font-accent);
 
   /* Spacing / shape / motion */
   --radius:        16px;
@@ -61,32 +66,76 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Editorial serif headings — light weight, generous line height */
+/* Strong, modern sans-serif headings (Inter) with tight tracking */
 h1, h2, h3 {
-  font-family: var(--font-serif);
-  font-weight: 500;
-  line-height: 1.18;
-  letter-spacing: -0.01em;
+  font-family: var(--font-primary);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
 }
-/* Italic emphasis inside headings — used sparingly via <em> */
+
+/* -----------------------------------------------------------------
+   Reusable typography classes
+   ----------------------------------------------------------------- */
+.font-primary { font-family: var(--font-primary); }
+.font-accent  { font-family: var(--font-accent); }
+
+/* Rare, intentional italic accent — Playfair Display Italic.
+   Applied to <em> inside headings and to .italic-accent spans. */
+.italic-accent,
 h1 em, h2 em, h3 em {
+  font-family: var(--font-accent);
   font-style: italic;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--accent);
 }
-.nav__logo { font-family: var(--font-sans); font-weight: 600; }
+
+.headline {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.eyebrow {
+  font-family: var(--font-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.body-copy {
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.stat-number {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+.nav__logo { font-family: var(--font-primary); font-weight: 700; }
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
 
 .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 
-/* Elegant accent for emphasized words — soft italic serif, not neon */
+/* Legacy hook: emphasized words now render as the italic accent */
 .gradient-text {
+  font-family: var(--font-accent);
   font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--accent);
-  -webkit-background-clip: initial;
-          background-clip: initial;
 }
 .accent { color: var(--cyan); }
 
@@ -151,11 +200,11 @@ img { max-width: 100%; display: block; }
   visibility: hidden;
 }
 .intro__text {
-  font-family: var(--font-serif);
-  font-weight: 500;
+  font-family: var(--font-primary);
+  font-weight: 800;
   font-size: clamp(2rem, 7vw, 4.8rem);
-  line-height: 1.18;
-  letter-spacing: -0.01em;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
   color: var(--text);
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
   max-width: 18ch;
@@ -463,10 +512,12 @@ body::after {
 }
 .section__title {
   font-size: clamp(2.1rem, 4.5vw, 3.2rem);
-  line-height: 1.2;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
   margin-bottom: 20px;
 }
-.section__sub { color: var(--text-dim); font-size: 1.05rem; font-weight: 300; }
+.section__sub { color: var(--text-dim); font-size: 1.05rem; font-weight: 400; }
 
 /* Reveal-on-scroll: starts hidden, JS adds .in-view */
 .reveal {
@@ -507,16 +558,16 @@ body::after {
   font-weight: 500;
 }
 .hero__title {
-  font-size: clamp(2.7rem, 7vw, 5.2rem);
-  font-weight: 500;
-  line-height: 1.14;
-  letter-spacing: -0.015em;
+  font-size: clamp(2.8rem, 7vw, 5.4rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.045em;
   margin-bottom: 30px;
   text-wrap: balance;
 }
 .hero__subtitle {
   font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-  font-weight: 300;
+  font-weight: 400;
   line-height: 1.7;
   color: var(--text-dim);
   max-width: 600px;
@@ -537,11 +588,11 @@ body::after {
 }
 .stat-card__num {
   display: block;
-  font-family: var(--font-serif);
+  font-family: var(--font-primary);
   font-size: 2.1rem;
-  font-weight: 500;
+  font-weight: 800;
   color: var(--text);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.04em;
 }
 .stat-card__label {
   font-size: 0.8rem;
@@ -666,8 +717,8 @@ body::after {
 }
 
 .about__text .section__title { font-size: clamp(1.9rem, 3.4vw, 2.7rem); margin: 14px 0 22px; }
-.about__lead { font-size: 1.2rem; font-weight: 300; color: var(--text); margin-bottom: 18px; line-height: 1.7; }
-.about__body { color: var(--text-dim); font-weight: 300; margin-bottom: 28px; }
+.about__lead { font-size: 1.2rem; font-weight: 400; color: var(--text); margin-bottom: 18px; line-height: 1.7; }
+.about__body { color: var(--text-dim); font-weight: 400; margin-bottom: 28px; }
 .about__pills { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
 .about__pills li {
   padding: 8px 16px;
@@ -732,8 +783,8 @@ body::after {
   transition: transform .4s var(--ease), border-color var(--transition);
 }
 .card:hover .card__icon { transform: translateY(-2px); border-color: rgba(255,255,255,0.28); }
-.card__title { font-size: 1.4rem; font-weight: 500; margin-bottom: 12px; }
-.card__desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 300; line-height: 1.65; }
+.card__title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; }
+.card__desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 400; line-height: 1.65; }
 
 /* =================================================================
    4. CAPABILITIES
@@ -760,16 +811,16 @@ body::after {
   outline: none;
 }
 .cap__index {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  font-weight: 500;
-  font-style: italic;
+  font-family: var(--font-primary);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
   color: var(--text-faint);
   display: block;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
-.cap__title { font-size: 1.45rem; font-weight: 500; margin-bottom: 12px; }
-.cap__desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 300; line-height: 1.65; }
+.cap__title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; }
+.cap__desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 400; line-height: 1.65; }
 /* sweeping light beam across the card on hover */
 .cap__beam {
   position: absolute;
@@ -803,7 +854,7 @@ body::after {
   margin-bottom: 12px;
   color: var(--text);
 }
-.why__item p { color: var(--text-dim); font-size: 0.95rem; font-weight: 300; line-height: 1.65; }
+.why__item p { color: var(--text-dim); font-size: 0.95rem; font-weight: 400; line-height: 1.65; }
 
 /* =================================================================
    6. CONTACT
@@ -819,14 +870,14 @@ body::after {
 .contact__center .contact__meta { display: flex; flex-direction: column; align-items: center; }
 .contact__center .btn { margin-top: 28px; }
 .contact__intro .section__title { font-size: clamp(2rem, 4vw, 3rem); margin: 14px 0 20px; }
-.contact__lead { color: var(--text-dim); font-size: 1.1rem; font-weight: 300; margin-bottom: 30px; line-height: 1.7; }
+.contact__lead { color: var(--text-dim); font-size: 1.1rem; font-weight: 400; margin-bottom: 30px; line-height: 1.7; }
 .contact__meta { color: var(--text-faint); font-size: 0.92rem; }
 .contact__email {
   display: inline-block;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-family: var(--font-primary);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
   color: var(--text);
   margin-bottom: 8px;
   transition: color var(--transition);
@@ -845,7 +896,7 @@ body::after {
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 0.98rem;
-  font-weight: 300;
+  font-weight: 400;
   resize: vertical;
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
@@ -862,7 +913,7 @@ body::after {
   left: 16px; top: 17px;
   color: var(--text-faint);
   font-size: 0.98rem;
-  font-weight: 300;
+  font-weight: 400;
   pointer-events: none;
   transition: transform .2s var(--ease), color .2s, font-size .2s;
 }
@@ -890,7 +941,7 @@ body::after {
   align-items: center;
   justify-content: space-between;
 }
-.footer__inner p { color: var(--text-faint); font-size: 0.88rem; font-weight: 300; }
+.footer__inner p { color: var(--text-faint); font-size: 0.88rem; font-weight: 400; }
 .footer__top { color: var(--text-dim); font-size: 0.88rem; transition: color var(--transition); }
 .footer__top:hover { color: var(--text); }
 
