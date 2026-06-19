@@ -705,6 +705,10 @@ body::after {
   gap: 60px;
   align-items: center;
 }
+/* Centered contact layout (form removed) */
+.contact__center { max-width: 720px; margin: 0 auto; text-align: center; }
+.contact__center .contact__meta { display: flex; flex-direction: column; align-items: center; }
+.contact__center .btn { margin-top: 28px; }
 .contact__intro .section__title { font-size: clamp(2rem, 4vw, 3rem); margin: 14px 0 20px; }
 .contact__lead { color: var(--text-dim); font-size: 1.08rem; margin-bottom: 30px; }
 .contact__meta { color: var(--text-dim); font-size: 0.95rem; }
@@ -1124,7 +1128,7 @@ body::after {
     <!-- 6. CONTACT                                                    -->
     <!-- ============================================================= -->
     <section class="section contact" id="contact">
-      <div class="container contact__grid">
+      <div class="container contact__center">
         <div class="contact__intro">
           <p class="section__eyebrow reveal">Contact</p>
           <h2 class="section__title reveal">Let's build something <span class="gradient-text">extraordinary</span>.</h2>
@@ -1132,34 +1136,13 @@ body::after {
             Tell me your goal. I'll show you exactly how AI gets you there.
           </p>
           <div class="contact__meta reveal">
-            <a href="mailto:hello@mdlp.ai" class="contact__email">hello@mdlp.ai</a>
+            <a href="mailto:miranda.dlp@gmail.com" class="contact__email">miranda.dlp@gmail.com</a>
             <p>Remote-first · Working with companies worldwide</p>
           </div>
+          <a href="mailto:miranda.dlp@gmail.com" class="btn btn--primary reveal">
+            Email Me <span class="btn__arrow">→</span>
+          </a>
         </div>
-
-        <!-- Sleek glass contact form -->
-        <form class="contact__form glass reveal" id="contactForm" novalidate>
-          <div class="field">
-            <input type="text" id="name" name="name" required placeholder=" " />
-            <label for="name">Name</label>
-          </div>
-          <div class="field">
-            <input type="email" id="email" name="email" required placeholder=" " />
-            <label for="email">Email</label>
-          </div>
-          <div class="field">
-            <input type="text" id="company" name="company" placeholder=" " />
-            <label for="company">Company</label>
-          </div>
-          <div class="field">
-            <textarea id="message" name="message" rows="4" required placeholder=" "></textarea>
-            <label for="message">Message</label>
-          </div>
-          <button type="submit" class="btn btn--primary btn--full">
-            Send Message <span class="btn__arrow">→</span>
-          </button>
-          <p class="form__status" id="formStatus" role="status" aria-live="polite"></p>
-        </form>
       </div>
     </section>
   </main>

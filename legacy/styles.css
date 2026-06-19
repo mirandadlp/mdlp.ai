@@ -690,6 +690,10 @@ body::after {
   gap: 60px;
   align-items: center;
 }
+/* Centered contact layout (form removed) */
+.contact__center { max-width: 720px; margin: 0 auto; text-align: center; }
+.contact__center .contact__meta { display: flex; flex-direction: column; align-items: center; }
+.contact__center .btn { margin-top: 28px; }
 .contact__intro .section__title { font-size: clamp(2rem, 4vw, 3rem); margin: 14px 0 20px; }
 .contact__lead { color: var(--text-dim); font-size: 1.08rem; margin-bottom: 30px; }
 .contact__meta { color: var(--text-dim); font-size: 0.95rem; }
