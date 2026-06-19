@@ -12,8 +12,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- If JavaScript is unavailable, skip the intro and show the site immediately -->
+  <noscript>
+    <style>
+      .intro { display: none !important; }
+      body.intro-loading .nav,
+      body.intro-loading main,
+      body.intro-loading .footer,
+      body.intro-loading .scroll-progress,
+      body.intro-loading #starfield,
+      body.intro-loading .aurora,
+      body.intro-loading .nebula,
+      body.intro-loading .shooting-star {
+        opacity: 1 !important;
+        visibility: visible !important;
+      }
+      body.intro-loading { overflow: auto !important; }
+    </style>
+  </noscript>
 </head>
-<body>
+<body class="intro-loading">
   <!-- ===== Animated background layers ===== -->
   <!-- Fullscreen background video. Place your file at assets/background.mp4
        (see assets/README.txt). Falls back gracefully to the starfield if absent. -->
@@ -22,6 +41,14 @@
   </video>
   <!-- Darkening overlay so text stays high-contrast over the video -->
   <div class="bg-video-overlay" aria-hidden="true"></div>
+
+  <!-- ===== Intro overlay: typewriter headline over the video on load ===== -->
+  <div class="intro" id="intro" role="status" aria-live="polite">
+    <p class="intro__text">
+      <span class="intro__line" id="introLine1"></span>
+      <span class="intro__line" id="introLine2"></span>
+    </p>
+  </div>
 
   <!-- Particle / star-field canvas sits behind all content -->
   <canvas id="starfield" aria-hidden="true"></canvas>

@@ -12,6 +12,82 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   /* ===============================================================
+     0. INTRO TYPEWRITER
+     On load, show only the video + centered headline, type it out
+     letter by letter, then smoothly reveal the rest of the site.
+     =============================================================== */
+  (function intro() {
+    const body = document.body;
+    const introEl = document.getElementById("intro");
+    const line1 = document.getElementById("introLine1");
+    const line2 = document.getElementById("introLine2");
+
+    // The two headline lines (kept identical to the hero headline)
+    const TEXT_1 = "A new way to";
+    const TEXT_2 = "transform with AI";
+
+    // Timing — tweak these to taste
+    const START_DELAY = 450;  // let the video paint before typing
+    const CHAR_SPEED  = 60;   // ms per character
+    const LINE_PAUSE  = 320;  // pause between the two lines
+    const END_PAUSE   = 700;  // hold after finishing before revealing
+
+    // If the overlay is missing, just show the site
+    if (!introEl || !line1 || !line2) {
+      body.classList.remove("intro-loading");
+      return;
+    }
+
+    function revealSite() {
+      body.classList.remove("intro-loading");
+      body.classList.add("intro-loaded");
+      introEl.classList.add("is-hidden");
+      // remove the overlay from the DOM once it has faded out
+      window.setTimeout(function () {
+        if (introEl.parentNode) introEl.parentNode.removeChild(introEl);
+      }, 1000);
+    }
+
+    // Reduced motion: show the headline instantly, then reveal
+    if (reduceMotion) {
+      line1.textContent = TEXT_1;
+      line2.textContent = TEXT_2;
+      window.setTimeout(revealSite, 600);
+      return;
+    }
+
+    // Type a single line character by character, then call done()
+    function typeLine(el, text, done) {
+      el.classList.add("is-typing");
+      let i = 0;
+      (function step() {
+        el.textContent = text.slice(0, i);
+        if (i < text.length) {
+          i += 1;
+          window.setTimeout(step, CHAR_SPEED);
+        } else if (typeof done === "function") {
+          done();
+        }
+      })();
+    }
+
+    window.setTimeout(function () {
+      typeLine(line1, TEXT_1, function () {
+        line1.classList.remove("is-typing");
+        line2.classList.add("is-typing");           // caret blinks on line 2
+        window.setTimeout(function () {
+          typeLine(line2, TEXT_2, function () {
+            window.setTimeout(function () {
+              line2.classList.remove("is-typing");
+              revealSite();
+            }, END_PAUSE);
+          });
+        }, LINE_PAUSE);
+      });
+    }, START_DELAY);
+  })();
+
+  /* ===============================================================
      1. STAR-FIELD / PARTICLE CANVAS
      A lightweight animated field of drifting, twinkling stars with
      occasional connecting lines for a "constellation" tech feel.
