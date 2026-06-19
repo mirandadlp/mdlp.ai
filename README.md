@@ -1,43 +1,30 @@
 # mdlp.ai
 
-Full-screen dark hero landing page for **mdlp.ai** — built with React + Vite +
-Tailwind CSS v4 + Motion (framer-motion) + Lucide icons, with a fullscreen HLS
-background video (hls.js) and a glassmorphism navbar.
+Premium AI-consultant portfolio site for **mdlp.ai** — a dark, space/tech themed
+single page built with plain **HTML, CSS, and JavaScript** (no frameworks, no
+build step).
 
-## Stack
-
-- **React 19** + **Vite 6**
-- **Tailwind CSS v4** (via `@tailwindcss/vite`)
-- **Motion** (`motion/react`) for animations
-- **lucide-react** for icons
-- **hls.js** for the Mux HLS background video
-
-## Getting started
-
-```bash
-npm install      # install dependencies
-npm run dev      # start the dev server (http://localhost:5173)
-npm run build    # production build -> dist/
-npm run preview  # preview the production build
-```
-
-## Structure
+## Files
 
 ```
-index.html               # Vite entry HTML
-src/
-  main.jsx               # React mount
-  index.css              # fonts, Tailwind, .liquid-glass / .glass-pill
-  App.jsx                # single-screen layout (video + navbar + hero)
-  components/
-    BackgroundVideo.jsx  # fullscreen HLS video (hls.js / native Safari)
-    Navbar.jsx           # glassmorphism navbar
-    Hero.jsx             # heading + email-capture CTA with typewriter
+index.html            # page structure (hero, about, services, capabilities, why, contact)
+styles.css            # theme, layout, and all animations
+script.js             # starfield particles, scroll reveals, counters, starlet cursor
+mdlp-portfolio.html   # the whole site bundled into one self-contained file
 ```
 
-## Notes
+## Use it
 
-- The previous static HTML/CSS/JS version of the site is preserved in `legacy/`.
-- Brand-facing copy (logo, nav links, tagline, heading, CTA, typewriter text)
-  is tailored to mdlp.ai's AI-consulting positioning. The underlying structure,
-  classes, and animations follow the original template spec.
+Just open `index.html` in any browser — no install or build required.
+`mdlp-portfolio.html` is a single-file version (CSS + JS inlined) you can
+download and open on its own.
+
+## Features
+
+- Dark futuristic space theme: starfield canvas, drifting aurora, nebula,
+  shooting stars, glowing orb
+- Trailing-starlet custom cursor
+- Sticky glassmorphism navigation with a mobile menu
+- Scroll-reveal animations, animated counters, hover interactions
+- Fully responsive, high-contrast, with a `prefers-reduced-motion` fallback
+- Contact section links directly to miranda.dlp@gmail.com
