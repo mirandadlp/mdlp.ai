@@ -645,16 +645,17 @@ body::after {
 }
 .card:hover::before, .card:focus-visible::before { opacity: 0.6; }
 .card__icon {
-  font-size: 1.8rem;
-  width: 56px; height: 56px;
+  font-size: 1.35rem;
+  color: var(--accent);
+  width: 52px; height: 52px;
   display: grid; place-items: center;
   border-radius: 14px;
-  background: var(--surface);
+  background: rgba(255, 255, 255, 0.04);
   border: 1px solid var(--surface-brd);
-  margin-bottom: 20px;
-  transition: transform .4s var(--ease);
+  margin-bottom: 22px;
+  transition: transform .4s var(--ease), border-color var(--transition);
 }
-.card:hover .card__icon { transform: scale(1.1) rotate(-6deg); }
+.card:hover .card__icon { transform: translateY(-2px); border-color: rgba(255,255,255,0.28); }
 .card__title { font-size: 1.4rem; font-weight: 500; margin-bottom: 12px; }
 .card__desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 300; line-height: 1.65; }
 
