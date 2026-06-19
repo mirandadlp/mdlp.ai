@@ -149,6 +149,34 @@
   onScroll();
 
   /* ===============================================================
+     2b. NAV ACTIVE STATE (scroll-spy) — highlight the link for the
+     section currently in view, for a clean, oriented navigation.
+     =============================================================== */
+  const navAnchors = Array.from(
+    document.querySelectorAll('#navLinks a[href^="#"]')
+  );
+  const spySections = navAnchors
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && spySections.length) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = "#" + entry.target.id;
+          navAnchors.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href") === id)
+          );
+        });
+      },
+      // Trigger around the upper-middle of the viewport
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+    spySections.forEach((s) => spy.observe(s));
+  }
+
+  /* ===============================================================
      3. MOBILE MENU TOGGLE
      =============================================================== */
   const toggle = document.getElementById("navToggle");
