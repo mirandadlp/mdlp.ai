@@ -216,7 +216,7 @@ img { max-width: 100%; display: block; }
 }
 .intro__text {
   font-family: var(--font-primary);
-  font-weight: 800;
+  font-weight: 600;
   font-size: clamp(2rem, 7vw, 4.8rem);
   line-height: 1.04;
   letter-spacing: -0.04em;
@@ -562,7 +562,14 @@ body::after {
   padding-top: 120px;
   overflow: hidden;
 }
-.hero__content { position: relative; z-index: 2; max-width: 880px; }
+/* Centered hero — title leads, with generous breathing room below */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
 
 .hero__eyebrow {
   text-transform: uppercase;
@@ -574,24 +581,31 @@ body::after {
 }
 .hero__title {
   font-size: clamp(2.8rem, 7vw, 5.4rem);
-  font-weight: 800;
-  line-height: 1.02;
-  letter-spacing: -0.045em;
-  margin-bottom: 30px;
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  /* big gap before the paragraph + stats */
+  margin-bottom: clamp(48px, 9vh, 104px);
   text-wrap: balance;
 }
 .hero__subtitle {
   font-size: clamp(1.05rem, 1.8vw, 1.25rem);
-  font-weight: 400;
+  font-weight: 300;
   line-height: 1.7;
   color: var(--text-dim);
-  max-width: 600px;
-  margin-bottom: 40px;
+  max-width: 540px;
+  margin: 0 auto 40px;
 }
-.hero__actions { display: flex; flex-wrap: wrap; gap: 16px; margin-bottom: 64px; }
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 64px;
+}
 
 /* Floating stat cards */
-.hero__stats { display: flex; flex-wrap: wrap; gap: 18px; }
+.hero__stats { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; }
 .stat-card {
   background: var(--surface);
   border: 1px solid var(--surface-brd);
@@ -1111,9 +1125,8 @@ body::after {
         </h1>
 
         <p class="hero__subtitle reveal">
-          I help enterprise leaders build AI capability across their teams,
-          uncover the opportunities most organizations overlook, and turn
-          intelligence into a lasting competitive advantage.
+          Building AI capability across enterprise teams — turning intelligence
+          into lasting competitive advantage.
         </p>
 
         <div class="hero__actions reveal">
