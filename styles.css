@@ -95,16 +95,17 @@ img { max-width: 100%; display: block; }
   height: 100%;
   object-fit: cover;
   z-index: -5;
-  opacity: 0.55;
+  opacity: 1;            /* show the video at full strength */
   pointer-events: none;
 }
-/* Dark gradient wash over the video so the space effects and text stay crisp */
+/* Light gradient wash over the video — just enough to keep text readable
+   without hiding the footage. */
 .bg-video-overlay {
   position: fixed;
   inset: 0;
   z-index: -4;
   pointer-events: none;
-  background: radial-gradient(120% 120% at 50% 0%, rgba(5,6,15,0.45), rgba(5,6,15,0.85) 100%);
+  background: linear-gradient(180deg, rgba(5,6,15,0.30), rgba(5,6,15,0.55) 100%);
 }
 
 /* Drifting aurora gradient blobs behind everything */
