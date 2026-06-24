@@ -157,27 +157,31 @@ img { max-width: 100%; display: block; }
    Sits behind every other layer; the overlay keeps text readable. */
 .bg-video {
   position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;        /* better fit on mobile with dynamic toolbars */
+  object-fit: cover;     /* fill the screen, no stretching/skew */
+  object-position: center;
   z-index: -5;
   opacity: 1;            /* show the video at full strength */
   pointer-events: none;
+  background: var(--bg); /* base colour while the video loads / if absent */
 }
-/* Page-height wash over the video. The hero stays bright (~5% tint) so the
-   footage reads clearly, then it gradients into the regular darker overlay
-   for the rest of the page. Absolute (not fixed) so it scrolls with content. */
+/* Fixed wash over the fullscreen video. Light at the top so the hero reads
+   bright (~5% tint), deepening toward the lower viewport for readability on
+   the rest of the page. Fixed (not absolute) so it never affects layout. */
 .bg-video-overlay {
-  position: absolute;
-  inset: 0;                 /* spans the full document height */
+  position: fixed;
+  inset: 0;
   z-index: -4;
   pointer-events: none;
   background: linear-gradient(180deg,
     rgba(5, 6, 15, 0.05) 0,
-    rgba(5, 6, 15, 0.05) 80vh,
-    rgba(5, 6, 15, 0.55) 120vh,
-    rgba(5, 6, 15, 0.55) 100%);
+    rgba(5, 6, 15, 0.05) 32%,
+    rgba(5, 6, 15, 0.45) 72%,
+    rgba(5, 6, 15, 0.58) 100%);
 }
 
 /* =================================================================
