@@ -591,13 +591,13 @@ body::after {
   text-wrap: balance;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
 }
-/* Hero only: "Transformation" renders in Space Grotesk bold, upright — a
+/* Hero only: "Transformation" renders in Space Grotesk regular, upright — a
    free Google Font in the same clean neo-grotesque family as Neue Montreal.
    Same accent colour; everything else in the hero unchanged. */
 .hero__title .italic-accent {
   font-family: "Space Grotesk", var(--font-primary);
   font-style: normal;
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.01em;
 }
 .hero__eyebrow, .hero__subtitle { text-shadow: 0 1px 20px rgba(0, 0, 0, 0.4); }
