@@ -192,17 +192,17 @@ img { max-width: 100%; display: block; }
 }
 
 /* =================================================================
-   Intro overlay — typewriter headline over the video on first load
+   Intro backdrop — dims the video while the headline types itself
+
+   The headline is typed straight into the real .hero__title, so it starts
+   life in its final position at its final size. There is no overlay copy
+   to hand off from, which is what guarantees no jump when loading ends.
+   z-index is negative so this sits above the video but below the h1.
    ================================================================= */
 .intro {
   position: fixed;
   inset: 0;
-  z-index: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
+  z-index: -1;
   pointer-events: none;            /* purely decorative, never blocks */
   /* A whisper of vignette keeps the text readable while the video shows */
   background: radial-gradient(70% 70% at 50% 50%,
@@ -215,45 +215,32 @@ img { max-width: 100%; display: block; }
   opacity: 0;
   visibility: hidden;
 }
-/* Typographically IDENTICAL to .hero__title — that is what lets the intro
-   headline glide into the hero's slot and hand off without a visible swap.
-   Keep these values in sync with .hero__title if either ever changes. */
-.intro__text {
-  font-family: var(--font-primary);
-  font-weight: 400;
-  font-size: clamp(2.8rem, 7vw, 5.4rem);
-  line-height: 1.28;
-  letter-spacing: 0.015em;
-  color: var(--text);
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
-  max-width: none;
-}
-/* "Transformation" in the intro matches the hero exactly:
-   Space Grotesk, upright, regular weight. */
-.intro__text .italic-accent {
-  font-family: "Space Grotesk", var(--font-primary);
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-}
-.intro__line { display: block; }
-/* Blinking caret sits on whichever line is currently typing */
-.intro__line.is-typing::after {
-  content: "";
+/* Characters not yet typed: still laid out, just not painted. This is what
+   keeps the headline's wrapping and height identical to the finished text
+   from the first frame, so nothing reflows while it types. */
+.type-pending { visibility: hidden; }
+
+/* Blinking caret. Laid out at zero net width (the negative margin cancels
+   the 2px) so it can't nudge the text that follows it. */
+.type-caret {
   display: inline-block;
   width: 2px;
-  height: 1em;
-  margin-left: 0.08em;
-  vertical-align: -0.08em;
+  margin-right: -2px;
+  height: 0.86em;
+  vertical-align: -0.06em;
   background: var(--accent);
   animation: caret-blink 1s steps(1) infinite;
 }
 @keyframes caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 
-/* ---- Loading state: show only the video + intro, hide the rest ---- */
+/* ---- Loading state: video + vignette + the typing headline, nothing else.
+   `main` deliberately stays visible: the headline types inside it. Its
+   siblings in the hero are held off-screen by .hero-entering, and the
+   sections below are still waiting on their own .reveal. ---- */
 body.intro-loading { overflow: hidden; }
+/* The headline is the one thing on screen, so it opts out of .reveal */
+body.intro-loading .hero__title { opacity: 1; transform: none; }
 body.intro-loading .nav,
-body.intro-loading main,
 body.intro-loading .footer,
 body.intro-loading .scroll-progress,
 body.intro-loading #starfield,
@@ -270,12 +257,13 @@ body.intro-loading .shooting-star {
 }
 
 /* =================================================================
-   Intro → hero handoff, and the hero entrance choreography
+   Hero entrance choreography
 
-   Three cooperating body classes, all added by script.js and removed in
-   sequence:
-     .hero-entering  off-screen start positions   (removed first, kicks it off)
-     .hero-handoff   hides the hero title while the intro headline flies to it
+   The headline itself never animates — it is typed in place and simply
+   stays there. Everything around it arrives from a different edge.
+
+   Two cooperating body classes, both added by script.js:
+     .hero-entering  off-screen start positions  (removed first, kicks it off)
      .hero-settling  holds the entrance transitions + stagger, and suspends the
                      idle float/orb keyframes so they can't fight the entrance
 
@@ -283,16 +271,6 @@ body.intro-loading .shooting-star {
    themselves, because a transition reads its duration/delay from the END
    state — and it also keeps the stagger from leaking into button hovers.
    ================================================================= */
-
-/* The intro headline in flight: the vignette drops away, the words remain */
-.intro.is-handoff { background: none; }
-.intro__text.is-flying {
-  transition: transform 1200ms var(--ease);
-  will-change: transform;
-}
-
-/* Hero title waits, invisible, until the flying headline lands on it */
-body.hero-handoff .hero__title { opacity: 0; }
 
 /* Idle animations paused so the entrance transforms own these elements */
 body.hero-settling .float,

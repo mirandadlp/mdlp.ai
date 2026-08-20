@@ -42,13 +42,11 @@
   <!-- Darkening overlay so text stays high-contrast over the video -->
   <div class="bg-video-overlay" aria-hidden="true"></div>
 
-  <!-- ===== Intro overlay: typewriter headline over the video on load ===== -->
-  <div class="intro" id="intro" role="status" aria-live="polite">
-    <p class="intro__text">
-      <span class="intro__line" id="introLine1"></span>
-      <span class="intro__line" id="introLine2"></span>
-    </p>
-  </div>
+  <!-- ===== Intro backdrop =====
+       Dims the video while the headline types itself into the real <h1>
+       below. The headline is never a copy, so there is no handoff and no
+       jump when loading finishes. -->
+  <div class="intro" id="intro" aria-hidden="true"></div>
 
   <!-- Particle / star-field canvas sits behind all content -->
   <canvas id="starfield" aria-hidden="true"></canvas>
@@ -357,10 +355,10 @@
             AI can get you there.
           </p>
           <div class="contact__meta reveal">
-            <a href="mailto:miranda.dlp@gmail.com" class="contact__email">miranda.dlp@gmail.com</a>
+            <a href="mailto:md@mdlp.ai" class="contact__email">md@mdlp.ai</a>
             <p>Working with enterprise teams worldwide</p>
           </div>
-          <a href="mailto:miranda.dlp@gmail.com" class="btn btn--primary reveal">
+          <a href="mailto:md@mdlp.ai" class="btn btn--primary reveal">
             Start a Conversation <span class="btn__arrow">→</span>
           </a>
         </div>

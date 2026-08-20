@@ -27,4 +27,4 @@ download and open on its own.
 - Sticky glassmorphism navigation with a mobile menu
 - Scroll-reveal animations, animated counters, hover interactions
 - Fully responsive, high-contrast, with a `prefers-reduced-motion` fallback
-- Contact section links directly to miranda.dlp@gmail.com
+- Contact section links directly to md@mdlp.ai

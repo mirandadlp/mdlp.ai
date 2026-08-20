@@ -206,17 +206,17 @@ img { max-width: 100%; display: block; }
 }
 
 /* =================================================================
-   Intro overlay — typewriter headline over the video on first load
+   Intro backdrop — dims the video while the headline types itself
+
+   The headline is typed straight into the real .hero__title, so it starts
+   life in its final position at its final size. There is no overlay copy
+   to hand off from, which is what guarantees no jump when loading ends.
+   z-index is negative so this sits above the video but below the h1.
    ================================================================= */
 .intro {
   position: fixed;
   inset: 0;
-  z-index: 900;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  text-align: center;
+  z-index: -1;
   pointer-events: none;            /* purely decorative, never blocks */
   /* A whisper of vignette keeps the text readable while the video shows */
   background: radial-gradient(70% 70% at 50% 50%,
@@ -229,45 +229,32 @@ img { max-width: 100%; display: block; }
   opacity: 0;
   visibility: hidden;
 }
-/* Typographically IDENTICAL to .hero__title — that is what lets the intro
-   headline glide into the hero's slot and hand off without a visible swap.
-   Keep these values in sync with .hero__title if either ever changes. */
-.intro__text {
-  font-family: var(--font-primary);
-  font-weight: 400;
-  font-size: clamp(2.8rem, 7vw, 5.4rem);
-  line-height: 1.28;
-  letter-spacing: 0.015em;
-  color: var(--text);
-  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
-  max-width: none;
-}
-/* "Transformation" in the intro matches the hero exactly:
-   Space Grotesk, upright, regular weight. */
-.intro__text .italic-accent {
-  font-family: "Space Grotesk", var(--font-primary);
-  font-style: normal;
-  font-weight: 400;
-  letter-spacing: 0.01em;
-}
-.intro__line { display: block; }
-/* Blinking caret sits on whichever line is currently typing */
-.intro__line.is-typing::after {
-  content: "";
+/* Characters not yet typed: still laid out, just not painted. This is what
+   keeps the headline's wrapping and height identical to the finished text
+   from the first frame, so nothing reflows while it types. */
+.type-pending { visibility: hidden; }
+
+/* Blinking caret. Laid out at zero net width (the negative margin cancels
+   the 2px) so it can't nudge the text that follows it. */
+.type-caret {
   display: inline-block;
   width: 2px;
-  height: 1em;
-  margin-left: 0.08em;
-  vertical-align: -0.08em;
+  margin-right: -2px;
+  height: 0.86em;
+  vertical-align: -0.06em;
   background: var(--accent);
   animation: caret-blink 1s steps(1) infinite;
 }
 @keyframes caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
 
-/* ---- Loading state: show only the video + intro, hide the rest ---- */
+/* ---- Loading state: video + vignette + the typing headline, nothing else.
+   `main` deliberately stays visible: the headline types inside it. Its
+   siblings in the hero are held off-screen by .hero-entering, and the
+   sections below are still waiting on their own .reveal. ---- */
 body.intro-loading { overflow: hidden; }
+/* The headline is the one thing on screen, so it opts out of .reveal */
+body.intro-loading .hero__title { opacity: 1; transform: none; }
 body.intro-loading .nav,
-body.intro-loading main,
 body.intro-loading .footer,
 body.intro-loading .scroll-progress,
 body.intro-loading #starfield,
@@ -284,12 +271,13 @@ body.intro-loading .shooting-star {
 }
 
 /* =================================================================
-   Intro → hero handoff, and the hero entrance choreography
+   Hero entrance choreography
 
-   Three cooperating body classes, all added by script.js and removed in
-   sequence:
-     .hero-entering  off-screen start positions   (removed first, kicks it off)
-     .hero-handoff   hides the hero title while the intro headline flies to it
+   The headline itself never animates — it is typed in place and simply
+   stays there. Everything around it arrives from a different edge.
+
+   Two cooperating body classes, both added by script.js:
+     .hero-entering  off-screen start positions  (removed first, kicks it off)
      .hero-settling  holds the entrance transitions + stagger, and suspends the
                      idle float/orb keyframes so they can't fight the entrance
 
@@ -297,16 +285,6 @@ body.intro-loading .shooting-star {
    themselves, because a transition reads its duration/delay from the END
    state — and it also keeps the stagger from leaking into button hovers.
    ================================================================= */
-
-/* The intro headline in flight: the vignette drops away, the words remain */
-.intro.is-handoff { background: none; }
-.intro__text.is-flying {
-  transition: transform 1200ms var(--ease);
-  will-change: transform;
-}
-
-/* Hero title waits, invisible, until the flying headline lands on it */
-body.hero-handoff .hero__title { opacity: 0; }
 
 /* Idle animations paused so the entrance transforms own these elements */
 body.hero-settling .float,
@@ -1161,13 +1139,11 @@ body::after {
   <!-- Darkening overlay so text stays high-contrast over the video -->
   <div class="bg-video-overlay" aria-hidden="true"></div>
 
-  <!-- ===== Intro overlay: typewriter headline over the video on load ===== -->
-  <div class="intro" id="intro" role="status" aria-live="polite">
-    <p class="intro__text">
-      <span class="intro__line" id="introLine1"></span>
-      <span class="intro__line" id="introLine2"></span>
-    </p>
-  </div>
+  <!-- ===== Intro backdrop =====
+       Dims the video while the headline types itself into the real <h1>
+       below. The headline is never a copy, so there is no handoff and no
+       jump when loading finishes. -->
+  <div class="intro" id="intro" aria-hidden="true"></div>
 
   <!-- Particle / star-field canvas sits behind all content -->
   <canvas id="starfield" aria-hidden="true"></canvas>
@@ -1476,10 +1452,10 @@ body::after {
             AI can get you there.
           </p>
           <div class="contact__meta reveal">
-            <a href="mailto:miranda.dlp@gmail.com" class="contact__email">miranda.dlp@gmail.com</a>
+            <a href="mailto:md@mdlp.ai" class="contact__email">md@mdlp.ai</a>
             <p>Working with enterprise teams worldwide</p>
           </div>
-          <a href="mailto:miranda.dlp@gmail.com" class="btn btn--primary reveal">
+          <a href="mailto:md@mdlp.ai" class="btn btn--primary reveal">
             Start a Conversation <span class="btn__arrow">→</span>
           </a>
         </div>
@@ -1512,178 +1488,164 @@ body::after {
 
   /* ===============================================================
      0. INTRO TYPEWRITER
-     On load, show only the video + centered headline, type it out
-     letter by letter, then smoothly reveal the rest of the site.
+     The headline is typed directly into the real <h1>, in its final
+     position at its final size, so when loading finishes there is nothing
+     to hand off and nothing to jump. Only the surrounding hero pieces
+     animate in. The <br> is always emitted, so the headline occupies its
+     full two-line height from the first character and never reflows.
      =============================================================== */
   (function intro() {
     const body = document.body;
     const introEl = document.getElementById("intro");
-    const line1 = document.getElementById("introLine1");
-    const line2 = document.getElementById("introLine2");
-
-    // Headline as segments, mirroring the hero: the accent word "transform"
-    // renders in the Playfair Display italic accent, everything else in Inter.
-    const LINE_1 = [{ t: "A New Era of" }];
-    const LINE_2 = [{ t: "AI " }, { t: "Transformation", accent: true }];
+    const heroTitle = document.querySelector(".hero__title");
 
     // Timing — tweak these to taste
     const START_DELAY = 450;  // let the video paint before typing
     const CHAR_SPEED  = 60;   // ms per character
     const LINE_PAUSE  = 320;  // pause between the two lines
     const END_PAUSE   = 700;  // hold after finishing before revealing
+    const SETTLE_MS   = 1900; // last hero piece lands -> idle animations resume
 
-    // Handoff/entrance timings — keep in step with the CSS durations
-    const HANDOFF_MS = 1200;  // intro headline flight -> hero title appears
-    const SETTLE_MS  = 1900;  // last hero piece lands -> idle animations resume
-
-    const heroTitle = document.querySelector(".hero__title");
-    const introText = introEl ? introEl.querySelector(".intro__text") : null;
-
-    // Park the hero off-screen before anything paints. Only when we're
-    // actually animating — with no JS or reduced motion these are never added.
-    if (!reduceMotion && heroTitle && introText) {
-      body.classList.add("hero-entering", "hero-handoff", "hero-settling");
-    }
-
-    function clearHeroStates() {
-      body.classList.remove("hero-entering", "hero-handoff", "hero-settling");
-    }
-
-    // If the overlay is missing, just show the site
-    if (!introEl || !line1 || !line2) {
+    // Nothing to type into: just show the site as-is.
+    if (!heroTitle) {
       body.classList.remove("intro-loading");
-      clearHeroStates();
       return;
     }
 
-    // The visual centre of an element's FIRST rendered line. Block rects are
-    // useless here (the two headlines sit in differently-sized containers);
-    // the first line box is the thing that has to line up.
-    function firstLineRect(el) {
-      const range = document.createRange();
-      range.selectNodeContents(el);
-      const rects = Array.prototype.slice.call(range.getClientRects())
-        .filter(function (r) { return r.width > 2 && r.height > 2; });
-      return rects.length ? rects[0] : el.getBoundingClientRect();
-    }
+    // The static markup is restored verbatim when typing ends, so the
+    // finished headline is byte-identical to the server-rendered one.
+    const FINAL_HTML = heroTitle.innerHTML;
 
-    // Fade-out fallback: used for reduced motion, or if anything is missing.
-    function revealSimple() {
-      body.classList.remove("intro-loading");
-      body.classList.add("intro-loaded");
-      clearHeroStates();
-      introEl.classList.add("is-hidden");
-      window.setTimeout(function () {
-        if (introEl.parentNode) introEl.parentNode.removeChild(introEl);
-      }, 1000);
-    }
+    // Headline segments. The accent word carries the hero's own accent class,
+    // so it types in the same face and colour it will keep.
+    const SEGMENTS = [
+      { t: "A New Era of" },
+      { br: true, pause: LINE_PAUSE },
+      { t: "AI " },
+      { t: "Transformation", accent: true }
+    ];
+    const TOTAL = SEGMENTS.reduce(function (n, s) {
+      return n + (s.t ? s.t.length : 0);
+    }, 0);
 
-    // Seamless handoff: rather than cross-fading, the intro headline is
-    // measured against the hero title and glides onto it (a FLIP), while the
-    // rest of the hero flies in from every edge. The two headlines are styled
-    // identically, so swapping one for the other at the end is invisible.
-    function revealSite() {
-      if (reduceMotion || !heroTitle || !introText) return revealSimple();
-
-      body.classList.remove("intro-loading");
-      body.classList.add("intro-loaded");
-
-      // Settle every hero reveal into its resting spot first, so the hero
-      // title is measured where it will actually live.
-      document.querySelectorAll(".hero .reveal").forEach(function (el) {
-        el.classList.add("in-view");
+    // Character index at which each line break falls, so typing can pause there.
+    const BREAKS = (function () {
+      const marks = [];
+      let seen = 0;
+      SEGMENTS.forEach(function (seg) {
+        if (seg.br) marks.push(seen);
+        else seen += seg.t.length;
       });
+      return marks;
+    })();
 
-      const from = firstLineRect(introText);
-      const to = firstLineRect(heroTitle);
-      const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
-      const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
-      // Corrects any residual size difference so the flight lands exactly.
-      const scale = from.width > 2 ? to.width / from.width : 1;
-
-      introEl.classList.add("is-handoff");
-      introText.classList.add("is-flying");
-
-      requestAnimationFrame(function () {
-        introText.style.transform =
-          "translate(" + dx + "px," + dy + "px) scale(" + scale + ")";
-        body.classList.remove("hero-entering");   // everything else flies in
-      });
-
-      // Headline lands: swap the flying text for the real title in one frame.
-      window.setTimeout(function () {
-        heroTitle.style.transition = "none";
-        heroTitle.style.opacity = "1";
-        body.classList.remove("hero-handoff");
-        if (introEl.parentNode) introEl.parentNode.removeChild(introEl);
-        requestAnimationFrame(function () { heroTitle.style.transition = ""; });
-      }, HANDOFF_MS);
-
-      // Last piece has landed — hand the orb and stat cards back to their
-      // idle float animations.
-      window.setTimeout(function () {
-        body.classList.remove("hero-settling");
-      }, SETTLE_MS);
-    }
-
-    function lineLength(line) {
-      return line.reduce(function (n, seg) { return n + seg.t.length; }, 0);
-    }
-
-    // Build a line's HTML revealed up to `count` characters, wrapping the
-    // accent segment in the italic accent span.
-    function renderLine(line, count) {
+    // Headline revealed up to `count` characters.
+    //
+    // Characters that haven't been typed yet are still emitted, just made
+    // invisible. That keeps the headline's line breaks and height identical
+    // to the finished article from the very first frame, so nothing reflows
+    // as it types and every letter appears already in its final position.
+    // The caret is laid out at zero width (see .type-caret) for the same reason.
+    function render(count, caret) {
       let html = "";
-      let remaining = count;
-      line.forEach(function (seg) {
-        if (remaining <= 0) return;
-        const part = seg.t.slice(0, Math.min(seg.t.length, remaining));
+      let left = count;
+      let caretPlaced = false;
+      SEGMENTS.forEach(function (seg) {
+        if (seg.br) { html += "<br />"; return; }
+        const take = Math.max(0, Math.min(seg.t.length, left));
+        let inner = seg.t.slice(0, take);
+        if (caret && !caretPlaced && take < seg.t.length) {
+          inner += '<span class="type-caret"></span>';
+          caretPlaced = true;
+        }
+        const pending = seg.t.slice(take);
+        if (pending) inner += '<span class="type-pending">' + pending + "</span>";
         html += seg.accent
-          ? '<span class="italic-accent">' + part + "</span>"
-          : part;
-        remaining -= part.length;
+          ? '<em class="italic-accent">' + inner + "</em>"
+          : inner;
+        left -= seg.t.length;
       });
       return html;
     }
 
-    // Reduced motion: show the headline instantly, then reveal
+    function revealSite() {
+      // Restore the exact static markup — no drift from the typed version.
+      heroTitle.innerHTML = FINAL_HTML;
+      heroTitle.style.minHeight = "";
+      body.classList.remove("intro-loading");
+      body.classList.add("intro-loaded");
+      if (introEl) introEl.classList.add("is-hidden");
+
+      // Let the hero's own reveals settle, then release the entrance.
+      document.querySelectorAll(".hero .reveal").forEach(function (el) {
+        el.classList.add("in-view");
+      });
+
+      if (reduceMotion) {
+        body.classList.remove("hero-entering", "hero-settling");
+      } else {
+        requestAnimationFrame(function () {
+          body.classList.remove("hero-entering");
+        });
+        // Last piece has landed — hand the orb and stat cards back to their
+        // idle float animations.
+        window.setTimeout(function () {
+          body.classList.remove("hero-settling");
+        }, SETTLE_MS);
+      }
+
+      window.setTimeout(function () {
+        if (introEl && introEl.parentNode) introEl.parentNode.removeChild(introEl);
+      }, 1000);
+    }
+
+    // Reduced motion: show the headline immediately, skip the typing.
     if (reduceMotion) {
-      line1.innerHTML = renderLine(LINE_1, lineLength(LINE_1));
-      line2.innerHTML = renderLine(LINE_2, lineLength(LINE_2));
-      window.setTimeout(revealSite, 600);
+      window.setTimeout(revealSite, 400);
       return;
     }
 
-    // Type a single line character by character, then call done()
-    function typeLine(el, line, done) {
-      el.classList.add("is-typing");
-      const total = lineLength(line);
-      let i = 0;
-      (function step() {
-        el.innerHTML = renderLine(line, i);
-        if (i < total) {
-          i += 1;
-          window.setTimeout(step, CHAR_SPEED);
-        } else if (typeof done === "function") {
-          done();
-        }
-      })();
+    // Park the surrounding hero pieces off-screen before anything paints.
+    body.classList.add("hero-entering", "hero-settling");
+
+    let started = false;
+
+    function startTyping() {
+      if (started) return;
+      started = true;
+
+      heroTitle.innerHTML = render(0, true);
+
+      window.setTimeout(function () {
+        let n = 0;
+        (function step() {
+          heroTitle.innerHTML = render(n, true);
+          if (n >= TOTAL) {
+            window.setTimeout(revealSite, END_PAUSE);
+            return;
+          }
+          // Hold a beat at the line break before starting the second line.
+          const atBreak = BREAKS.indexOf(n) !== -1 && n > 0;
+          n += 1;
+          window.setTimeout(step, atBreak ? LINE_PAUSE : CHAR_SPEED);
+        })();
+      }, START_DELAY);
     }
 
-    window.setTimeout(function () {
-      typeLine(line1, LINE_1, function () {
-        line1.classList.remove("is-typing");
-        line2.classList.add("is-typing");           // caret blinks on line 2
-        window.setTimeout(function () {
-          typeLine(line2, LINE_2, function () {
-            window.setTimeout(function () {
-              line2.classList.remove("is-typing");
-              revealSite();
-            }, END_PAUSE);
-          });
-        }, LINE_PAUSE);
-      });
-    }, START_DELAY);
+    // Wait for the actual faces before typing — fallback metrics wrap
+    // differently, so starting early would swap the letterforms mid-word.
+    // document.fonts.ready is not enough on its own: it can resolve before a
+    // late-arriving webfont stylesheet has registered anything. The timeout is
+    // a safety net so a font that never loads can't stall the intro.
+    if (document.fonts && document.fonts.load) {
+      Promise.all([
+        document.fonts.load('400 1em "Inter"'),
+        document.fonts.load('400 1em "Space Grotesk"')
+      ]).then(startTyping, startTyping);
+      window.setTimeout(startTyping, 2000);
+    } else {
+      startTyping();
+    }
   })();
 
   /* ===============================================================
