@@ -1,15 +1,23 @@
-Background video
-================
+Header background video
+=======================
 
-Put your background video file here and name it:
+Put your video file here and name it:
 
     background.mp4
 
-The site loads it automatically as a fullscreen background
-(see the <video class="bg-video"> element in index.html).
+It plays fullscreen behind the header/hero (the first screenful) and
+scrolls away with the page. The intro typewriter animation plays over it
+on load. If the file is missing or can't play, the dark starfield
+background shows instead — nothing looks broken.
+
+IMPORTANT: the file must be a real MP4 video (H.264). A Mux HLS manifest
+(a small text playlist saved as ".mp4") will NOT play in browsers. If your
+video is on Mux: enable "static renditions" (MP4 support) in the Mux
+dashboard, download the actual .mp4, and drop it here with this filename.
 
 Tips:
-- MP4 (H.264) plays in every browser. Keep it muted (it autoplays muted).
-- Compress/keep it small (ideally < ~10 MB) so the page loads fast.
-- Want a different name or format? Update the <source src="assets/background.mp4">
-  line in index.html (add extra <source> tags for .webm if you like).
+- Keep it muted-friendly (it autoplays muted and loops).
+- Compress it (ideally < ~10 MB) so the page loads fast.
+- Want a different name or format? Update the
+  <source src="assets/background.mp4"> line in index.html
+  (and the same line in mdlp-portfolio.html).
