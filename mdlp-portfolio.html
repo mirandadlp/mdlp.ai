@@ -240,7 +240,14 @@ img { max-width: 100%; display: block; }
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
   max-width: 18ch;
 }
-.intro__text .italic-accent { font-weight: 500; letter-spacing: 0.01em; }
+/* "Transformation" in the intro matches the hero exactly:
+   Space Grotesk, upright, regular weight. */
+.intro__text .italic-accent {
+  font-family: "Space Grotesk", var(--font-primary);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
 .intro__line { display: block; }
 /* Blinking caret sits on whichever line is currently typing */
 .intro__line.is-typing::after {
