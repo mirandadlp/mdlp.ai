@@ -215,15 +215,18 @@ img { max-width: 100%; display: block; }
   opacity: 0;
   visibility: hidden;
 }
+/* Typographically IDENTICAL to .hero__title — that is what lets the intro
+   headline glide into the hero's slot and hand off without a visible swap.
+   Keep these values in sync with .hero__title if either ever changes. */
 .intro__text {
   font-family: var(--font-primary);
   font-weight: 400;
-  font-size: clamp(2rem, 7vw, 4.8rem);
+  font-size: clamp(2.8rem, 7vw, 5.4rem);
   line-height: 1.28;
   letter-spacing: 0.015em;
   color: var(--text);
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
-  max-width: 18ch;
+  max-width: none;
 }
 /* "Transformation" in the intro matches the hero exactly:
    Space Grotesk, upright, regular weight. */
@@ -266,9 +269,76 @@ body.intro-loading .shooting-star {
   transition: opacity 1s var(--ease), visibility 1s var(--ease);
 }
 
-@media (max-width: 600px) {
-  .intro__text { font-size: clamp(1.8rem, 9vw, 2.6rem); max-width: 14ch; }
+/* =================================================================
+   Intro → hero handoff, and the hero entrance choreography
+
+   Three cooperating body classes, all added by script.js and removed in
+   sequence:
+     .hero-entering  off-screen start positions   (removed first, kicks it off)
+     .hero-handoff   hides the hero title while the intro headline flies to it
+     .hero-settling  holds the entrance transitions + stagger, and suspends the
+                     idle float/orb keyframes so they can't fight the entrance
+
+   Transition timing lives under .hero-settling rather than on the elements
+   themselves, because a transition reads its duration/delay from the END
+   state — and it also keeps the stagger from leaking into button hovers.
+   ================================================================= */
+
+/* The intro headline in flight: the vignette drops away, the words remain */
+.intro.is-handoff { background: none; }
+.intro__text.is-flying {
+  transition: transform 1200ms var(--ease);
+  will-change: transform;
 }
+
+/* Hero title waits, invisible, until the flying headline lands on it */
+body.hero-handoff .hero__title { opacity: 0; }
+
+/* Idle animations paused so the entrance transforms own these elements */
+body.hero-settling .float,
+body.hero-settling .hero__orb { animation: none; }
+/* floaty's keyframes resolve to translateY(0), so the orb rests there too —
+   matching this avoids a jump when the idle animation resumes */
+body.hero-settling .hero__orb { transform: translateY(0); }
+
+/* Entrance transitions + stagger */
+body.hero-settling .nav__inner,
+body.hero-settling .hero__eyebrow,
+body.hero-settling .hero__subtitle,
+body.hero-settling .hero__actions .btn,
+body.hero-settling .stat-card,
+body.hero-settling .hero__orb,
+body.hero-settling .hero__scroll {
+  transition: opacity 1100ms var(--ease), transform 1100ms var(--ease);
+}
+body.hero-settling .hero__orb                   { transition-delay: 120ms; }
+body.hero-settling .hero__eyebrow               { transition-delay: 80ms; }
+body.hero-settling .hero__subtitle              { transition-delay: 200ms; }
+body.hero-settling .hero__actions .btn--primary { transition-delay: 280ms; }
+body.hero-settling .hero__actions .btn--ghost   { transition-delay: 340ms; }
+body.hero-settling .stat-card:nth-child(1)      { transition-delay: 420ms; }
+body.hero-settling .stat-card:nth-child(2)      { transition-delay: 490ms; }
+body.hero-settling .stat-card:nth-child(3)      { transition-delay: 560ms; }
+body.hero-settling .hero__scroll                { transition-delay: 700ms; }
+
+/* Start positions — each piece arrives from a different edge */
+body.hero-entering .nav__inner     { opacity: 0; transform: translateY(-48px); }
+body.hero-entering .hero__eyebrow  { opacity: 0; transform: translateY(-56px); }
+body.hero-entering .hero__subtitle { opacity: 0; transform: translateY(64px); }
+body.hero-entering .hero__actions .btn--primary { opacity: 0; transform: translateX(-110px) rotate(-5deg); }
+body.hero-entering .hero__actions .btn--ghost   { opacity: 0; transform: translateX(110px) rotate(5deg); }
+body.hero-entering .stat-card:nth-child(1) { opacity: 0; transform: translate(-140px, 90px) rotate(-9deg); }
+body.hero-entering .stat-card:nth-child(2) { opacity: 0; transform: translateY(130px) scale(0.82); }
+body.hero-entering .stat-card:nth-child(3) { opacity: 0; transform: translate(140px, 90px) rotate(9deg); }
+body.hero-entering .hero__scroll   { opacity: 0; transform: translateY(44px); }
+/* needs both classes to outrank the resting .hero-settling orb transform */
+body.hero-entering.hero-settling .hero__orb {
+  opacity: 0;
+  transform: translateY(0) scale(0.35) rotate(-24deg);
+}
+
+/* No mobile override here on purpose: .intro__text must keep matching
+   .hero__title at every width for the handoff to land cleanly. */
 @media (prefers-reduced-motion: reduce) {
   .intro__line.is-typing::after { animation: none; }
   .nav, main, .footer, .scroll-progress,

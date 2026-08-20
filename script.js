@@ -33,20 +33,98 @@
     const LINE_PAUSE  = 320;  // pause between the two lines
     const END_PAUSE   = 700;  // hold after finishing before revealing
 
+    // Handoff/entrance timings — keep in step with the CSS durations
+    const HANDOFF_MS = 1200;  // intro headline flight -> hero title appears
+    const SETTLE_MS  = 1900;  // last hero piece lands -> idle animations resume
+
+    const heroTitle = document.querySelector(".hero__title");
+    const introText = introEl ? introEl.querySelector(".intro__text") : null;
+
+    // Park the hero off-screen before anything paints. Only when we're
+    // actually animating — with no JS or reduced motion these are never added.
+    if (!reduceMotion && heroTitle && introText) {
+      body.classList.add("hero-entering", "hero-handoff", "hero-settling");
+    }
+
+    function clearHeroStates() {
+      body.classList.remove("hero-entering", "hero-handoff", "hero-settling");
+    }
+
     // If the overlay is missing, just show the site
     if (!introEl || !line1 || !line2) {
       body.classList.remove("intro-loading");
+      clearHeroStates();
       return;
     }
 
-    function revealSite() {
+    // The visual centre of an element's FIRST rendered line. Block rects are
+    // useless here (the two headlines sit in differently-sized containers);
+    // the first line box is the thing that has to line up.
+    function firstLineRect(el) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const rects = Array.prototype.slice.call(range.getClientRects())
+        .filter(function (r) { return r.width > 2 && r.height > 2; });
+      return rects.length ? rects[0] : el.getBoundingClientRect();
+    }
+
+    // Fade-out fallback: used for reduced motion, or if anything is missing.
+    function revealSimple() {
       body.classList.remove("intro-loading");
       body.classList.add("intro-loaded");
+      clearHeroStates();
       introEl.classList.add("is-hidden");
-      // remove the overlay from the DOM once it has faded out
       window.setTimeout(function () {
         if (introEl.parentNode) introEl.parentNode.removeChild(introEl);
       }, 1000);
+    }
+
+    // Seamless handoff: rather than cross-fading, the intro headline is
+    // measured against the hero title and glides onto it (a FLIP), while the
+    // rest of the hero flies in from every edge. The two headlines are styled
+    // identically, so swapping one for the other at the end is invisible.
+    function revealSite() {
+      if (reduceMotion || !heroTitle || !introText) return revealSimple();
+
+      body.classList.remove("intro-loading");
+      body.classList.add("intro-loaded");
+
+      // Settle every hero reveal into its resting spot first, so the hero
+      // title is measured where it will actually live.
+      document.querySelectorAll(".hero .reveal").forEach(function (el) {
+        el.classList.add("in-view");
+      });
+
+      const from = firstLineRect(introText);
+      const to = firstLineRect(heroTitle);
+      const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+      const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+      // Corrects any residual size difference so the flight lands exactly.
+      const scale = from.width > 2 ? to.width / from.width : 1;
+
+      introEl.classList.add("is-handoff");
+      introText.classList.add("is-flying");
+
+      requestAnimationFrame(function () {
+        introText.style.transform =
+          "translate(" + dx + "px," + dy + "px) scale(" + scale + ")";
+        body.classList.remove("hero-entering");   // everything else flies in
+      });
+
+      // Headline lands: swap the flying text for the real title in one frame.
+      window.setTimeout(function () {
+        heroTitle.style.transition = "none";
+        heroTitle.style.opacity = "1";
+        body.classList.remove("hero-handoff");
+        if (introEl.parentNode) introEl.parentNode.removeChild(introEl);
+        requestAnimationFrame(function () { heroTitle.style.transition = ""; });
+      }, HANDOFF_MS);
+
+      // Last piece has landed — hand the orb and stat cards back to their
+      // idle float animations.
+      window.setTimeout(function () {
+        body.classList.remove("hero-settling");
+      }, SETTLE_MS);
     }
 
     function lineLength(line) {

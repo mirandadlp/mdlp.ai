@@ -11,7 +11,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
 
-  <!-- Styles inlined so this works as a single downloadable file -->
   <style>
 /* =================================================================
    mdlp.ai — Premium AI Consultant Portfolio
@@ -230,15 +229,18 @@ img { max-width: 100%; display: block; }
   opacity: 0;
   visibility: hidden;
 }
+/* Typographically IDENTICAL to .hero__title — that is what lets the intro
+   headline glide into the hero's slot and hand off without a visible swap.
+   Keep these values in sync with .hero__title if either ever changes. */
 .intro__text {
   font-family: var(--font-primary);
   font-weight: 400;
-  font-size: clamp(2rem, 7vw, 4.8rem);
+  font-size: clamp(2.8rem, 7vw, 5.4rem);
   line-height: 1.28;
   letter-spacing: 0.015em;
   color: var(--text);
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
-  max-width: 18ch;
+  max-width: none;
 }
 /* "Transformation" in the intro matches the hero exactly:
    Space Grotesk, upright, regular weight. */
@@ -281,9 +283,76 @@ body.intro-loading .shooting-star {
   transition: opacity 1s var(--ease), visibility 1s var(--ease);
 }
 
-@media (max-width: 600px) {
-  .intro__text { font-size: clamp(1.8rem, 9vw, 2.6rem); max-width: 14ch; }
+/* =================================================================
+   Intro → hero handoff, and the hero entrance choreography
+
+   Three cooperating body classes, all added by script.js and removed in
+   sequence:
+     .hero-entering  off-screen start positions   (removed first, kicks it off)
+     .hero-handoff   hides the hero title while the intro headline flies to it
+     .hero-settling  holds the entrance transitions + stagger, and suspends the
+                     idle float/orb keyframes so they can't fight the entrance
+
+   Transition timing lives under .hero-settling rather than on the elements
+   themselves, because a transition reads its duration/delay from the END
+   state — and it also keeps the stagger from leaking into button hovers.
+   ================================================================= */
+
+/* The intro headline in flight: the vignette drops away, the words remain */
+.intro.is-handoff { background: none; }
+.intro__text.is-flying {
+  transition: transform 1200ms var(--ease);
+  will-change: transform;
 }
+
+/* Hero title waits, invisible, until the flying headline lands on it */
+body.hero-handoff .hero__title { opacity: 0; }
+
+/* Idle animations paused so the entrance transforms own these elements */
+body.hero-settling .float,
+body.hero-settling .hero__orb { animation: none; }
+/* floaty's keyframes resolve to translateY(0), so the orb rests there too —
+   matching this avoids a jump when the idle animation resumes */
+body.hero-settling .hero__orb { transform: translateY(0); }
+
+/* Entrance transitions + stagger */
+body.hero-settling .nav__inner,
+body.hero-settling .hero__eyebrow,
+body.hero-settling .hero__subtitle,
+body.hero-settling .hero__actions .btn,
+body.hero-settling .stat-card,
+body.hero-settling .hero__orb,
+body.hero-settling .hero__scroll {
+  transition: opacity 1100ms var(--ease), transform 1100ms var(--ease);
+}
+body.hero-settling .hero__orb                   { transition-delay: 120ms; }
+body.hero-settling .hero__eyebrow               { transition-delay: 80ms; }
+body.hero-settling .hero__subtitle              { transition-delay: 200ms; }
+body.hero-settling .hero__actions .btn--primary { transition-delay: 280ms; }
+body.hero-settling .hero__actions .btn--ghost   { transition-delay: 340ms; }
+body.hero-settling .stat-card:nth-child(1)      { transition-delay: 420ms; }
+body.hero-settling .stat-card:nth-child(2)      { transition-delay: 490ms; }
+body.hero-settling .stat-card:nth-child(3)      { transition-delay: 560ms; }
+body.hero-settling .hero__scroll                { transition-delay: 700ms; }
+
+/* Start positions — each piece arrives from a different edge */
+body.hero-entering .nav__inner     { opacity: 0; transform: translateY(-48px); }
+body.hero-entering .hero__eyebrow  { opacity: 0; transform: translateY(-56px); }
+body.hero-entering .hero__subtitle { opacity: 0; transform: translateY(64px); }
+body.hero-entering .hero__actions .btn--primary { opacity: 0; transform: translateX(-110px) rotate(-5deg); }
+body.hero-entering .hero__actions .btn--ghost   { opacity: 0; transform: translateX(110px) rotate(5deg); }
+body.hero-entering .stat-card:nth-child(1) { opacity: 0; transform: translate(-140px, 90px) rotate(-9deg); }
+body.hero-entering .stat-card:nth-child(2) { opacity: 0; transform: translateY(130px) scale(0.82); }
+body.hero-entering .stat-card:nth-child(3) { opacity: 0; transform: translate(140px, 90px) rotate(9deg); }
+body.hero-entering .hero__scroll   { opacity: 0; transform: translateY(44px); }
+/* needs both classes to outrank the resting .hero-settling orb transform */
+body.hero-entering.hero-settling .hero__orb {
+  opacity: 0;
+  transform: translateY(0) scale(0.35) rotate(-24deg);
+}
+
+/* No mobile override here on purpose: .intro__text must keep matching
+   .hero__title at every width for the handoff to land cleanly. */
 @media (prefers-reduced-motion: reduce) {
   .intro__line.is-typing::after { animation: none; }
   .nav, main, .footer, .scroll-progress,
@@ -1061,7 +1130,7 @@ body::after {
   .reveal { opacity: 1; transform: none; }
 }
 
-  </style>
+</style>
 
   <!-- If JavaScript is unavailable, skip the intro and show the site immediately -->
   <noscript>
@@ -1427,7 +1496,6 @@ body::after {
     </div>
   </footer>
 
-  <!-- Script inlined so this works as a single downloadable file -->
   <script>
 /* =================================================================
    mdlp.ai — Premium AI Consultant Portfolio
@@ -1464,20 +1532,98 @@ body::after {
     const LINE_PAUSE  = 320;  // pause between the two lines
     const END_PAUSE   = 700;  // hold after finishing before revealing
 
+    // Handoff/entrance timings — keep in step with the CSS durations
+    const HANDOFF_MS = 1200;  // intro headline flight -> hero title appears
+    const SETTLE_MS  = 1900;  // last hero piece lands -> idle animations resume
+
+    const heroTitle = document.querySelector(".hero__title");
+    const introText = introEl ? introEl.querySelector(".intro__text") : null;
+
+    // Park the hero off-screen before anything paints. Only when we're
+    // actually animating — with no JS or reduced motion these are never added.
+    if (!reduceMotion && heroTitle && introText) {
+      body.classList.add("hero-entering", "hero-handoff", "hero-settling");
+    }
+
+    function clearHeroStates() {
+      body.classList.remove("hero-entering", "hero-handoff", "hero-settling");
+    }
+
     // If the overlay is missing, just show the site
     if (!introEl || !line1 || !line2) {
       body.classList.remove("intro-loading");
+      clearHeroStates();
       return;
     }
 
-    function revealSite() {
+    // The visual centre of an element's FIRST rendered line. Block rects are
+    // useless here (the two headlines sit in differently-sized containers);
+    // the first line box is the thing that has to line up.
+    function firstLineRect(el) {
+      const range = document.createRange();
+      range.selectNodeContents(el);
+      const rects = Array.prototype.slice.call(range.getClientRects())
+        .filter(function (r) { return r.width > 2 && r.height > 2; });
+      return rects.length ? rects[0] : el.getBoundingClientRect();
+    }
+
+    // Fade-out fallback: used for reduced motion, or if anything is missing.
+    function revealSimple() {
       body.classList.remove("intro-loading");
       body.classList.add("intro-loaded");
+      clearHeroStates();
       introEl.classList.add("is-hidden");
-      // remove the overlay from the DOM once it has faded out
       window.setTimeout(function () {
         if (introEl.parentNode) introEl.parentNode.removeChild(introEl);
       }, 1000);
+    }
+
+    // Seamless handoff: rather than cross-fading, the intro headline is
+    // measured against the hero title and glides onto it (a FLIP), while the
+    // rest of the hero flies in from every edge. The two headlines are styled
+    // identically, so swapping one for the other at the end is invisible.
+    function revealSite() {
+      if (reduceMotion || !heroTitle || !introText) return revealSimple();
+
+      body.classList.remove("intro-loading");
+      body.classList.add("intro-loaded");
+
+      // Settle every hero reveal into its resting spot first, so the hero
+      // title is measured where it will actually live.
+      document.querySelectorAll(".hero .reveal").forEach(function (el) {
+        el.classList.add("in-view");
+      });
+
+      const from = firstLineRect(introText);
+      const to = firstLineRect(heroTitle);
+      const dx = (to.left + to.width / 2) - (from.left + from.width / 2);
+      const dy = (to.top + to.height / 2) - (from.top + from.height / 2);
+      // Corrects any residual size difference so the flight lands exactly.
+      const scale = from.width > 2 ? to.width / from.width : 1;
+
+      introEl.classList.add("is-handoff");
+      introText.classList.add("is-flying");
+
+      requestAnimationFrame(function () {
+        introText.style.transform =
+          "translate(" + dx + "px," + dy + "px) scale(" + scale + ")";
+        body.classList.remove("hero-entering");   // everything else flies in
+      });
+
+      // Headline lands: swap the flying text for the real title in one frame.
+      window.setTimeout(function () {
+        heroTitle.style.transition = "none";
+        heroTitle.style.opacity = "1";
+        body.classList.remove("hero-handoff");
+        if (introEl.parentNode) introEl.parentNode.removeChild(introEl);
+        requestAnimationFrame(function () { heroTitle.style.transition = ""; });
+      }, HANDOFF_MS);
+
+      // Last piece has landed — hand the orb and stat cards back to their
+      // idle float animations.
+      window.setTimeout(function () {
+        body.classList.remove("hero-settling");
+      }, SETTLE_MS);
     }
 
     function lineLength(line) {
@@ -1939,6 +2085,6 @@ body::after {
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
 
-  </script>
+</script>
 </body>
 </html>
