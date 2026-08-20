@@ -568,7 +568,7 @@ body::after {
 .hero__content {
   position: relative;
   z-index: 2;
-  max-width: 880px;
+  max-width: 980px; /* wide enough for "AI Transformation" in Open Sans bold on one line */
   margin: 0 auto;
   text-align: center;
 }
@@ -591,7 +591,14 @@ body::after {
   text-wrap: balance;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
 }
-.hero__title .italic-accent { font-weight: 500; letter-spacing: 0.01em; }
+/* Hero only: "Transformation" renders in Open Sans bold, upright —
+   same accent colour, everything else unchanged. */
+.hero__title .italic-accent {
+  font-family: "Open Sans", var(--font-primary);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
 .hero__eyebrow, .hero__subtitle { text-shadow: 0 1px 20px rgba(0, 0, 0, 0.4); }
 .hero__subtitle {
   font-size: clamp(1.05rem, 1.8vw, 1.25rem);
