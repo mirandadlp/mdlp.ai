@@ -43,6 +43,37 @@
   --transition:    0.35s var(--ease);
 }
 
+/* ---------- Neue Montreal (hero accent word) ----------
+   Neue Montreal is a licensed font (Pangram Pangram) and cannot be loaded
+   from a free CDN. Drop your licensed files into assets/fonts/ using the
+   names below and the hero picks them up automatically — no code changes.
+   Until they exist, the stack falls back to Space Grotesk (Google Fonts),
+   the closest freely-hostable neo-grotesque. See assets/fonts/README.txt. */
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("assets/fonts/NeueMontreal-Bold.woff2") format("woff2"),
+       url("assets/fonts/NeueMontreal-Bold.woff")  format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("assets/fonts/NeueMontreal-Medium.woff2") format("woff2"),
+       url("assets/fonts/NeueMontreal-Medium.woff")  format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Neue Montreal";
+  src: url("assets/fonts/NeueMontreal-Regular.woff2") format("woff2"),
+       url("assets/fonts/NeueMontreal-Regular.woff")  format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ---------- Reset / base ---------- */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -591,10 +622,11 @@ body::after {
   text-wrap: balance;
   text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
 }
-/* Hero only: "Transformation" renders in Open Sans bold, upright —
-   same accent colour, everything else unchanged. */
+/* Hero only: "Transformation" renders in Neue Montreal bold, upright —
+   same accent colour, everything else unchanged. Falls back to Space
+   Grotesk until the licensed Neue Montreal files are in assets/fonts/. */
 .hero__title .italic-accent {
-  font-family: "Open Sans", var(--font-primary);
+  font-family: "Neue Montreal", "Space Grotesk", var(--font-primary);
   font-style: normal;
   font-weight: 700;
   letter-spacing: 0.01em;
