@@ -46,6 +46,22 @@ The site is verified two ways, so verification survives if either is lost:
 
 Leave both in place — removing them can un-verify the property.
 
+## Structured data (schema.org)
+
+`index.html` carries a JSON-LD block in its `<head>` describing three linked
+entities: the business (`Organization` / `ProfessionalService`), the site
+(`WebSite`), and the page (`WebPage`), plus the six services as an
+`OfferCatalog`. This is what lets search engines and AI answer engines say
+what mdlp.ai does, who it serves, and how to get in touch.
+
+**If you change the services or the About copy, update the JSON-LD to match.**
+Structured data is required to describe content that is actually visible on
+the page; markup that describes things the page doesn't show is a policy
+violation and can get it ignored or the site penalized.
+
+Test changes with the [Rich Results Test](https://search.google.com/test/rich-results)
+and [Schema Markup Validator](https://validator.schema.org/).
+
 ## Features
 
 - Dark futuristic space theme: starfield canvas, drifting aurora, nebula,

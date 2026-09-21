@@ -14,6 +14,136 @@
 
   <link rel="stylesheet" href="styles.css" />
 
+  <!-- ===================================================================
+       Structured data (JSON-LD)
+       Describes the business, its services and this page as linked entities,
+       so search engines and AI answer engines can state plainly what mdlp.ai
+       does, who it serves and how to make contact.
+
+       Everything here mirrors copy that is visible on the page — that is a
+       requirement, not a style choice: structured data that describes things
+       the page doesn't show is a policy violation and can get the markup
+       ignored. If you change the services or the About copy, update this too.
+       =================================================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": "https://mdlp.ai/#organization",
+        "name": "mdlp.ai",
+        "url": "https://mdlp.ai/",
+        "email": "md@mdlp.ai",
+        "slogan": "A new era of AI transformation",
+        "description": "mdlp.ai is an enterprise AI transformation partner. We partner with executives, operations leaders, and innovation teams to turn AI from an emerging opportunity into a practical engine for growth, helping organizations move AI beyond strategy and into the way the business operates.",
+        "areaServed": {
+          "@type": "Place",
+          "name": "Worldwide"
+        },
+        "knowsAbout": [
+          "Enterprise AI transformation",
+          "AI strategy and roadmap",
+          "AI capability building and upskilling",
+          "Intelligent systems design",
+          "AI operating model design",
+          "Executive advisory on AI",
+          "AI opportunity discovery",
+          "Innovation at scale"
+        ],
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Business enquiries",
+          "email": "md@mdlp.ai",
+          "areaServed": "Worldwide",
+          "availableLanguage": "English"
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Enterprise AI transformation services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "AI Strategy & Roadmap",
+                "description": "A clear view of where AI creates genuine advantage, and a path your leadership can act on with confidence.",
+                "provider": { "@id": "https://mdlp.ai/#organization" }
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Capability Building",
+                "description": "Upskill teams and leaders so intelligence becomes part of how your organization thinks, decides, and operates.",
+                "provider": { "@id": "https://mdlp.ai/#organization" }
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Intelligent Systems Design",
+                "description": "Architect and deliver AI systems that perform in the real world and earn the trust of the people who use them.",
+                "provider": { "@id": "https://mdlp.ai/#organization" }
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Operating Model & Transformation",
+                "description": "Reshape how teams work and grow around AI, with change that takes hold and compounds over time.",
+                "provider": { "@id": "https://mdlp.ai/#organization" }
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Executive Advisory",
+                "description": "Trusted, senior counsel for C-suite and innovation leaders navigating the decisions that define their AI future.",
+                "provider": { "@id": "https://mdlp.ai/#organization" }
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Opportunity Discovery",
+                "description": "Surface the high-value opportunities most organizations overlook, and the momentum to pursue them.",
+                "provider": { "@id": "https://mdlp.ai/#organization" }
+              }
+            }
+          ]
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://mdlp.ai/#website",
+        "url": "https://mdlp.ai/",
+        "name": "mdlp.ai",
+        "description": "Enterprise AI transformation, strategy and capability.",
+        "inLanguage": "en",
+        "publisher": { "@id": "https://mdlp.ai/#organization" }
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://mdlp.ai/#webpage",
+        "url": "https://mdlp.ai/",
+        "name": "mdlp.ai — A new way to transform with AI",
+        "description": "Enterprise AI transformation. We partner with executives, operations leaders, and innovation teams to build AI capability and turn intelligence into lasting competitive advantage.",
+        "inLanguage": "en",
+        "isPartOf": { "@id": "https://mdlp.ai/#website" },
+        "about": { "@id": "https://mdlp.ai/#organization" },
+        "mainEntity": { "@id": "https://mdlp.ai/#organization" }
+      }
+    ]
+  }
+  </script>
+
+
   <!-- If JavaScript is unavailable, skip the intro and show the site immediately -->
   <noscript>
     <style>
