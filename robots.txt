@@ -1,0 +1,22 @@
+# robots.txt for https://mdlp.ai
+# Welcomes search engines and AI assistants so they can read and cite the site.
+
+# AI search and assistant crawlers (named explicitly so intent is unambiguous)
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-User
+User-agent: Claude-SearchBot
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+# Everyone else (Googlebot, Bingbot, etc.)
+User-agent: *
+Allow: /
+# Duplicate single-file bundle of the homepage; keep crawlers on index.html
+Disallow: /mdlp-portfolio.html
+
+Sitemap: https://mdlp.ai/sitemap.xml
