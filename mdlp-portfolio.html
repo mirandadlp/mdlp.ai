@@ -7,13 +7,10 @@
   <meta name="google-site-verification" content="gdtmKO-Tgkw_K2Zm_UmX6DElMCvtylaBssXjRJySUFg" />
   <title>mdlp.ai — A new way to transform with AI</title>
 
-  <!-- Fonts: OpenAI Sans (primary, from OpenAI's CDN) + Space Grotesk
-       (hero accent word) + Playfair Display Italic (rare italic accents) -->
-  <link rel="preconnect" href="https://cdn.openai.com" crossorigin />
-  <link rel="preload" as="font" type="font/woff2" href="https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Regular.woff2" crossorigin />
+  <!-- Fonts: Inter (primary — headings, body, UI) + Playfair Display Italic (rare accent words) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
 
   <style>
 /* =================================================================
@@ -44,10 +41,9 @@
   --glow-violet:   rgba(139, 92, 255, 0.28);
 
   /* Typography
-     Primary = OpenAI Sans, self-hosted from assets/ (headings, body, stats,
-               nav, buttons, labels)
+     Primary = Inter (headings, body, stats, nav, buttons, labels)
      Accent  = Playfair Display Italic (rare emphasized title words only) */
-  --font-primary: "OpenAI Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-primary: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-accent:  "Playfair Display", Georgia, "Times New Roman", serif;
   /* Back-compat aliases used elsewhere in this file */
   --font-sans:     var(--font-primary);
@@ -60,45 +56,6 @@
   --maxw:          1180px;
   --ease:          cubic-bezier(0.22, 1, 0.36, 1);
   --transition:    0.35s var(--ease);
-}
-
-/* ---------- OpenAI Sans — the site typeface ----------
-   Served from OpenAI's CDN. Three real cuts: Regular 400, Regular Italic 400,
-   Semibold 600.
-
-   The Regular also lists the local copy in assets/ as a second source. The
-   browser only reaches for it if the CDN request fails (offline, blocked
-   network, or a cross-origin/CORS refusal), so in the normal case nothing
-   extra is downloaded — it just stops the site losing its typeface entirely
-   if the CDN is ever unreachable.
-
-   NOTE: the site styles some elements at 700/800 (headings, nav, stats) but
-   the heaviest real cut here is 600, so those are still synthesized by the
-   browser — now from Semibold rather than Regular. Restyling them to 600
-   would use the real letterforms. */
-@font-face {
-  font-display: swap;
-  font-family: "OpenAI Sans";
-  font-style: normal;
-  font-weight: 400;
-  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Regular.woff2") format("woff2"),
-       url("assets/OpenAISans-Regular.woff2") format("woff2");
-}
-
-@font-face {
-  font-display: swap;
-  font-family: "OpenAI Sans";
-  font-style: italic;
-  font-weight: 400;
-  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-RegularItalic.woff2") format("woff2");
-}
-
-@font-face {
-  font-display: swap;
-  font-family: "OpenAI Sans";
-  font-style: normal;
-  font-weight: 600;
-  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Semibold.woff2") format("woff2");
 }
 
 /* ---------- Reset / base ---------- */
@@ -124,7 +81,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Strong, modern sans-serif headings with tight tracking */
+/* Strong, modern sans-serif headings (Inter) with tight tracking */
 h1, h2, h3 {
   font-family: var(--font-primary);
   font-weight: 800;
@@ -1811,7 +1768,7 @@ body::after {
     // a safety net so a font that never loads can't stall the intro.
     if (document.fonts && document.fonts.load) {
       Promise.all([
-        document.fonts.load('400 1em "OpenAI Sans"'),
+        document.fonts.load('400 1em "Inter"'),
         document.fonts.load('400 1em "Space Grotesk"')
       ]).then(startTyping, startTyping);
       window.setTimeout(startTyping, 2000);

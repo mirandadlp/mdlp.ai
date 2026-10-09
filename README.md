@@ -62,32 +62,6 @@ violation and can get it ignored or the site penalized.
 Test changes with the [Rich Results Test](https://search.google.com/test/rich-results)
 and [Schema Markup Validator](https://validator.schema.org/).
 
-## Fonts
-
-The site typeface is **OpenAI Sans**, loaded from OpenAI's CDN
-(`cdn.openai.com/common/fonts/openai-sans/`). Three real cuts are declared in
-`styles.css`:
-
-| Weight | Style  | File                          |
-| ------ | ------ | ----------------------------- |
-| 400    | normal | `OpenAISans-Regular.woff2`    |
-| 400    | italic | `OpenAISans-RegularItalic.woff2` |
-| 600    | normal | `OpenAISans-Semibold.woff2`   |
-
-The Regular also lists `assets/OpenAISans-Regular.woff2` as a second source.
-The browser only fetches it if the CDN request fails, so it costs nothing
-normally but keeps the site from losing its typeface if the CDN is ever
-unreachable. `assets/OpenAISans-Regular.ttf` is the original that copy was
-converted from; nothing loads it directly.
-
-Some elements are styled at 700/800 (headings, nav, stat numbers) while the
-heaviest real cut is 600, so the browser still synthesizes those. Restyling
-them to 600 would use the real Semibold letterforms instead.
-
-Two accent faces still load from Google Fonts: **Space Grotesk** (the hero
-word "Transformation") and **Playfair Display Italic** (italic accent words).
-OpenAI Sans now has a true italic, so the Playfair accents could move to it.
-
 ## Features
 
 - Dark futuristic space theme: starfield canvas, drifting aurora, nebula,
