@@ -7,9 +7,10 @@
   <meta name="google-site-verification" content="gdtmKO-Tgkw_K2Zm_UmX6DElMCvtylaBssXjRJySUFg" />
   <title>mdlp.ai — A new way to transform with AI</title>
 
-  <!-- Fonts: OpenAI Sans (primary, self-hosted from assets/) + Space Grotesk
+  <!-- Fonts: OpenAI Sans (primary, from OpenAI's CDN) + Space Grotesk
        (hero accent word) + Playfair Display Italic (rare italic accents) -->
-  <link rel="preload" as="font" type="font/woff2" href="assets/OpenAISans-Regular.woff2" crossorigin />
+  <link rel="preconnect" href="https://cdn.openai.com" crossorigin />
+  <link rel="preload" as="font" type="font/woff2" href="https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Regular.woff2" crossorigin />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
@@ -62,20 +63,42 @@
 }
 
 /* ---------- OpenAI Sans — the site typeface ----------
-   Self-hosted from assets/. WOFF2 (44 KB) with the original TTF as a fallback
-   for very old browsers.
+   Served from OpenAI's CDN. Three real cuts: Regular 400, Regular Italic 400,
+   Semibold 600.
 
-   NOTE: only the Regular (400) cut is present, so every heavier weight on the
-   site — headings at 800, nav at 700, eyebrows at 600 — is SYNTHESIZED by the
-   browser rather than drawn by the designer. Drop the real cuts into assets/
-   and add a matching @font-face block for each to fix that. */
+   The Regular also lists the local copy in assets/ as a second source. The
+   browser only reaches for it if the CDN request fails (offline, blocked
+   network, or a cross-origin/CORS refusal), so in the normal case nothing
+   extra is downloaded — it just stops the site losing its typeface entirely
+   if the CDN is ever unreachable.
+
+   NOTE: the site styles some elements at 700/800 (headings, nav, stats) but
+   the heaviest real cut here is 600, so those are still synthesized by the
+   browser — now from Semibold rather than Regular. Restyling them to 600
+   would use the real letterforms. */
 @font-face {
-  font-family: "OpenAI Sans";
-  src: url("assets/OpenAISans-Regular.woff2") format("woff2"),
-       url("assets/OpenAISans-Regular.ttf") format("truetype");
-  font-weight: 400;
-  font-style: normal;
   font-display: swap;
+  font-family: "OpenAI Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Regular.woff2") format("woff2"),
+       url("assets/OpenAISans-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "OpenAI Sans";
+  font-style: italic;
+  font-weight: 400;
+  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-RegularItalic.woff2") format("woff2");
+}
+
+@font-face {
+  font-display: swap;
+  font-family: "OpenAI Sans";
+  font-style: normal;
+  font-weight: 600;
+  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Semibold.woff2") format("woff2");
 }
 
 /* ---------- Reset / base ---------- */

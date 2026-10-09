@@ -64,29 +64,29 @@ and [Schema Markup Validator](https://validator.schema.org/).
 
 ## Fonts
 
-The site typeface is **OpenAI Sans**, self-hosted from `assets/`:
+The site typeface is **OpenAI Sans**, loaded from OpenAI's CDN
+(`cdn.openai.com/common/fonts/openai-sans/`). Three real cuts are declared in
+`styles.css`:
 
-```
-assets/OpenAISans-Regular.woff2   # what the browser loads (44 KB)
-assets/OpenAISans-Regular.ttf     # original; source for the woff2, legacy fallback
-```
+| Weight | Style  | File                          |
+| ------ | ------ | ----------------------------- |
+| 400    | normal | `OpenAISans-Regular.woff2`    |
+| 400    | italic | `OpenAISans-RegularItalic.woff2` |
+| 600    | normal | `OpenAISans-Semibold.woff2`   |
 
-Only the **Regular (400)** cut is present. The design calls for heavier
-weights in places (headings 800, nav 700, eyebrows 600), so the browser
-*synthesizes* those. To use the real cuts, drop e.g.
-`OpenAISans-Medium/-Semibold/-Bold` into `assets/`, convert each to `.woff2`,
-and add a matching `@font-face` block in `styles.css` with the right
-`font-weight`.
+The Regular also lists `assets/OpenAISans-Regular.woff2` as a second source.
+The browser only fetches it if the CDN request fails, so it costs nothing
+normally but keeps the site from losing its typeface if the CDN is ever
+unreachable. `assets/OpenAISans-Regular.ttf` is the original that copy was
+converted from; nothing loads it directly.
 
-Converting a `.ttf` to `.woff2` (about 65% smaller):
-
-```
-pip install fonttools brotli
-python3 -c "from fontTools.ttLib import TTFont; f=TTFont('in.ttf'); f.flavor='woff2'; f.save('out.woff2')"
-```
+Some elements are styled at 700/800 (headings, nav, stat numbers) while the
+heaviest real cut is 600, so the browser still synthesizes those. Restyling
+them to 600 would use the real Semibold letterforms instead.
 
 Two accent faces still load from Google Fonts: **Space Grotesk** (the hero
 word "Transformation") and **Playfair Display Italic** (italic accent words).
+OpenAI Sans now has a true italic, so the Playfair accents could move to it.
 
 ## Features
 
