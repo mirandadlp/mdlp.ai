@@ -164,7 +164,7 @@
     // a safety net so a font that never loads can't stall the intro.
     if (document.fonts && document.fonts.load) {
       Promise.all([
-        document.fonts.load('400 1em "Inter"'),
+        document.fonts.load('400 1em "OpenAI Sans"'),
         document.fonts.load('400 1em "Space Grotesk"')
       ]).then(startTyping, startTyping);
       window.setTimeout(startTyping, 2000);

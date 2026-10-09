@@ -26,9 +26,10 @@
   --glow-violet:   rgba(139, 92, 255, 0.28);
 
   /* Typography
-     Primary = Inter (headings, body, stats, nav, buttons, labels)
+     Primary = OpenAI Sans, self-hosted from assets/ (headings, body, stats,
+               nav, buttons, labels)
      Accent  = Playfair Display Italic (rare emphasized title words only) */
-  --font-primary: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-primary: "OpenAI Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-accent:  "Playfair Display", Georgia, "Times New Roman", serif;
   /* Back-compat aliases used elsewhere in this file */
   --font-sans:     var(--font-primary);
@@ -41,6 +42,23 @@
   --maxw:          1180px;
   --ease:          cubic-bezier(0.22, 1, 0.36, 1);
   --transition:    0.35s var(--ease);
+}
+
+/* ---------- OpenAI Sans — the site typeface ----------
+   Self-hosted from assets/. WOFF2 (44 KB) with the original TTF as a fallback
+   for very old browsers.
+
+   NOTE: only the Regular (400) cut is present, so every heavier weight on the
+   site — headings at 800, nav at 700, eyebrows at 600 — is SYNTHESIZED by the
+   browser rather than drawn by the designer. Drop the real cuts into assets/
+   and add a matching @font-face block for each to fix that. */
+@font-face {
+  font-family: "OpenAI Sans";
+  src: url("assets/OpenAISans-Regular.woff2") format("woff2"),
+       url("assets/OpenAISans-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* ---------- Reset / base ---------- */
@@ -66,7 +84,7 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Strong, modern sans-serif headings (Inter) with tight tracking */
+/* Strong, modern sans-serif headings with tight tracking */
 h1, h2, h3 {
   font-family: var(--font-primary);
   font-weight: 800;

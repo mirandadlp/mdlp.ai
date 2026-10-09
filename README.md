@@ -62,6 +62,32 @@ violation and can get it ignored or the site penalized.
 Test changes with the [Rich Results Test](https://search.google.com/test/rich-results)
 and [Schema Markup Validator](https://validator.schema.org/).
 
+## Fonts
+
+The site typeface is **OpenAI Sans**, self-hosted from `assets/`:
+
+```
+assets/OpenAISans-Regular.woff2   # what the browser loads (44 KB)
+assets/OpenAISans-Regular.ttf     # original; source for the woff2, legacy fallback
+```
+
+Only the **Regular (400)** cut is present. The design calls for heavier
+weights in places (headings 800, nav 700, eyebrows 600), so the browser
+*synthesizes* those. To use the real cuts, drop e.g.
+`OpenAISans-Medium/-Semibold/-Bold` into `assets/`, convert each to `.woff2`,
+and add a matching `@font-face` block in `styles.css` with the right
+`font-weight`.
+
+Converting a `.ttf` to `.woff2` (about 65% smaller):
+
+```
+pip install fonttools brotli
+python3 -c "from fontTools.ttLib import TTFont; f=TTFont('in.ttf'); f.flavor='woff2'; f.save('out.woff2')"
+```
+
+Two accent faces still load from Google Fonts: **Space Grotesk** (the hero
+word "Transformation") and **Playfair Display Italic** (italic accent words).
+
 ## Features
 
 - Dark futuristic space theme: starfield canvas, drifting aurora, nebula,
