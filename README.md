@@ -74,11 +74,12 @@ The site typeface is **OpenAI Sans**, loaded from OpenAI's CDN
 | 400    | italic | `OpenAISans-RegularItalic.woff2` |
 | 600    | normal | `OpenAISans-Semibold.woff2`   |
 
-The Regular also lists `assets/OpenAISans-Regular.woff2` as a second source.
-The browser only fetches it if the CDN request fails, so it costs nothing
-normally but keeps the site from losing its typeface if the CDN is ever
-unreachable. `assets/OpenAISans-Regular.ttf` is the original that copy was
-converted from; nothing loads it directly.
+Each cut also lists a local copy in `assets/` as a second source — the Regular
+as WOFF2, the Italic and Semibold as the original TTFs. The browser only
+fetches one if the CDN request fails, so they cost nothing normally but keep
+the site from losing its typeface if the CDN is ever unreachable.
+`assets/OpenAISans-Regular.ttf` is the original the Regular WOFF2 was converted
+from; nothing loads it directly.
 
 Some elements are styled at 700/800 (headings, nav, stat numbers) while the
 heaviest real cut is 600, so the browser still synthesizes those. Restyling

@@ -48,7 +48,7 @@
    Served from OpenAI's CDN. Three real cuts: Regular 400, Regular Italic 400,
    Semibold 600.
 
-   The Regular also lists the local copy in assets/ as a second source. The
+   Each cut also lists the local copy in assets/ as a second source. The
    browser only reaches for it if the CDN request fails (offline, blocked
    network, or a cross-origin/CORS refusal), so in the normal case nothing
    extra is downloaded — it just stops the site losing its typeface entirely
@@ -72,7 +72,8 @@
   font-family: "OpenAI Sans";
   font-style: italic;
   font-weight: 400;
-  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-RegularItalic.woff2") format("woff2");
+  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-RegularItalic.woff2") format("woff2"),
+       url("assets/OpenAISans-RegularItalic.ttf") format("truetype");
 }
 
 @font-face {
@@ -80,7 +81,8 @@
   font-family: "OpenAI Sans";
   font-style: normal;
   font-weight: 600;
-  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Semibold.woff2") format("woff2");
+  src: url("https://cdn.openai.com/common/fonts/openai-sans/OpenAISans-Semibold.woff2") format("woff2"),
+       url("assets/OpenAISans-Semibold.ttf") format("truetype");
 }
 
 /* ---------- Reset / base ---------- */
