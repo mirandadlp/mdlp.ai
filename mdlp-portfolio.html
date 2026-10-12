@@ -137,7 +137,15 @@ h1 em, h2 em, h3 em {
   color: var(--text);
 }
 
-.nav__logo { font-family: var(--font-primary); font-weight: 700; }
+/* Wordmark image. Height is matched to the text logo it replaced (23px at
+   1.2rem), with width:auto so the 3.22:1 artwork keeps its proportions. The
+   width/height attributes on the <img> give the browser the aspect ratio up
+   front, so the nav doesn't shift as the file loads. */
+.brand-logo {
+  display: block;
+  height: 24px;
+  width: auto;
+}
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
@@ -484,7 +492,7 @@ body::after {
   align-items: center;
   justify-content: space-between;
 }
-.nav__logo { font-size: 1.2rem; letter-spacing: -0.01em; }
+.nav__brand { display: flex; align-items: center; }
 .nav__links { display: flex; align-items: center; gap: 34px; }
 .nav__links a {
   font-size: 0.84rem;
@@ -1295,7 +1303,7 @@ body::after {
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#hero" class="nav__brand">
-        <span class="nav__logo">md<span class="accent">lp</span>.ai</span>
+        <img class="brand-logo" src="assets/logo.png" alt="mdlp.ai" width="480" height="149" decoding="async" />
       </a>
 
       <nav class="nav__links" id="navLinks">
@@ -1595,7 +1603,7 @@ body::after {
   <!-- ===== Footer ===== -->
   <footer class="footer">
     <div class="container footer__inner">
-      <span class="nav__logo">md<span class="accent">lp</span>.ai</span>
+      <img class="brand-logo brand-logo--footer" src="assets/logo.png" alt="mdlp.ai" width="480" height="149" loading="lazy" decoding="async" />
       <p>© <span id="year"></span> mdlp.ai · Enterprise AI Transformation, Strategy & Capability</p>
       <a href="#hero" class="footer__top">Back to top ↑</a>
     </div>

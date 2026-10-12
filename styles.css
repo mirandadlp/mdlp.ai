@@ -122,7 +122,15 @@ h1 em, h2 em, h3 em {
   color: var(--text);
 }
 
-.nav__logo { font-family: var(--font-primary); font-weight: 700; }
+/* Wordmark image. Height is matched to the text logo it replaced (23px at
+   1.2rem), with width:auto so the 3.22:1 artwork keeps its proportions. The
+   width/height attributes on the <img> give the browser the aspect ratio up
+   front, so the nav doesn't shift as the file loads. */
+.brand-logo {
+  display: block;
+  height: 24px;
+  width: auto;
+}
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
@@ -469,7 +477,7 @@ body::after {
   align-items: center;
   justify-content: space-between;
 }
-.nav__logo { font-size: 1.2rem; letter-spacing: -0.01em; }
+.nav__brand { display: flex; align-items: center; }
 .nav__links { display: flex; align-items: center; gap: 34px; }
 .nav__links a {
   font-size: 0.84rem;

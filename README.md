@@ -13,6 +13,7 @@ script.js             # starfield particles, scroll reveals, counters, starlet c
 mdlp-portfolio.html   # the whole site bundled into one self-contained file
 tools/build-single.mjs# regenerates mdlp-portfolio.html from the three files above
 assets/background.mp4 # header background video
+assets/logo.png       # mdlp.ai wordmark, transparent (nav + footer)
 google0e8b4fce9d55d64d.html   # Google Search Console verification (see below)
 ```
 
