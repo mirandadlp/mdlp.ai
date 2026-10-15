@@ -56,6 +56,17 @@
   --maxw:          1180px;
   --ease:          cubic-bezier(0.22, 1, 0.36, 1);
   --transition:    0.35s var(--ease);
+
+  /* Brand and badge heights, kept together so the marks stay in proportion.
+     The brand reads largest in the footer; the partner badges sit below it
+     in the hierarchy because they are supporting credentials, not identity.
+     The round badge gets a little more than the rectangular one — a disc
+     carries less visual weight than a card at the same height, and its
+     wording runs around the circumference. */
+  --logo-nav:      28px;
+  --logo-footer:   30px;
+  --badge:         44px;
+  --badge-circle:  52px;
 }
 
 /* ---------- Reset / base ---------- */
@@ -137,14 +148,19 @@ h1 em, h2 em, h3 em {
   color: var(--text);
 }
 
-/* Wordmark image. Height is matched to the text logo it replaced (23px at
-   1.2rem), with width:auto so the 3.22:1 artwork keeps its proportions. The
-   width/height attributes on the <img> give the browser the aspect ratio up
-   front, so the nav doesn't shift as the file loads. */
+/* Wordmark image. Heights come from the brand/badge tokens in :root;
+   width:auto keeps the 3.22:1 artwork in proportion. The width/height
+   attributes on the <img> give the browser the aspect ratio up front, so
+   the nav doesn't shift as the file loads. */
 .brand-logo {
   display: block;
-  height: 24px;
+  height: var(--logo-nav);
   width: auto;
+}
+/* The footer mark is the page's sign-off, so it carries a touch more weight
+   than the one in the nav. */
+.brand-logo--footer {
+  height: var(--logo-footer);
 }
 
 a { color: inherit; text-decoration: none; }
@@ -1081,15 +1097,11 @@ body::after {
   gap: 14px;
 }
 .partner-badge {
-  height: 56px;
+  height: var(--badge);
   width: auto;
 }
-/* The round badge runs its wording around the circumference, which turns to
-   mush at the rectangular badge's 56px. 72px is the point it becomes
-   readable, and a disc needs a little more size than a card to carry the
-   same visual weight anyway. */
 .partner-badge--circle {
-  height: 72px;
+  height: var(--badge-circle);
 }
 
 /* 820px is where .footer__inner starts wrapping. Once the cluster is on its
