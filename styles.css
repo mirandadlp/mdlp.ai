@@ -134,9 +134,14 @@ h1 em, h2 em, h3 em {
 }
 
 /* Wordmark image. Heights come from the brand/badge tokens in :root;
-   width:auto keeps the 3.22:1 artwork in proportion. The width/height
-   attributes on the <img> give the browser the aspect ratio up front, so
-   the nav doesn't shift as the file loads. */
+   width:auto keeps the artwork in proportion.
+
+   The width/height attributes on each <img> are deliberately the DISPLAYED
+   size, not the file's intrinsic 480x149. They still give the browser the
+   aspect ratio up front so nothing shifts as the file loads, but they also
+   mean that if this stylesheet is ever missing or stale — a cached old
+   styles.css on the live site, say — the marks fall back to roughly the
+   right size instead of rendering at full intrinsic width. */
 .brand-logo {
   display: block;
   height: var(--logo-nav);

@@ -149,9 +149,14 @@ h1 em, h2 em, h3 em {
 }
 
 /* Wordmark image. Heights come from the brand/badge tokens in :root;
-   width:auto keeps the 3.22:1 artwork in proportion. The width/height
-   attributes on the <img> give the browser the aspect ratio up front, so
-   the nav doesn't shift as the file loads. */
+   width:auto keeps the artwork in proportion.
+
+   The width/height attributes on each <img> are deliberately the DISPLAYED
+   size, not the file's intrinsic 480x149. They still give the browser the
+   aspect ratio up front so nothing shifts as the file loads, but they also
+   mean that if this stylesheet is ever missing or stale — a cached old
+   styles.css on the live site, say — the marks fall back to roughly the
+   right size instead of rendering at full intrinsic width. */
 .brand-logo {
   display: block;
   height: var(--logo-nav);
@@ -1354,7 +1359,7 @@ body::after {
   <header class="nav" id="nav">
     <div class="nav__inner">
       <a href="#hero" class="nav__brand">
-        <img class="brand-logo" src="assets/logo.png" alt="mdlp.ai" width="480" height="149" decoding="async" />
+        <img class="brand-logo" src="assets/logo.png" alt="mdlp.ai" width="90" height="28" decoding="async" />
       </a>
 
       <nav class="nav__links" id="navLinks">
@@ -1654,16 +1659,16 @@ body::after {
   <!-- ===== Footer ===== -->
   <footer class="footer">
     <div class="container footer__inner">
-      <img class="brand-logo brand-logo--footer" src="assets/logo.png" alt="mdlp.ai" width="480" height="149" loading="lazy" decoding="async" />
+      <img class="brand-logo brand-logo--footer" src="assets/logo.png" alt="mdlp.ai" width="97" height="30" loading="lazy" decoding="async" />
       <p>© <span id="year"></span> mdlp.ai · Enterprise AI Transformation, Strategy & Capability</p>
       <div class="footer__right">
         <a href="#hero" class="footer__top">Back to top ↑</a>
         <div class="footer__badges">
           <img class="partner-badge partner-badge--circle" src="assets/openai-consultative-practitioner.png"
                alt="OpenAI Partner Network — Consultative Solutions Practitioner"
-               width="240" height="240" loading="lazy" decoding="async" />
+               width="52" height="52" loading="lazy" decoding="async" />
           <img class="partner-badge" src="assets/openai-select-partner.png"
-               alt="OpenAI Select Partner" width="360" height="170"
+               alt="OpenAI Select Partner" width="93" height="44"
                loading="lazy" decoding="async" />
         </div>
       </div>
