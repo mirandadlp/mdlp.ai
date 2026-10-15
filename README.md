@@ -15,6 +15,7 @@ tools/build-single.mjs# regenerates mdlp-portfolio.html from the three files abo
 assets/background.mp4 # header background video
 assets/logo.png       # mdlp.ai wordmark, transparent (nav + footer)
 assets/openai-select-partner.png  # OpenAI Select Partner badge (footer)
+assets/openai-consultative-practitioner.png  # Consultative Solutions Practitioner badge (footer)
 google0e8b4fce9d55d64d.html   # Google Search Console verification (see below)
 ```
 

@@ -1057,11 +1057,35 @@ body::after {
   align-items: flex-end;
   gap: 16px;
 }
-/* The badge is OpenAI's artwork and ships with its own white card, so it is
-   shown unmodified rather than recoloured to suit the dark footer. */
+/* Partner badges, sat side by side. Both are OpenAI artwork and are shown
+   unmodified; the Select Partner badge ships with its own white card, the
+   circular one is transparent outside the disc. */
+.footer__badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
 .partner-badge {
   height: 56px;
   width: auto;
+}
+/* The round badge runs its wording around the circumference, which turns to
+   mush at the rectangular badge's 56px. 72px is the point it becomes
+   readable, and a disc needs a little more size than a card to carry the
+   same visual weight anyway. */
+.partner-badge--circle {
+  height: 72px;
+}
+
+/* 820px is where .footer__inner starts wrapping. Once the cluster is on its
+   own line, right-aligning its contents leaves the narrower back-to-top link
+   floating in from the badges' edge, so switch it to left-align and let it
+   take the full line. */
+@media (max-width: 820px) {
+  .footer__right {
+    width: 100%;
+    align-items: flex-start;
+  }
 }
 
 /* =================================================================
@@ -1103,13 +1127,6 @@ body::after {
   .hero__orb { display: none; }
   .hero__stats { gap: 12px; }
   .stat-card { flex: 1 1 100%; }
-
-  /* Footer stacks here, so the right-hand cluster left-aligns with
-     everything else instead of hanging off its own right edge. */
-  .footer__right {
-    width: 100%;
-    align-items: flex-start;
-  }
 }
 
 /* Respect users who prefer reduced motion */
