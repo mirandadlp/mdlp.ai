@@ -1049,6 +1049,21 @@ body::after {
 .footer__top { color: var(--text-dim); font-size: 0.88rem; transition: color var(--transition); }
 .footer__top:hover { color: var(--text); }
 
+/* Right-hand footer cluster: back-to-top above, partner badge beneath it,
+   both flush right so the badge lands in the bottom-right corner. */
+.footer__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+/* The badge is OpenAI's artwork and ships with its own white card, so it is
+   shown unmodified rather than recoloured to suit the dark footer. */
+.partner-badge {
+  height: 56px;
+  width: auto;
+}
+
 /* =================================================================
    Responsive
    ================================================================= */
@@ -1088,6 +1103,13 @@ body::after {
   .hero__orb { display: none; }
   .hero__stats { gap: 12px; }
   .stat-card { flex: 1 1 100%; }
+
+  /* Footer stacks here, so the right-hand cluster left-aligns with
+     everything else instead of hanging off its own right edge. */
+  .footer__right {
+    width: 100%;
+    align-items: flex-start;
+  }
 }
 
 /* Respect users who prefer reduced motion */
