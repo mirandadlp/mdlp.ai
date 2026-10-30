@@ -17,6 +17,8 @@ assets/logo.png       # mdlp.ai wordmark, transparent (nav + footer)
 assets/openai-select-partner.png  # OpenAI Select Partner badge (footer)
 assets/openai-consultative-practitioner.png  # Consultative Solutions Practitioner badge (footer)
 google0e8b4fce9d55d64d.html   # Google Search Console verification (see below)
+demo-site-lhg/index.html      # unlisted demo page at mdlp.ai/demo-site-lhg (noindex)
+.htaccess                     # redirects any capitalisation of /demo-site-lhg to it
 ```
 
 ## Use it
@@ -35,6 +37,10 @@ Upload into `public_html`:
 1. `mdlp-portfolio.html`, **renamed to `index.html`**
 2. the `assets` folder, alongside it
 3. `google0e8b4fce9d55d64d.html`, **as-is at the top level**
+4. the `demo-site-lhg` folder, alongside them
+5. `.htaccess`, at the top level. It makes `/demo-site-LHG` (or any other
+   capitalisation) redirect to `/demo-site-lhg`. If `public_html` already has
+   a `.htaccess`, paste these lines into it instead of replacing it.
 
 ## Google Search Console
 

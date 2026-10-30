@@ -1,0 +1,7 @@
+# Send any capitalisation of /demo-site-lhg (e.g. /demo-site-LHG) to the
+# lowercase folder, so the demo link works however it's typed.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} !^/demo-site-lhg(/|$)
+  RewriteRule ^demo-site-lhg(/.*)?$ /demo-site-lhg$1 [NC,R=301,L]
+</IfModule>
