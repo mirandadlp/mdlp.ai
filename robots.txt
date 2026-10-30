@@ -19,6 +19,6 @@ Allow: /
 # Duplicate single-file bundle of the homepage; keep crawlers on index.html
 Disallow: /mdlp-portfolio.html
 # Unlisted client demo, shared by direct link only
-Disallow: /demo-site-LHG/
+Disallow: /demo-site-lhg/
 
 Sitemap: https://mdlp.ai/sitemap.xml
