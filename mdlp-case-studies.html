@@ -1,0 +1,2392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Case study: a six-month AI consulting engagement with a UK Hospitality Group, covering executive AI advisory, workforce AI training and operational transformation." />
+  <title>Case Studies — mdlp.ai</title>
+
+  <!-- Same font stack as the home page -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet" />
+
+  <style>
+/* =================================================================
+   mdlp.ai — Premium AI Consultant Portfolio
+   styles.css
+   Theme: dark futuristic / space-tech with glowing neon accents
+   ================================================================= */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --bg:            #05060f;   /* deep space base */
+  --bg-2:          #0a0d1f;   /* slightly lighter panel base */
+  --surface:       rgba(255, 255, 255, 0.04);
+  --surface-brd:   rgba(255, 255, 255, 0.12);
+
+  /* Light, airy text — high contrast over the dark/video background */
+  --text:          #f6f7fb;   /* near-white headings/body */
+  --text-dim:      #c3c9de;   /* soft, readable muted text */
+  --text-faint:    #8b92ad;   /* subtle labels / placeholders */
+
+  /* Accents — kept gentle and used sparingly for an elegant feel */
+  --cyan:          #9fe9ff;
+  --violet:        #b6a6ff;
+  --accent:        #bfe7ff;   /* single soft accent for emphasis */
+  --accent-grad:   linear-gradient(120deg, #9fe9ff 0%, #c7b8ff 100%);
+
+  --glow-cyan:     rgba(56, 232, 255, 0.28);
+  --glow-violet:   rgba(139, 92, 255, 0.28);
+
+  /* Typography
+     Primary = Inter (headings, body, stats, nav, buttons, labels)
+     Accent  = Playfair Display Italic (rare emphasized title words only) */
+  --font-primary: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-accent:  "Playfair Display", Georgia, "Times New Roman", serif;
+  /* Back-compat aliases used elsewhere in this file */
+  --font-sans:     var(--font-primary);
+  --font-serif:    var(--font-accent);
+
+  /* Spacing / shape / motion */
+  --radius:        16px;
+  --radius-sm:     12px;
+  --radius-pill:   999px;
+  --maxw:          1180px;
+  --ease:          cubic-bezier(0.22, 1, 0.36, 1);
+  --transition:    0.35s var(--ease);
+
+  /* Brand and badge heights, kept together so the marks stay in proportion.
+     The brand reads largest in the footer; the partner badges sit below it
+     in the hierarchy because they are supporting credentials, not identity.
+     The round badge gets a little more than the rectangular one — a disc
+     carries less visual weight than a card at the same height, and its
+     wording runs around the circumference. */
+  --logo-nav:      28px;
+  --logo-footer:   30px;
+  --badge:         44px;
+  --badge-circle:  52px;
+}
+
+/* ---------- Reset / base ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;       /* smooth scrolling between sections */
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.7;              /* airy body rhythm */
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Strong, modern sans-serif headings (Inter) with tight tracking */
+h1, h2, h3 {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+/* -----------------------------------------------------------------
+   Reusable typography classes
+   ----------------------------------------------------------------- */
+.font-primary { font-family: var(--font-primary); }
+.font-accent  { font-family: var(--font-accent); }
+
+/* Rare, intentional italic accent — Playfair Display Italic.
+   Applied to <em> inside headings and to .italic-accent spans. */
+.italic-accent,
+h1 em, h2 em, h3 em {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+.headline {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
+}
+
+.eyebrow {
+  font-family: var(--font-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+.body-copy {
+  font-family: var(--font-primary);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+.stat-number {
+  font-family: var(--font-primary);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text);
+}
+
+/* Wordmark image. Heights come from the brand/badge tokens in :root;
+   width:auto keeps the artwork in proportion.
+
+   The width/height attributes on each <img> are deliberately the DISPLAYED
+   size, not the file's intrinsic 480x149. They still give the browser the
+   aspect ratio up front so nothing shifts as the file loads, but they also
+   mean that if this stylesheet is ever missing or stale — a cached old
+   styles.css on the live site, say — the marks fall back to roughly the
+   right size instead of rendering at full intrinsic width. */
+.brand-logo {
+  display: block;
+  height: var(--logo-nav);
+  width: auto;
+}
+/* The footer mark is the page's sign-off, so it carries a touch more weight
+   than the one in the nav. */
+.brand-logo--footer {
+  height: var(--logo-footer);
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+/* Legacy hook: emphasized words now render as the italic accent */
+.gradient-text {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+.accent { color: var(--cyan); }
+
+/* =================================================================
+   Animated background
+   ================================================================= */
+
+/* Star-field canvas */
+#starfield {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -3;
+  display: block;
+}
+
+/* Header (hero) background video — drop your file at assets/background.mp4.
+   Absolute (not fixed): it fills the first screenful behind the hero and
+   scrolls away with the page. The intro typewriter plays over it on load.
+   If the file is missing/unplayable, the base colour + starfield show. */
+.bg-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;        /* better fit on mobile with dynamic toolbars */
+  object-fit: cover;     /* fill the area, no stretching/skew */
+  object-position: center;
+  z-index: -5;
+  opacity: 1;            /* show the video at full strength */
+  pointer-events: none;
+  background: var(--bg); /* base colour while the video loads / if absent */
+}
+/* Wash over the header video. Light at the top so the hero reads bright
+   (~5% tint), fading to the solid page colour at its bottom edge so the
+   video blends seamlessly into the sections below. */
+.bg-video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  z-index: -4;
+  pointer-events: none;
+  background: linear-gradient(180deg,
+    rgba(5, 6, 15, 0.05) 0,
+    rgba(5, 6, 15, 0.05) 45%,
+    rgba(5, 6, 15, 0.4) 78%,
+    rgba(5, 6, 15, 0.94) 96%,
+    #05060f 100%);
+}
+
+/* =================================================================
+   Intro backdrop — dims the video while the headline types itself
+
+   The headline is typed straight into the real .hero__title, so it starts
+   life in its final position at its final size. There is no overlay copy
+   to hand off from, which is what guarantees no jump when loading ends.
+   z-index is negative so this sits above the video but below the h1.
+   ================================================================= */
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;            /* purely decorative, never blocks */
+  /* A whisper of vignette keeps the text readable while the video shows */
+  background: radial-gradient(70% 70% at 50% 50%,
+              rgba(5, 6, 15, 0.30), rgba(5, 6, 15, 0.55) 100%);
+  opacity: 1;
+  transition: opacity 0.9s var(--ease), visibility 0.9s var(--ease);
+}
+/* Faded out once the typewriter finishes */
+.intro.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+/* Characters not yet typed: still laid out, just not painted. This is what
+   keeps the headline's wrapping and height identical to the finished text
+   from the first frame, so nothing reflows while it types. */
+.type-pending { visibility: hidden; }
+
+/* Blinking caret. Laid out at zero net width (the negative margin cancels
+   the 2px) so it can't nudge the text that follows it. */
+.type-caret {
+  display: inline-block;
+  width: 2px;
+  margin-right: -2px;
+  height: 0.86em;
+  vertical-align: -0.06em;
+  background: var(--accent);
+  animation: caret-blink 1s steps(1) infinite;
+}
+@keyframes caret-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+
+/* ---- Loading state: video + vignette + the typing headline, nothing else.
+   `main` deliberately stays visible: the headline types inside it. Its
+   siblings in the hero are held off-screen by .hero-entering, and the
+   sections below are still waiting on their own .reveal. ---- */
+body.intro-loading { overflow: hidden; }
+/* The headline is the one thing on screen, so it opts out of .reveal */
+body.intro-loading .hero__title { opacity: 1; transform: none; }
+body.intro-loading .nav,
+body.intro-loading .footer,
+body.intro-loading .scroll-progress,
+body.intro-loading #starfield,
+body.intro-loading .aurora,
+body.intro-loading .nebula,
+body.intro-loading .shooting-star {
+  opacity: 0;
+  visibility: hidden;
+}
+/* ---- Smooth fade-in for the site once the intro completes ---- */
+.nav, main, .footer, .scroll-progress,
+#starfield, .aurora, .nebula, .shooting-star {
+  transition: opacity 1s var(--ease), visibility 1s var(--ease);
+}
+
+/* =================================================================
+   Hero entrance choreography
+
+   The headline itself never animates — it is typed in place and simply
+   stays there. Everything around it arrives from a different edge.
+
+   Two cooperating body classes, both added by script.js:
+     .hero-entering  off-screen start positions  (removed first, kicks it off)
+     .hero-settling  holds the entrance transitions + stagger, and suspends the
+                     idle float/orb keyframes so they can't fight the entrance
+
+   Transition timing lives under .hero-settling rather than on the elements
+   themselves, because a transition reads its duration/delay from the END
+   state — and it also keeps the stagger from leaking into button hovers.
+   ================================================================= */
+
+/* Idle animations paused so the entrance transforms own these elements */
+body.hero-settling .float,
+body.hero-settling .hero__orb { animation: none; }
+/* floaty's keyframes resolve to translateY(0), so the orb rests there too —
+   matching this avoids a jump when the idle animation resumes */
+body.hero-settling .hero__orb { transform: translateY(0); }
+
+/* Entrance transitions + stagger */
+body.hero-settling .nav__inner,
+body.hero-settling .hero__eyebrow,
+body.hero-settling .hero__subtitle,
+body.hero-settling .hero__actions .btn,
+body.hero-settling .stat-card,
+body.hero-settling .hero__orb,
+body.hero-settling .hero__scroll {
+  transition: opacity 1100ms var(--ease), transform 1100ms var(--ease);
+}
+body.hero-settling .hero__orb                   { transition-delay: 120ms; }
+body.hero-settling .hero__eyebrow               { transition-delay: 80ms; }
+body.hero-settling .hero__subtitle              { transition-delay: 200ms; }
+body.hero-settling .hero__actions .btn--primary { transition-delay: 280ms; }
+body.hero-settling .hero__actions .btn--ghost   { transition-delay: 340ms; }
+body.hero-settling .stat-card:nth-child(1)      { transition-delay: 420ms; }
+body.hero-settling .stat-card:nth-child(2)      { transition-delay: 490ms; }
+body.hero-settling .stat-card:nth-child(3)      { transition-delay: 560ms; }
+body.hero-settling .hero__scroll                { transition-delay: 700ms; }
+
+/* Start positions — each piece arrives from a different edge */
+body.hero-entering .nav__inner     { opacity: 0; transform: translateY(-48px); }
+body.hero-entering .hero__eyebrow  { opacity: 0; transform: translateY(-56px); }
+body.hero-entering .hero__subtitle { opacity: 0; transform: translateY(64px); }
+body.hero-entering .hero__actions .btn--primary { opacity: 0; transform: translateX(-110px) rotate(-5deg); }
+body.hero-entering .hero__actions .btn--ghost   { opacity: 0; transform: translateX(110px) rotate(5deg); }
+body.hero-entering .stat-card:nth-child(1) { opacity: 0; transform: translate(-140px, 90px) rotate(-9deg); }
+body.hero-entering .stat-card:nth-child(2) { opacity: 0; transform: translateY(130px) scale(0.82); }
+body.hero-entering .stat-card:nth-child(3) { opacity: 0; transform: translate(140px, 90px) rotate(9deg); }
+body.hero-entering .hero__scroll   { opacity: 0; transform: translateY(44px); }
+/* needs both classes to outrank the resting .hero-settling orb transform */
+body.hero-entering.hero-settling .hero__orb {
+  opacity: 0;
+  transform: translateY(0) scale(0.35) rotate(-24deg);
+}
+
+/* No mobile override here on purpose: .intro__text must keep matching
+   .hero__title at every width for the handoff to land cleanly. */
+@media (prefers-reduced-motion: reduce) {
+  .intro__line.is-typing::after { animation: none; }
+  .nav, main, .footer, .scroll-progress,
+  #starfield, .aurora, .nebula, .shooting-star { transition-duration: 0.3s; }
+}
+
+/* Drifting aurora gradient blobs behind everything */
+.aurora {
+  position: fixed;
+  inset: -20%;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(40% 40% at 20% 25%, rgba(56,232,255,0.18), transparent 60%),
+    radial-gradient(45% 45% at 80% 20%, rgba(139,92,255,0.20), transparent 60%),
+    radial-gradient(40% 40% at 60% 85%, rgba(255,92,240,0.14), transparent 60%);
+  filter: blur(20px);
+  animation: auroraDrift 24s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift {
+  0%   { transform: translate3d(0,0,0) scale(1); }
+  50%  { transform: translate3d(3%, -2%, 0) scale(1.08); }
+  100% { transform: translate3d(-3%, 2%, 0) scale(1.04); }
+}
+
+/* subtle vignette so text stays readable */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(120% 80% at 50% 0%, transparent 40%, rgba(0,0,0,0.55) 100%);
+}
+
+/* Distant nebula glow + a faint planet for extra depth on the space theme */
+.nebula {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+  overflow: hidden;
+}
+.nebula__planet {
+  position: absolute;
+  top: 8%; left: -90px;
+  width: 220px; height: 220px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 32% 30%, #3a2b6b, #170f33 60%, #0a0820 100%);
+  box-shadow:
+    inset -22px -10px 50px rgba(0,0,0,0.7),
+    0 0 80px 6px rgba(139,92,255,0.25);
+  opacity: 0.55;
+  animation: floaty 14s ease-in-out infinite;
+}
+
+/* Shooting stars streak across the sky on a loop */
+.shooting-star {
+  position: fixed;
+  width: 2px; height: 2px;
+  border-radius: 50%;
+  background: #fff;
+  z-index: -2;
+  pointer-events: none;
+  opacity: 0;
+  box-shadow: 0 0 8px 1px rgba(255,255,255,0.9);
+}
+.shooting-star::after {
+  content: "";
+  position: absolute;
+  top: 50%; right: 0;
+  width: 160px; height: 1px;
+  transform: translateY(-50%);
+  background: linear-gradient(270deg, rgba(255,255,255,0.85), transparent);
+}
+.shooting-star--1 { top: 14%; left: 70%; animation: shoot 7s ease-in 2s infinite; }
+.shooting-star--2 { top: 26%; left: 88%; animation: shoot 9s ease-in 5s infinite; }
+.shooting-star--3 { top: 6%;  left: 55%; animation: shoot 11s ease-in 8s infinite; }
+@keyframes shoot {
+  0%   { transform: translate(0, 0) rotate(18deg); opacity: 0; }
+  8%   { opacity: 1; }
+  22%  { opacity: 1; }
+  30%  { transform: translate(-520px, 180px) rotate(18deg); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ---------- Trailing starlet cursor ---------- */
+/* Hide the system cursor on devices that support hover (desktop) so the
+   custom glowing star + trailing starlets take over. */
+@media (hover: hover) and (pointer: fine) {
+  body { cursor: none; }
+  a, button, input, textarea, label, .card, .cap { cursor: none; }
+}
+/* The main star that sits on the pointer */
+.cursor-star {
+  position: fixed;
+  top: 0; left: 0;
+  width: 16px; height: 16px;
+  margin: -8px 0 0 -8px;
+  z-index: 9999;
+  pointer-events: none;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 6px var(--cyan));
+  transition: transform .12s ease-out;
+}
+/* Each trailing starlet left behind as the pointer moves */
+.starlet {
+  position: fixed;
+  z-index: 9998;
+  pointer-events: none;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px 1px currentColor;
+  will-change: transform, opacity;
+}
+
+/* Scroll progress bar */
+.scroll-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 200;
+  background: var(--accent-grad);
+  box-shadow: 0 0 12px var(--glow-cyan);
+}
+
+/* =================================================================
+   Navigation (sticky glassmorphism)
+   ================================================================= */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  transition: background .4s var(--ease), backdrop-filter .4s var(--ease), border-color .4s;
+  border-bottom: 1px solid transparent;
+}
+.nav.scrolled {
+  background: rgba(8, 10, 24, 0.6);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border-bottom: 1px solid var(--surface-brd);
+}
+.nav__inner {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nav__brand { display: flex; align-items: center; }
+.nav__links { display: flex; align-items: center; gap: 34px; }
+.nav__links a {
+  font-size: 0.84rem;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: var(--text-dim);
+  position: relative;
+  transition: color var(--transition);
+}
+/* Active link set by scroll-spy in JS */
+.nav__links a.active:not(.nav__cta) { color: var(--text); }
+.nav__links a:not(.nav__cta)::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -6px;
+  height: 1px; width: 0;
+  background: var(--accent);
+  transition: width var(--transition);
+}
+.nav__links a:not(.nav__cta):hover { color: var(--text); }
+.nav__links a:not(.nav__cta):hover::after,
+.nav__links a.active:not(.nav__cta)::after { width: 100%; }
+
+.nav__cta {
+  padding: 9px 20px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--surface-brd);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text) !important;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  transition: background var(--transition), border-color var(--transition);
+}
+.nav__cta:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.30);
+}
+
+/* Mobile toggle */
+.nav__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none; border: none; cursor: pointer;
+  padding: 6px;
+}
+.nav__toggle span {
+  width: 26px; height: 2px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: transform .3s, opacity .3s;
+}
+.nav__toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav__toggle.open span:nth-child(2) { opacity: 0; }
+.nav__toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* =================================================================
+   Buttons
+   ================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 28px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.92rem;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background var(--transition), border-color var(--transition),
+    color var(--transition), transform var(--transition);
+}
+/* Soft, polished light button */
+.btn--primary {
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b0c16;
+}
+.btn--primary:hover {
+  transform: translateY(-2px);
+  background: #ffffff;
+}
+/* Quiet outlined button */
+.btn--ghost {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: var(--surface-brd);
+  color: var(--text);
+}
+.btn--ghost:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.32);
+  background: rgba(255, 255, 255, 0.08);
+}
+.btn--full { width: 100%; justify-content: center; }
+.btn__arrow { transition: transform var(--transition); }
+.btn:hover .btn__arrow { transform: translateX(4px); }
+
+/* =================================================================
+   Section scaffolding + scroll reveal
+   ================================================================= */
+.section { padding: 120px 0; position: relative; }
+
+.section__head { text-align: center; max-width: 720px; margin: 0 auto 64px; }
+.section__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+  margin-bottom: 18px;
+  font-weight: 500;
+}
+.section__title {
+  font-size: clamp(2.1rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  margin-bottom: 20px;
+}
+.section__sub { color: var(--text-dim); font-size: 1.05rem; font-weight: 400; }
+
+/* Reveal-on-scroll: starts hidden, JS adds .in-view */
+.reveal {
+  opacity: 0;
+  transform: translateY(34px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+.reveal.in-view { opacity: 1; transform: none; }
+
+/* Reusable glass surface */
+.glass {
+  background: var(--surface);
+  border: 1px solid var(--surface-brd);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius);
+}
+
+/* =================================================================
+   1. HERO
+   ================================================================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 120px;
+  overflow: hidden;
+}
+/* Centered hero — title leads, with generous breathing room below */
+.hero__content {
+  position: relative;
+  z-index: 2;
+  max-width: 980px; /* wide enough for "AI Transformation" in Open Sans bold on one line */
+  margin: 0 auto;
+  text-align: center;
+}
+
+.hero__eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-size: 0.72rem;
+  color: var(--text-faint);
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+.hero__title {
+  font-size: clamp(2.8rem, 7vw, 5.4rem);
+  font-weight: 400;            /* thin, elegant */
+  line-height: 1.28;           /* taller, airier stacking */
+  letter-spacing: 0.015em;     /* gently spaced */
+  /* big gap before the paragraph + stats */
+  margin-bottom: clamp(48px, 9vh, 104px);
+  text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+/* Hero only: "Transformation" renders in Space Grotesk regular, upright — a
+   free Google Font in the same clean neo-grotesque family as Neue Montreal.
+   Same accent colour; everything else in the hero unchanged. */
+.hero__title .italic-accent {
+  font-family: "Space Grotesk", var(--font-primary);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+.hero__eyebrow, .hero__subtitle { text-shadow: 0 1px 20px rgba(0, 0, 0, 0.4); }
+.hero__subtitle {
+  font-size: clamp(1.05rem, 1.8vw, 1.25rem);
+  font-weight: 300;
+  line-height: 1.7;
+  color: var(--text-dim);
+  max-width: 540px;
+  margin: 0 auto 40px;
+}
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 64px;
+}
+
+/* Floating stat cards */
+.hero__stats { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--surface-brd);
+  border-radius: var(--radius-sm);
+  padding: 18px 24px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  min-width: 150px;
+}
+.stat-card__num {
+  display: block;
+  font-family: var(--font-primary);
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.04em;
+}
+.stat-card__label {
+  font-size: 0.8rem;
+  color: var(--text-faint);
+  letter-spacing: 0.04em;
+}
+
+/* gentle floating motion for cards/orb */
+.float { animation: floaty 6s ease-in-out infinite; }
+.float--delay   { animation-delay: 1.2s; }
+.float--delay-2 { animation-delay: 2.4s; }
+@keyframes floaty {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-10px); }
+}
+
+/* --- Glowing animated orb --- */
+.hero__orb {
+  position: absolute;
+  top: 50%; right: -6%;
+  transform: translateY(-50%);
+  width: 540px; height: 540px;
+  z-index: 1;
+  pointer-events: none;
+  animation: floaty 9s ease-in-out infinite;
+}
+.orb__core {
+  position: absolute;
+  inset: 32%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #aef4ff, var(--cyan) 35%, var(--violet) 75%, transparent 100%);
+  box-shadow: 0 0 120px 30px var(--glow-violet), 0 0 60px 10px var(--glow-cyan);
+  filter: blur(2px);
+  animation: pulse 5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100% { transform: scale(1);   opacity: .95; }
+  50%     { transform: scale(1.08); opacity: 1; }
+}
+.orb__ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.10);
+}
+.orb__ring--1 { inset: 4%;  border-color: rgba(56,232,255,0.28); animation: spin 18s linear infinite; }
+.orb__ring--2 { inset: 16%; border-color: rgba(139,92,255,0.28); animation: spin 26s linear infinite reverse; }
+.orb__ring--3 { inset: 26%; border-color: rgba(255,92,240,0.22); animation: spin 34s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* scroll cue */
+.hero__scroll {
+  position: absolute;
+  bottom: 30px; left: 50%;
+  transform: translateX(-50%);
+  width: 26px; height: 42px;
+  border: 2px solid var(--surface-brd);
+  border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+.hero__scroll-dot {
+  width: 4px; height: 8px;
+  margin-top: 7px;
+  border-radius: 4px;
+  background: var(--cyan);
+  animation: scrollDot 1.8s ease-in-out infinite;
+}
+@keyframes scrollDot {
+  0%   { transform: translateY(0);    opacity: 1; }
+  70%  { transform: translateY(14px); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* =================================================================
+   2. ABOUT
+   ================================================================= */
+.about__grid {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: 60px;
+  align-items: center;
+}
+.about__visual { perspective: 1000px; }
+.about__panel {
+  position: relative;
+  padding: 34px;
+  font-family: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  overflow: hidden;
+  transform: rotateY(8deg) rotateX(4deg);
+  transition: transform .5s var(--ease);
+}
+.about__panel:hover { transform: rotateY(0) rotateX(0); }
+.about__panel-glow {
+  position: absolute;
+  top: -40%; left: -20%;
+  width: 80%; height: 180%;
+  background: radial-gradient(circle, var(--glow-violet), transparent 70%);
+  filter: blur(30px);
+  animation: floaty 7s ease-in-out infinite;
+}
+.about__code-line {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  color: var(--text-dim);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.95rem;
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; box-shadow: 0 0 10px currentColor; }
+.dot--g { background: #46f1b0; color: #46f1b0; }
+.dot--b { background: var(--cyan); color: var(--cyan); }
+.dot--p { background: var(--violet); color: var(--violet); }
+.about__signature {
+  position: relative;
+  margin-top: 22px;
+  color: var(--text-faint);
+  font-size: 0.9rem;
+}
+
+.about__text .section__title { font-size: clamp(1.9rem, 3.4vw, 2.7rem); margin: 14px 0 22px; }
+.about__lead { font-size: 1.2rem; font-weight: 400; color: var(--text); margin-bottom: 18px; line-height: 1.7; }
+.about__body { color: var(--text-dim); font-weight: 400; margin-bottom: 28px; }
+.about__pills { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; }
+.about__pills li {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--surface-brd);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  color: var(--text-dim);
+  transition: border-color var(--transition), color var(--transition), transform var(--transition);
+}
+.about__pills li:hover { border-color: rgba(255,255,255,0.3); color: var(--text); transform: translateY(-2px); }
+
+/* =================================================================
+   3. SERVICES — card grid
+   ================================================================= */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+  gap: 22px;
+}
+.card {
+  position: relative;
+  padding: 32px 28px;
+  border-radius: var(--radius);
+  background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+  border: 1px solid var(--surface-brd);
+  overflow: hidden;
+  transition: transform .4s var(--ease), border-color .4s, box-shadow .4s;
+  cursor: default;
+}
+/* animated glowing top border on hover */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--accent-grad);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .4s;
+}
+.card:hover, .card:focus-visible {
+  transform: translateY(-6px);
+  border-color: transparent;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+  outline: none;
+}
+.card:hover::before, .card:focus-visible::before { opacity: 0.6; }
+.card__icon {
+  font-size: 1.35rem;
+  color: var(--accent);
+  width: 52px; height: 52px;
+  display: grid; place-items: center;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--surface-brd);
+  margin-bottom: 22px;
+  transition: transform .4s var(--ease), border-color var(--transition);
+}
+.card:hover .card__icon { transform: translateY(-2px); border-color: rgba(255,255,255,0.28); }
+.card__title { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; }
+.card__desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 400; line-height: 1.65; }
+
+/* =================================================================
+   4. CAPABILITIES
+   ================================================================= */
+.caps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.cap {
+  position: relative;
+  padding: 34px 28px;
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  border: 1px solid var(--surface-brd);
+  overflow: hidden;
+  transition: transform .4s var(--ease), box-shadow .4s, border-color .4s;
+}
+.cap--wide { grid-column: span 3; }
+.cap:hover, .cap:focus-visible {
+  transform: translateY(-6px);
+  border-color: var(--cyan);
+  box-shadow: 0 0 40px var(--glow-cyan);
+  outline: none;
+}
+.cap__index {
+  font-family: var(--font-primary);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--text-faint);
+  display: block;
+  margin-bottom: 14px;
+}
+.cap__title { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.025em; margin-bottom: 12px; }
+.cap__desc { color: var(--text-dim); font-size: 0.95rem; font-weight: 400; line-height: 1.65; }
+/* sweeping light beam across the card on hover */
+.cap__beam {
+  position: absolute;
+  top: 0; left: -60%;
+  width: 50%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(56,232,255,0.10), transparent);
+  transform: skewX(-18deg);
+  transition: left .7s var(--ease);
+}
+.cap:hover .cap__beam { left: 120%; }
+
+/* =================================================================
+   5. WHY
+   ================================================================= */
+.why__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+.why__item {
+  padding: 30px 26px;
+  transition: transform .4s var(--ease), box-shadow .4s, border-color .4s;
+}
+.why__item:hover {
+  transform: translateY(-6px);
+  border-color: rgba(255, 255, 255, 0.28);
+}
+.why__item h3 {
+  font-size: 1.45rem;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--text);
+}
+.why__item p { color: var(--text-dim); font-size: 0.95rem; font-weight: 400; line-height: 1.65; }
+
+/* =================================================================
+   6. CONTACT
+   ================================================================= */
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+/* Centered contact layout (form removed) */
+.contact__center { max-width: 720px; margin: 0 auto; text-align: center; }
+.contact__center .contact__meta { display: flex; flex-direction: column; align-items: center; }
+.contact__center .btn { margin-top: 28px; }
+.contact__intro .section__title { font-size: clamp(2rem, 4vw, 3rem); margin: 14px 0 34px; }
+.contact__meta { color: var(--text-faint); font-size: 0.92rem; }
+.contact__email {
+  display: inline-block;
+  font-family: var(--font-primary);
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 8px;
+  transition: color var(--transition);
+}
+.contact__email:hover { color: var(--accent); }
+
+/* form */
+.contact__form { padding: 36px; display: flex; flex-direction: column; gap: 22px; }
+.field { position: relative; }
+.field input, .field textarea {
+  width: 100%;
+  padding: 18px 16px 10px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--surface-brd);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  font-weight: 400;
+  resize: vertical;
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+}
+.field textarea { min-height: 110px; }
+.field input:focus, .field textarea:focus {
+  outline: none;
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+/* floating labels */
+.field label {
+  position: absolute;
+  left: 16px; top: 17px;
+  color: var(--text-faint);
+  font-size: 0.98rem;
+  font-weight: 400;
+  pointer-events: none;
+  transition: transform .2s var(--ease), color .2s, font-size .2s;
+}
+.field input:focus + label,
+.field input:not(:placeholder-shown) + label,
+.field textarea:focus + label,
+.field textarea:not(:placeholder-shown) + label {
+  transform: translateY(-13px);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+.form__status { font-size: 0.92rem; min-height: 1.2em; }
+.form__status.error   { color: #ff9aa2; }
+.form__status.success { color: #8fe3b6; }
+
+/* =================================================================
+   Footer
+   ================================================================= */
+.footer { padding: 50px 0; border-top: 1px solid var(--surface-brd); }
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
+}
+.footer__inner p { color: var(--text-faint); font-size: 0.88rem; font-weight: 400; }
+.footer__top { color: var(--text-dim); font-size: 0.88rem; transition: color var(--transition); }
+.footer__top:hover { color: var(--text); }
+
+/* Right-hand footer cluster: back-to-top above, partner badge beneath it,
+   both flush right so the badge lands in the bottom-right corner. */
+.footer__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+}
+/* Partner badges, sat side by side. Both are OpenAI artwork and are shown
+   unmodified; the Select Partner badge ships with its own white card, the
+   circular one is transparent outside the disc. */
+.footer__badges {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.partner-badge {
+  height: var(--badge);
+  width: auto;
+}
+.partner-badge--circle {
+  height: var(--badge-circle);
+}
+
+/* 820px is where .footer__inner starts wrapping. Once the cluster is on its
+   own line, right-aligning its contents leaves the narrower back-to-top link
+   floating in from the badges' edge, so switch it to left-align and let it
+   take the full line. */
+@media (max-width: 820px) {
+  .footer__right {
+    width: 100%;
+    align-items: flex-start;
+  }
+}
+
+/* =================================================================
+   Responsive
+   ================================================================= */
+@media (max-width: 900px) {
+  .about__grid, .contact__grid { grid-template-columns: 1fr; }
+  .about__visual { order: 2; }
+  .about__panel { transform: none; }
+  .caps { grid-template-columns: 1fr 1fr; }
+  .cap--wide { grid-column: span 2; }
+  .hero__orb { opacity: 0.55; right: -30%; width: 420px; height: 420px; }
+}
+
+@media (max-width: 720px) {
+  .section { padding: 90px 0; }
+
+  /* slide-in mobile menu */
+  .nav__toggle { display: flex; }
+  .nav__links {
+    position: fixed;
+    inset: 0 0 0 30%;
+    flex-direction: column;
+    justify-content: center;
+    gap: 28px;
+    padding: 40px;
+    background: rgba(8,10,24,0.92);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-left: 1px solid var(--surface-brd);
+    transform: translateX(100%);
+    transition: transform .4s var(--ease);
+  }
+  .nav__links.open { transform: translateX(0); }
+  .nav__links a { font-size: 1.2rem; }
+
+  .caps { grid-template-columns: 1fr; }
+  .cap--wide { grid-column: span 1; }
+  .hero__orb { display: none; }
+  .hero__stats { gap: 12px; }
+  .stat-card { flex: 1 1 100%; }
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* =================================================================
+   CASE STUDIES PAGE (case-studies.html)
+   Builds on the shared tokens and components above (.section, .glass,
+   .card, .cap__index, .reveal, .btn …); only page-specific layout lives here.
+   ================================================================= */
+
+/* ---- Hero ---- */
+.cs-hero {
+  position: relative;
+  min-height: 92vh;
+  min-height: 92dvh;
+  display: flex;
+  align-items: center;
+  padding: 140px 0 120px;
+  text-align: center;
+}
+.cs-hero__content { max-width: 980px; }
+.cs-hero__title {
+  font-size: clamp(2.2rem, 5.4vw, 4.3rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  margin: 0 auto 56px;
+  max-width: 920px;
+  text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+/* Same upright Space Grotesk accent as the home hero */
+.cs-hero__title .italic-accent {
+  display: inline-block;   /* keep the accent phrase together on one line */
+  font-family: "Space Grotesk", var(--font-primary);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+.cs-hero .hero__eyebrow { transition-delay: 0s; }
+.cs-hero__title.reveal  { transition-delay: .08s; }
+
+/* Engagement facts */
+.cs-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 16px;
+  text-align: left;
+}
+.cs-meta__item {
+  padding: 20px 24px;
+  transition: border-color var(--transition), transform .8s var(--ease), opacity .8s var(--ease);
+}
+.cs-meta__item:hover { border-color: rgba(255, 255, 255, 0.28); }
+.cs-meta__item:nth-child(1) { transition-delay: .18s; }
+.cs-meta__item:nth-child(2) { transition-delay: .26s; }
+.cs-meta__item:nth-child(3) { transition-delay: .34s; }
+.cs-meta dt {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+.cs-meta dd { font-size: 1.05rem; font-weight: 500; color: var(--text); line-height: 1.4; }
+.cs-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.cs-tags li {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--surface-brd);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+/* ---- Challenge ---- */
+.cs-split {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: center;
+}
+.cs-split__title { font-size: clamp(1.9rem, 3.4vw, 2.7rem); }
+.cs-lead { font-size: 1.12rem; color: var(--text-dim); line-height: 1.75; max-width: 560px; }
+.cs-pains {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.cs-pain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 20px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.cs-pain:hover { border-color: rgba(255, 255, 255, 0.28); }
+.cs-pain .dot { flex: none; }
+.cs-pains .cs-pain:nth-child(2) { transition-delay: .08s; }
+.cs-pains .cs-pain:nth-child(3) { transition-delay: .16s; }
+.cs-pains .cs-pain:nth-child(4) { transition-delay: .24s; }
+
+/* ---- Approach: process timeline ----
+   Desktop: a centred spine with steps alternating either side.
+   Tablet/mobile: the spine moves to the left edge. */
+.cs-timeline {
+  list-style: none;
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.cs-timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px; bottom: 8px;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, rgba(159, 233, 255, 0.45) 10%, rgba(182, 166, 255, 0.45) 90%, transparent);
+}
+.cs-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 72px 1fr;
+  align-items: center;
+}
+.cs-step + .cs-step { margin-top: 18px; }
+.cs-step__node {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  background: var(--bg-2);
+  border: 1px solid var(--surface-brd);
+  transition: color .6s var(--ease) .25s, border-color .6s var(--ease) .25s, box-shadow .6s var(--ease) .25s;
+}
+.cs-step.in-view .cs-step__node {
+  color: var(--accent);
+  border-color: rgba(159, 233, 255, 0.55);
+  box-shadow: 0 0 22px var(--glow-cyan);
+}
+.cs-step__body {
+  grid-row: 1;
+  padding: 22px 26px;
+  transition: border-color var(--transition), transform .4s var(--ease);
+}
+.cs-step:nth-child(odd)  .cs-step__body { grid-column: 1; text-align: right; }
+.cs-step:nth-child(even) .cs-step__body { grid-column: 3; }
+.cs-step__body:hover { border-color: rgba(255, 255, 255, 0.28); transform: translateY(-4px); }
+.cs-step__label {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+.cs-step:nth-child(even) .cs-step__label { color: var(--violet); }
+.cs-step__title { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 6px; }
+.cs-step__desc { color: var(--text-dim); font-size: 0.93rem; line-height: 1.6; }
+
+/* ---- Status chips: completed vs recommended ---- */
+.cs-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid;
+}
+.cs-status__mark { font-size: 0.85rem; line-height: 1; }
+.cs-status--done { color: #8ff3c9; border-color: rgba(70, 241, 176, 0.35); background: rgba(70, 241, 176, 0.06); }
+.cs-status--next { color: var(--violet); border-color: rgba(182, 166, 255, 0.4); border-style: dashed; background: rgba(182, 166, 255, 0.05); }
+
+/* ---- Outcomes: reuse .card, with a staggered rise ----
+   .card sets its own (hover) transition, so the entrance uses a one-shot
+   animation instead; with fill-mode "backwards" it releases the transform
+   when done, leaving the card's hover lift and tilt untouched. */
+.cs-cards { grid-template-columns: repeat(3, 1fr); }
+.cs-cards .card__icon svg { display: block; }
+.cs-cards .card.reveal.in-view { animation: csRise .8s var(--ease) backwards; }
+.cs-cards .card:nth-child(3n+2).in-view { animation-delay: .1s; }
+.cs-cards .card:nth-child(3n).in-view   { animation-delay: .2s; }
+@keyframes csRise {
+  from { opacity: 0; transform: translateY(34px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- Result statement ---- */
+.cs-result { padding-top: 40px; }
+.cs-result__panel {
+  position: relative;
+  overflow: hidden;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(26px, 6vw, 80px);
+  text-align: center;
+}
+/* thin gradient accent along the top edge */
+.cs-result__panel::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: var(--accent-grad);
+  opacity: 0.7;
+}
+.cs-result__panel .section__eyebrow { position: relative; }
+.cs-result__statement {
+  position: relative;
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+/* ---- What's next: dashed "not yet built" cards ---- */
+.cs-next__grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.cs-next__item {
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  border: 1px dashed rgba(182, 166, 255, 0.32);
+  background: rgba(255, 255, 255, 0.015);
+  transition: border-color var(--transition), background var(--transition), opacity .8s var(--ease), transform .8s var(--ease);
+}
+.cs-next__item:hover { border-color: rgba(182, 166, 255, 0.7); background: rgba(182, 166, 255, 0.05); }
+.cs-next__item h3 { font-size: 1.12rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.35; }
+.cs-next__item .cap__index { font-size: 1.3rem; margin-bottom: 18px; }
+.cs-next__item:nth-child(2) { transition-delay: .08s; }
+.cs-next__item:nth-child(3) { transition-delay: .16s; }
+.cs-next__item:nth-child(4) { transition-delay: .24s; }
+/* once revealed, hovers respond immediately */
+.cs-meta__item.in-view, .cs-pain.in-view, .cs-next__item.in-view { transition-delay: 0s; }
+
+/* ---- Responsive ---- */
+@media (max-width: 960px) {
+  .cs-cards { grid-template-columns: repeat(2, 1fr); }
+  .cs-next__grid { grid-template-columns: repeat(2, 1fr); }
+  .cs-split { grid-template-columns: 1fr; gap: 40px; }
+
+  /* spine to the left */
+  .cs-timeline { max-width: 640px; }
+  .cs-timeline::before { left: 23px; transform: none; }
+  .cs-step { grid-template-columns: 46px 1fr; column-gap: 18px; }
+  .cs-step__node { grid-column: 1; }
+  .cs-step:nth-child(odd) .cs-step__body,
+  .cs-step:nth-child(even) .cs-step__body { grid-column: 2; text-align: left; }
+}
+
+@media (max-width: 720px) {
+  .cs-hero { padding: 120px 0 100px; min-height: auto; }
+  .cs-hero__title { margin-bottom: 40px; }
+  .cs-meta { grid-template-columns: 1fr 1fr; }
+  .cs-meta__item--wide { grid-column: span 2; }
+  .cs-cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .cs-meta { grid-template-columns: 1fr; }
+  .cs-meta__item--wide { grid-column: auto; }
+  .cs-pains { grid-template-columns: 1fr; }
+  .cs-next__grid { grid-template-columns: 1fr; }
+  .cs-step__body { padding: 18px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-cards .card.reveal.in-view { animation: none; }
+}
+
+/* Six nav links (Case Studies added): tighten spacing on mid-width screens
+   so the row never crowds the logo before the mobile menu takes over. */
+@media (min-width: 721px) and (max-width: 1000px) {
+  .nav__links { gap: 20px; }
+  .nav__cta { padding: 8px 16px; }
+}
+@media (min-width: 721px) and (max-width: 820px) {
+  .nav__links { gap: 14px; }
+}
+
+</style>
+
+  <!-- Structured data: mirrors only what is visible on this page. -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": "https://mdlp.ai/case-studies.html#webpage",
+    "url": "https://mdlp.ai/case-studies.html",
+    "name": "Case Studies — mdlp.ai",
+    "description": "Transforming Hospitality Operations Through AI & Technology Strategy: a six-month engagement with a UK Hospitality Group.",
+    "inLanguage": "en",
+    "isPartOf": { "@id": "https://mdlp.ai/#website" },
+    "about": { "@id": "https://mdlp.ai/#organization" }
+  }
+  </script>
+</head>
+<body class="case-page">
+  <!-- ===== Animated background layers (shared with the home page) ===== -->
+  <video class="bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="assets/background.mp4" type="video/mp4" />
+  </video>
+  <div class="bg-video-overlay" aria-hidden="true"></div>
+
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="aurora" aria-hidden="true"></div>
+  <div class="nebula" aria-hidden="true">
+    <div class="nebula__planet"></div>
+  </div>
+  <div class="shooting-star shooting-star--1" aria-hidden="true"></div>
+  <div class="shooting-star shooting-star--2" aria-hidden="true"></div>
+
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+
+  <!-- ===== Navigation (same component as the home page) ===== -->
+  <header class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__brand">
+        <img class="brand-logo" src="assets/logo.png" alt="mdlp.ai" width="90" height="28" decoding="async" />
+      </a>
+
+      <nav class="nav__links" id="navLinks">
+        <a href="index.html#about">About</a>
+        <a href="index.html#services">Services</a>
+        <a href="index.html#capabilities">Capabilities</a>
+        <a href="case-studies.html" class="active" aria-current="page">Case Studies</a>
+        <a href="index.html#why">Approach</a>
+        <a href="#contact" class="nav__cta">Start a Conversation</a>
+      </nav>
+
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============================================================= -->
+    <!-- HERO                                                          -->
+    <!-- ============================================================= -->
+    <section class="cs-hero" id="top">
+      <div class="container cs-hero__content">
+        <p class="hero__eyebrow reveal">Case Study · Hospitality</p>
+
+        <h1 class="cs-hero__title reveal">
+          Transforming Hospitality Operations Through
+          <em class="italic-accent">AI &amp; Technology Strategy</em>
+        </h1>
+
+        <dl class="cs-meta">
+          <div class="cs-meta__item glass reveal">
+            <dt>Client</dt>
+            <dd>UK Hospitality Group</dd>
+          </div>
+          <div class="cs-meta__item glass reveal">
+            <dt>Engagement</dt>
+            <dd>Six Months</dd>
+          </div>
+          <div class="cs-meta__item cs-meta__item--wide glass reveal">
+            <dt>Services</dt>
+            <dd>
+              <ul class="cs-tags">
+                <li>Executive AI Advisory</li>
+                <li>Workforce AI Training</li>
+                <li>Operational Transformation</li>
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </div>
+
+      <a href="#challenge" class="hero__scroll" aria-label="Scroll to the challenge">
+        <span class="hero__scroll-dot"></span>
+      </a>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- THE CHALLENGE                                                 -->
+    <!-- ============================================================= -->
+    <section class="section cs-challenge" id="challenge">
+      <div class="container cs-split">
+        <div>
+          <p class="section__eyebrow reveal">The Challenge</p>
+          <h2 class="section__title cs-split__title reveal">
+            Productivity and visibility held back by <span class="italic-accent">manual work</span>.
+          </h2>
+          <p class="cs-lead reveal">
+            Manual processes, disconnected systems, limited AI adoption, and
+            inefficient reporting were affecting productivity and operational
+            visibility across departments.
+          </p>
+        </div>
+
+        <ul class="cs-pains">
+          <li class="cs-pain glass reveal"><span class="dot dot--b"></span>Manual processes</li>
+          <li class="cs-pain glass reveal"><span class="dot dot--p"></span>Disconnected systems</li>
+          <li class="cs-pain glass reveal"><span class="dot dot--b"></span>Limited AI adoption</li>
+          <li class="cs-pain glass reveal"><span class="dot dot--p"></span>Inefficient reporting</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- OUR APPROACH — process timeline                               -->
+    <!-- ============================================================= -->
+    <section class="section cs-approach" id="approach">
+      <div class="container">
+        <div class="section__head">
+          <p class="section__eyebrow reveal">Our Approach</p>
+          <h2 class="section__title reveal">Six months, one connected programme</h2>
+          <p class="section__sub reveal">
+            From building capability to setting direction, each stage informed the next.
+          </p>
+        </div>
+
+        <ol class="cs-timeline">
+          <li class="cs-step reveal">
+            <span class="cs-step__node" aria-hidden="true">01</span>
+            <div class="cs-step__body glass">
+              <p class="cs-step__label">Enable</p>
+              <h3 class="cs-step__title">Tailored AI training</h3>
+              <p class="cs-step__desc">Delivered to executives, managers, and employees across departments.</p>
+            </div>
+          </li>
+          <li class="cs-step reveal">
+            <span class="cs-step__node" aria-hidden="true">02</span>
+            <div class="cs-step__body glass">
+              <p class="cs-step__label">Discover</p>
+              <h3 class="cs-step__title">Departmental discovery</h3>
+              <p class="cs-step__desc">Discovery sessions and operational workflow assessments.</p>
+            </div>
+          </li>
+          <li class="cs-step reveal">
+            <span class="cs-step__node" aria-hidden="true">03</span>
+            <div class="cs-step__body glass">
+              <p class="cs-step__label">Demonstrate</p>
+              <h3 class="cs-step__title">Practical AI in action</h3>
+              <p class="cs-step__desc">Real AI applications for everyday business tasks.</p>
+            </div>
+          </li>
+          <li class="cs-step reveal">
+            <span class="cs-step__node" aria-hidden="true">04</span>
+            <div class="cs-step__body glass">
+              <p class="cs-step__label">Research</p>
+              <h3 class="cs-step__title">Automation &amp; technology</h3>
+              <p class="cs-step__desc">Automation opportunities and hospitality technology solutions.</p>
+            </div>
+          </li>
+          <li class="cs-step reveal">
+            <span class="cs-step__node" aria-hidden="true">05</span>
+            <div class="cs-step__body glass">
+              <p class="cs-step__label">Evaluate</p>
+              <h3 class="cs-step__title">PMS vendor evaluations</h3>
+              <p class="cs-step__desc">Property Management System assessments and vendor demonstrations.</p>
+            </div>
+          </li>
+          <li class="cs-step reveal">
+            <span class="cs-step__node" aria-hidden="true">06</span>
+            <div class="cs-step__body glass">
+              <p class="cs-step__label">Recommend</p>
+              <h3 class="cs-step__title">Executive roadmap</h3>
+              <p class="cs-step__desc">Executive recommendations and a phased technology roadmap.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- KEY OUTCOMES — completed work                                 -->
+    <!-- ============================================================= -->
+    <section class="section cs-outcomes" id="outcomes">
+      <div class="container">
+        <div class="section__head">
+          <p class="section__eyebrow reveal">Key Outcomes</p>
+          <h2 class="section__title reveal">What the engagement delivered</h2>
+          <p class="cs-status cs-status--done reveal">
+            <span class="cs-status__mark" aria-hidden="true">✓</span> Completed during the engagement
+          </p>
+        </div>
+
+        <div class="cards cs-cards">
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.2"/><path d="M3 19.5c.6-3.2 3-5 6-5s5.4 1.8 6 5"/><circle cx="17" cy="9" r="2.4"/><path d="M16.5 14.3c2.4.2 4 1.7 4.5 4.2"/></svg>
+            </div>
+            <h3 class="card__title">Workforce AI Enablement</h3>
+            <p class="card__desc">Improved AI understanding and practical application across organizational levels.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5.5 5.5"/><path d="M8 10.5h5M10.5 8v5"/></svg>
+            </div>
+            <h3 class="card__title">Operational Assessments</h3>
+            <p class="card__desc">Identified inefficiencies and improvement opportunities across departments.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="6" height="5" rx="1.4"/><rect x="15" y="15" width="6" height="5" rx="1.4"/><path d="M6 9v3.5a2.5 2.5 0 0 0 2.5 2.5H15"/><path d="M17.5 3.5l.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7z"/></svg>
+            </div>
+            <h3 class="card__title">Workflow Transformation</h3>
+            <p class="card__desc">Introduced practical AI applications for reporting, research, document analysis, and administration.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/><path d="M8.5 10.2l2.2 2.1 4.8-4.6"/></svg>
+            </div>
+            <h3 class="card__title">Technology Evaluation</h3>
+            <p class="card__desc">Completed hospitality software research and PMS vendor demonstrations.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-4M12 16V8M16 16v-6"/></svg>
+            </div>
+            <h3 class="card__title">Executive Intelligence</h3>
+            <p class="card__desc">Developed recommendations for centralized dashboards and improved business visibility.</p>
+          </article>
+
+          <article class="card reveal" tabindex="0">
+            <div class="card__icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>
+            </div>
+            <h3 class="card__title">Strategic Roadmap</h3>
+            <p class="card__desc">Delivered actionable recommendations for technology adoption, automation, and operational modernization.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- THE RESULT                                                    -->
+    <!-- ============================================================= -->
+    <section class="section cs-result" id="result">
+      <div class="container">
+        <div class="cs-result__panel glass reveal">
+          <div class="about__panel-glow" aria-hidden="true"></div>
+          <p class="section__eyebrow">The Result</p>
+          <p class="cs-result__statement">
+            mdlp.ai helped a UK hospitality group strengthen
+            <span class="italic-accent">workforce AI capabilities</span>, identify
+            operational improvement opportunities, and establish a clear
+            technology strategy for future growth.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- WHAT'S NEXT — future recommendations (not yet implemented)    -->
+    <!-- ============================================================= -->
+    <section class="section cs-next" id="next">
+      <div class="container">
+        <div class="section__head">
+          <p class="section__eyebrow reveal">What's Next</p>
+          <h2 class="section__title reveal">Recommended priorities</h2>
+          <p class="cs-status cs-status--next reveal">
+            <span class="cs-status__mark" aria-hidden="true">→</span> Recommended for the next phase
+          </p>
+        </div>
+
+        <ol class="cs-next__grid">
+          <li class="cs-next__item reveal">
+            <span class="cap__index">01</span>
+            <h3>Expand AI adoption</h3>
+          </li>
+          <li class="cs-next__item reveal">
+            <span class="cap__index">02</span>
+            <h3>Implement modern hospitality management technology</h3>
+          </li>
+          <li class="cs-next__item reveal">
+            <span class="cap__index">03</span>
+            <h3>Develop executive dashboards</h3>
+          </li>
+          <li class="cs-next__item reveal">
+            <span class="cap__index">04</span>
+            <h3>Introduce targeted workflow automation</h3>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- CONTACT (same component as the home page)                     -->
+    <!-- ============================================================= -->
+    <section class="section contact" id="contact">
+      <div class="container contact__center">
+        <div class="contact__intro">
+          <p class="section__eyebrow reveal">Contact</p>
+          <h2 class="section__title reveal">Ready to write your <span class="italic-accent">AI success story</span>?</h2>
+          <div class="contact__meta reveal">
+            <a href="mailto:md@mdlp.ai" class="contact__email">md@mdlp.ai</a>
+            <p>Working with enterprise teams worldwide</p>
+          </div>
+          <a href="mailto:md@mdlp.ai" class="btn btn--primary reveal">
+            Start a Conversation <span class="btn__arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== Footer (same component as the home page) ===== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <img class="brand-logo brand-logo--footer" src="assets/logo.png" alt="mdlp.ai" width="97" height="30" loading="lazy" decoding="async" />
+      <p>© <span id="year"></span> mdlp.ai · Enterprise AI Transformation, Strategy & Capability</p>
+      <div class="footer__right">
+        <a href="#top" class="footer__top">Back to top ↑</a>
+        <div class="footer__badges">
+          <img class="partner-badge partner-badge--circle" src="assets/openai-consultative-practitioner.png"
+               alt="OpenAI Partner Network — Consultative Solutions Practitioner"
+               width="52" height="52" loading="lazy" decoding="async" />
+          <img class="partner-badge" src="assets/openai-select-partner.png"
+               alt="OpenAI Select Partner" width="93" height="44"
+               loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+/* =================================================================
+   mdlp.ai — Premium AI Consultant Portfolio
+   script.js
+   Handles: starfield particles, scroll reveal, nav behaviour,
+   animated counters, smooth scrolling, and the contact form.
+   ================================================================= */
+
+(function () {
+  "use strict";
+
+  // Respect reduced-motion preference for heavier effects
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /* ===============================================================
+     0. INTRO TYPEWRITER
+     The headline is typed directly into the real <h1>, in its final
+     position at its final size, so when loading finishes there is nothing
+     to hand off and nothing to jump. Only the surrounding hero pieces
+     animate in. The <br> is always emitted, so the headline occupies its
+     full two-line height from the first character and never reflows.
+     =============================================================== */
+  (function intro() {
+    const body = document.body;
+    const introEl = document.getElementById("intro");
+    const heroTitle = document.querySelector(".hero__title");
+
+    // Timing — tweak these to taste
+    const START_DELAY = 450;  // let the video paint before typing
+    const CHAR_SPEED  = 60;   // ms per character
+    const LINE_PAUSE  = 320;  // pause between the two lines
+    const END_PAUSE   = 700;  // hold after finishing before revealing
+    const SETTLE_MS   = 1900; // last hero piece lands -> idle animations resume
+
+    // Nothing to type into: just show the site as-is.
+    if (!heroTitle) {
+      body.classList.remove("intro-loading");
+      return;
+    }
+
+    // The static markup is restored verbatim when typing ends, so the
+    // finished headline is byte-identical to the server-rendered one.
+    const FINAL_HTML = heroTitle.innerHTML;
+
+    // Headline segments. The accent word carries the hero's own accent class,
+    // so it types in the same face and colour it will keep.
+    const SEGMENTS = [
+      { t: "A New Era of" },
+      { br: true, pause: LINE_PAUSE },
+      { t: "AI " },
+      { t: "Transformation", accent: true }
+    ];
+    const TOTAL = SEGMENTS.reduce(function (n, s) {
+      return n + (s.t ? s.t.length : 0);
+    }, 0);
+
+    // Character index at which each line break falls, so typing can pause there.
+    const BREAKS = (function () {
+      const marks = [];
+      let seen = 0;
+      SEGMENTS.forEach(function (seg) {
+        if (seg.br) marks.push(seen);
+        else seen += seg.t.length;
+      });
+      return marks;
+    })();
+
+    // Headline revealed up to `count` characters.
+    //
+    // Characters that haven't been typed yet are still emitted, just made
+    // invisible. That keeps the headline's line breaks and height identical
+    // to the finished article from the very first frame, so nothing reflows
+    // as it types and every letter appears already in its final position.
+    // The caret is laid out at zero width (see .type-caret) for the same reason.
+    function render(count, caret) {
+      let html = "";
+      let left = count;
+      let caretPlaced = false;
+      SEGMENTS.forEach(function (seg) {
+        if (seg.br) { html += "<br />"; return; }
+        const take = Math.max(0, Math.min(seg.t.length, left));
+        let inner = seg.t.slice(0, take);
+        if (caret && !caretPlaced && take < seg.t.length) {
+          inner += '<span class="type-caret"></span>';
+          caretPlaced = true;
+        }
+        const pending = seg.t.slice(take);
+        if (pending) inner += '<span class="type-pending">' + pending + "</span>";
+        html += seg.accent
+          ? '<em class="italic-accent">' + inner + "</em>"
+          : inner;
+        left -= seg.t.length;
+      });
+      return html;
+    }
+
+    function revealSite() {
+      // Restore the exact static markup — no drift from the typed version.
+      heroTitle.innerHTML = FINAL_HTML;
+      heroTitle.style.minHeight = "";
+      body.classList.remove("intro-loading");
+      body.classList.add("intro-loaded");
+      if (introEl) introEl.classList.add("is-hidden");
+
+      // Let the hero's own reveals settle, then release the entrance.
+      document.querySelectorAll(".hero .reveal").forEach(function (el) {
+        el.classList.add("in-view");
+      });
+
+      if (reduceMotion) {
+        body.classList.remove("hero-entering", "hero-settling");
+      } else {
+        requestAnimationFrame(function () {
+          body.classList.remove("hero-entering");
+        });
+        // Last piece has landed — hand the orb and stat cards back to their
+        // idle float animations.
+        window.setTimeout(function () {
+          body.classList.remove("hero-settling");
+        }, SETTLE_MS);
+      }
+
+      window.setTimeout(function () {
+        if (introEl && introEl.parentNode) introEl.parentNode.removeChild(introEl);
+      }, 1000);
+    }
+
+    // Reduced motion: show the headline immediately, skip the typing.
+    if (reduceMotion) {
+      window.setTimeout(revealSite, 400);
+      return;
+    }
+
+    // Park the surrounding hero pieces off-screen before anything paints.
+    body.classList.add("hero-entering", "hero-settling");
+
+    let started = false;
+
+    function startTyping() {
+      if (started) return;
+      started = true;
+
+      heroTitle.innerHTML = render(0, true);
+
+      window.setTimeout(function () {
+        let n = 0;
+        (function step() {
+          heroTitle.innerHTML = render(n, true);
+          if (n >= TOTAL) {
+            window.setTimeout(revealSite, END_PAUSE);
+            return;
+          }
+          // Hold a beat at the line break before starting the second line.
+          const atBreak = BREAKS.indexOf(n) !== -1 && n > 0;
+          n += 1;
+          window.setTimeout(step, atBreak ? LINE_PAUSE : CHAR_SPEED);
+        })();
+      }, START_DELAY);
+    }
+
+    // Wait for the actual faces before typing — fallback metrics wrap
+    // differently, so starting early would swap the letterforms mid-word.
+    // document.fonts.ready is not enough on its own: it can resolve before a
+    // late-arriving webfont stylesheet has registered anything. The timeout is
+    // a safety net so a font that never loads can't stall the intro.
+    if (document.fonts && document.fonts.load) {
+      Promise.all([
+        document.fonts.load('400 1em "Inter"'),
+        document.fonts.load('400 1em "Space Grotesk"')
+      ]).then(startTyping, startTyping);
+      window.setTimeout(startTyping, 2000);
+    } else {
+      startTyping();
+    }
+  })();
+
+  /* ===============================================================
+     1. STAR-FIELD / PARTICLE CANVAS
+     A lightweight animated field of drifting, twinkling stars with
+     occasional connecting lines for a "constellation" tech feel.
+     =============================================================== */
+  const canvas = document.getElementById("starfield");
+  const ctx = canvas ? canvas.getContext("2d") : null;
+  let stars = [];
+  let width = 0;
+  let height = 0;
+  // Track the pointer so the field subtly parallaxes toward the cursor
+  const mouse = { x: -9999, y: -9999 };
+
+  function sizeCanvas() {
+    if (!canvas) return;
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    buildStars();
+  }
+
+  function buildStars() {
+    // Density scales with screen size, capped for performance
+    const count = Math.min(160, Math.floor((width * height) / 11000));
+    stars = [];
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        r: Math.random() * 1.6 + 0.4,        // radius
+        vx: (Math.random() - 0.5) * 0.18,    // velocity
+        vy: (Math.random() - 0.5) * 0.18,
+        tw: Math.random() * Math.PI * 2       // twinkle phase
+      });
+    }
+  }
+
+  const palette = ["56,232,255", "139,92,255", "255,92,240", "255,255,255"];
+
+  function drawStars(t) {
+    if (!ctx) return;
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 0; i < stars.length; i++) {
+      const s = stars[i];
+
+      // drift
+      s.x += s.vx;
+      s.y += s.vy;
+
+      // wrap around edges
+      if (s.x < 0) s.x = width;
+      if (s.x > width) s.x = 0;
+      if (s.y < 0) s.y = height;
+      if (s.y > height) s.y = 0;
+
+      // gentle pull toward the cursor for parallax life
+      const dx = mouse.x - s.x;
+      const dy = mouse.y - s.y;
+      const dist = Math.hypot(dx, dy);
+      if (dist < 120) {
+        s.x += dx * 0.0009 * (120 - dist) / 120 * 4;
+        s.y += dy * 0.0009 * (120 - dist) / 120 * 4;
+      }
+
+      // twinkle
+      const twinkle = 0.5 + 0.5 * Math.sin(t * 0.002 + s.tw);
+      const color = palette[i % palette.length];
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(" + color + "," + (0.35 + twinkle * 0.55) + ")";
+      ctx.shadowBlur = 8;
+      ctx.shadowColor = "rgba(" + color + ",0.8)";
+      ctx.fill();
+    }
+    ctx.shadowBlur = 0;
+
+    // draw faint connecting lines between nearby stars
+    for (let i = 0; i < stars.length; i++) {
+      for (let j = i + 1; j < stars.length; j++) {
+        const a = stars[i], b = stars[j];
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 120) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = "rgba(120,140,255," + (0.10 * (1 - d / 120)) + ")";
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+
+  function animate(t) {
+    drawStars(t);
+    requestAnimationFrame(animate);
+  }
+
+  if (canvas && ctx && !reduceMotion) {
+    sizeCanvas();
+    window.addEventListener("resize", sizeCanvas);
+    window.addEventListener("mousemove", function (e) {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+    window.addEventListener("mouseout", function () {
+      mouse.x = -9999;
+      mouse.y = -9999;
+    });
+    requestAnimationFrame(animate);
+  } else if (canvas) {
+    // Static, subtle dots for reduced-motion users
+    sizeCanvas();
+    drawStars(0);
+  }
+
+  /* ===============================================================
+     2. STICKY NAV — add shadow/blur once the user scrolls,
+     and update the top scroll-progress bar.
+     =============================================================== */
+  const nav = document.getElementById("nav");
+  const progress = document.getElementById("scrollProgress");
+
+  function onScroll() {
+    const y = window.scrollY;
+    if (nav) nav.classList.toggle("scrolled", y > 30);
+
+    if (progress) {
+      const docH = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = docH > 0 ? (y / docH) * 100 : 0;
+      progress.style.width = pct + "%";
+    }
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  /* ===============================================================
+     2b. NAV ACTIVE STATE (scroll-spy) — highlight the link for the
+     section currently in view, for a clean, oriented navigation.
+     =============================================================== */
+  const navAnchors = Array.from(
+    document.querySelectorAll('#navLinks a[href^="#"]')
+  );
+  const spySections = navAnchors
+    .map((a) => document.querySelector(a.getAttribute("href")))
+    .filter(Boolean);
+
+  if ("IntersectionObserver" in window && spySections.length) {
+    const spy = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const id = "#" + entry.target.id;
+          navAnchors.forEach((a) =>
+            a.classList.toggle("active", a.getAttribute("href") === id)
+          );
+        });
+      },
+      // Trigger around the upper-middle of the viewport
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 }
+    );
+    spySections.forEach((s) => spy.observe(s));
+  }
+
+  /* ===============================================================
+     3. MOBILE MENU TOGGLE
+     =============================================================== */
+  const toggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+
+  function closeMenu() {
+    if (!toggle || !navLinks) return;
+    toggle.classList.remove("open");
+    navLinks.classList.remove("open");
+    toggle.setAttribute("aria-expanded", "false");
+  }
+
+  if (toggle && navLinks) {
+    toggle.addEventListener("click", function () {
+      const open = navLinks.classList.toggle("open");
+      toggle.classList.toggle("open", open);
+      toggle.setAttribute("aria-expanded", String(open));
+    });
+    // close after clicking any link
+    navLinks.querySelectorAll("a").forEach(function (a) {
+      a.addEventListener("click", closeMenu);
+    });
+  }
+
+  /* ===============================================================
+     4. SCROLL REVEAL — fade/slide elements in as they enter view.
+     Counters fire when the hero stats become visible.
+     =============================================================== */
+  const revealEls = document.querySelectorAll(".reveal");
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: "0px 0px -40px 0px" });
+
+    revealEls.forEach(function (el) { io.observe(el); });
+  } else {
+    // Fallback: just show everything
+    revealEls.forEach(function (el) { el.classList.add("in-view"); });
+  }
+
+  /* ===============================================================
+     5. ANIMATED COUNTERS for the hero stat cards
+     =============================================================== */
+  const counters = document.querySelectorAll(".stat-card__num");
+
+  function runCounter(el) {
+    const target = parseInt(el.getAttribute("data-count"), 10) || 0;
+    const suffix = el.getAttribute("data-suffix") || "";
+    const duration = 1600;
+    const start = performance.now();
+
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      // easeOutCubic for a satisfying deceleration
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(target * eased) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  if ("IntersectionObserver" in window && counters.length) {
+    const co = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          runCounter(entry.target);
+          co.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.6 });
+    counters.forEach(function (c) { co.observe(c); });
+  } else {
+    counters.forEach(function (c) {
+      c.textContent = c.getAttribute("data-count") + (c.getAttribute("data-suffix") || "");
+    });
+  }
+
+  /* ===============================================================
+     6. CARD TILT — subtle 3D tilt toward the cursor on service cards
+     =============================================================== */
+  if (!reduceMotion) {
+    document.querySelectorAll(".card").forEach(function (card) {
+      card.addEventListener("mousemove", function (e) {
+        const rect = card.getBoundingClientRect();
+        const cx = e.clientX - rect.left - rect.width / 2;
+        const cy = e.clientY - rect.top - rect.height / 2;
+        const rx = (-cy / rect.height) * 6;   // rotateX
+        const ry = (cx / rect.width) * 6;     // rotateY
+        card.style.transform =
+          "translateY(-8px) perspective(700px) rotateX(" + rx + "deg) rotateY(" + ry + "deg)";
+      });
+      card.addEventListener("mouseleave", function () {
+        card.style.transform = "";
+      });
+    });
+  }
+
+  /* ===============================================================
+     7. SMOOTH ANCHOR SCROLL (with offset for the fixed nav)
+     =============================================================== */
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener("click", function (e) {
+      const id = link.getAttribute("href");
+      if (id.length <= 1) return;
+      const target = document.querySelector(id);
+      if (!target) return;
+      e.preventDefault();
+      const top = target.getBoundingClientRect().top + window.scrollY - 70;
+      window.scrollTo({ top: top, behavior: "smooth" });
+    });
+  });
+
+  /* ===============================================================
+     8. CONTACT FORM — client-side validation + friendly feedback.
+     (No backend here; wire up to your provider of choice.)
+     =============================================================== */
+  const form = document.getElementById("contactForm");
+  const status = document.getElementById("formStatus");
+
+  function isEmail(v) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  }
+
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = form.name.value.trim();
+      const email = form.email.value.trim();
+      const message = form.message.value.trim();
+
+      if (!name || !email || !message) {
+        setStatus("Please fill in your name, email, and message.", "error");
+        return;
+      }
+      if (!isEmail(email)) {
+        setStatus("Please enter a valid email address.", "error");
+        return;
+      }
+
+      // Simulate a successful send (replace with a real endpoint / Formspree / API)
+      setStatus("Thanks, " + name + "! Your message is on its way — I'll be in touch shortly.", "success");
+      form.reset();
+    });
+  }
+
+  function setStatus(msg, type) {
+    if (!status) return;
+    status.textContent = msg;
+    status.className = "form__status " + type;
+  }
+
+  /* ===============================================================
+     9. TRAILING STARLET CURSOR
+     Replaces the pointer with a glowing star that leaves a trail of
+     fading, drifting starlets. Desktop + fine-pointer only.
+     =============================================================== */
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (finePointer && !reduceMotion) {
+    // The star that rides on the pointer (inline SVG so it needs no assets)
+    const star = document.createElement("div");
+    star.className = "cursor-star";
+    star.innerHTML =
+      '<svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">' +
+      '<path d="M12 0l2.9 8.3L24 12l-9.1 3.7L12 24l-2.9-8.3L0 12l9.1-3.7z"/></svg>';
+    document.body.appendChild(star);
+
+    const trailColors = ["#38e8ff", "#8b5cff", "#ff5cf0", "#ffffff"];
+    let lastSpawn = 0;
+
+    function spawnStarlet(x, y) {
+      const el = document.createElement("div");
+      el.className = "starlet";
+      const size = Math.random() * 5 + 2;
+      const color = trailColors[Math.floor(Math.random() * trailColors.length)];
+      el.style.width = size + "px";
+      el.style.height = size + "px";
+      el.style.left = x + "px";
+      el.style.top = y + "px";
+      el.style.color = color;          // drives the glow via currentColor
+      el.style.background = color;
+      document.body.appendChild(el);
+
+      // animate: drift slightly, shrink, and fade out
+      const driftX = (Math.random() - 0.5) * 26;
+      const driftY = (Math.random() - 0.5) * 26 + 10; // bias downward like falling sparks
+      el.animate(
+        [
+          { transform: "translate(-50%, -50%) scale(1)", opacity: 1 },
+          { transform: "translate(calc(-50% + " + driftX + "px), calc(-50% + " + driftY + "px)) scale(0)", opacity: 0 }
+        ],
+        { duration: 700 + Math.random() * 400, easing: "ease-out" }
+      ).onfinish = function () { el.remove(); };
+    }
+
+    window.addEventListener("mousemove", function (e) {
+      // position the main star
+      star.style.transform = "translate(" + e.clientX + "px," + e.clientY + "px)";
+
+      // throttle starlet spawning so the trail stays elegant, not spammy
+      const now = performance.now();
+      if (now - lastSpawn > 24) {
+        spawnStarlet(e.clientX, e.clientY);
+        lastSpawn = now;
+      }
+    });
+
+    // little pop when clicking
+    window.addEventListener("mousedown", function () {
+      star.style.transform += " scale(1.6)";
+    });
+    window.addEventListener("mouseup", function () {
+      star.style.transform = star.style.transform.replace(" scale(1.6)", "");
+    });
+
+    // hide the star when the pointer leaves the window
+    document.addEventListener("mouseleave", function () { star.style.opacity = "0"; });
+    document.addEventListener("mouseenter", function () { star.style.opacity = "1"; });
+  }
+
+  /* ===============================================================
+     10. Footer year
+     =============================================================== */
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
+})();
+
+</script>
+</body>
+</html>

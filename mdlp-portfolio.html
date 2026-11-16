@@ -1172,6 +1172,303 @@ body::after {
   .reveal { opacity: 1; transform: none; }
 }
 
+/* =================================================================
+   CASE STUDIES PAGE (case-studies.html)
+   Builds on the shared tokens and components above (.section, .glass,
+   .card, .cap__index, .reveal, .btn …); only page-specific layout lives here.
+   ================================================================= */
+
+/* ---- Hero ---- */
+.cs-hero {
+  position: relative;
+  min-height: 92vh;
+  min-height: 92dvh;
+  display: flex;
+  align-items: center;
+  padding: 140px 0 120px;
+  text-align: center;
+}
+.cs-hero__content { max-width: 980px; }
+.cs-hero__title {
+  font-size: clamp(2.2rem, 5.4vw, 4.3rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.005em;
+  margin: 0 auto 56px;
+  max-width: 920px;
+  text-wrap: balance;
+  text-shadow: 0 2px 30px rgba(0, 0, 0, 0.45);
+}
+/* Same upright Space Grotesk accent as the home hero */
+.cs-hero__title .italic-accent {
+  display: inline-block;   /* keep the accent phrase together on one line */
+  font-family: "Space Grotesk", var(--font-primary);
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0.005em;
+}
+.cs-hero .hero__eyebrow { transition-delay: 0s; }
+.cs-hero__title.reveal  { transition-delay: .08s; }
+
+/* Engagement facts */
+.cs-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr;
+  gap: 16px;
+  text-align: left;
+}
+.cs-meta__item {
+  padding: 20px 24px;
+  transition: border-color var(--transition), transform .8s var(--ease), opacity .8s var(--ease);
+}
+.cs-meta__item:hover { border-color: rgba(255, 255, 255, 0.28); }
+.cs-meta__item:nth-child(1) { transition-delay: .18s; }
+.cs-meta__item:nth-child(2) { transition-delay: .26s; }
+.cs-meta__item:nth-child(3) { transition-delay: .34s; }
+.cs-meta dt {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--text-faint);
+  margin-bottom: 8px;
+}
+.cs-meta dd { font-size: 1.05rem; font-weight: 500; color: var(--text); line-height: 1.4; }
+.cs-tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px; }
+.cs-tags li {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--surface-brd);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: var(--text-dim);
+}
+
+/* ---- Challenge ---- */
+.cs-split {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: center;
+}
+.cs-split__title { font-size: clamp(1.9rem, 3.4vw, 2.7rem); }
+.cs-lead { font-size: 1.12rem; color: var(--text-dim); line-height: 1.75; max-width: 560px; }
+.cs-pains {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.cs-pain {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 20px;
+  font-size: 0.98rem;
+  font-weight: 500;
+  color: var(--text);
+}
+.cs-pain:hover { border-color: rgba(255, 255, 255, 0.28); }
+.cs-pain .dot { flex: none; }
+.cs-pains .cs-pain:nth-child(2) { transition-delay: .08s; }
+.cs-pains .cs-pain:nth-child(3) { transition-delay: .16s; }
+.cs-pains .cs-pain:nth-child(4) { transition-delay: .24s; }
+
+/* ---- Approach: process timeline ----
+   Desktop: a centred spine with steps alternating either side.
+   Tablet/mobile: the spine moves to the left edge. */
+.cs-timeline {
+  list-style: none;
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.cs-timeline::before {
+  content: "";
+  position: absolute;
+  top: 8px; bottom: 8px;
+  left: 50%;
+  width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(180deg, transparent, rgba(159, 233, 255, 0.45) 10%, rgba(182, 166, 255, 0.45) 90%, transparent);
+}
+.cs-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 72px 1fr;
+  align-items: center;
+}
+.cs-step + .cs-step { margin-top: 18px; }
+.cs-step__node {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: center;
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  background: var(--bg-2);
+  border: 1px solid var(--surface-brd);
+  transition: color .6s var(--ease) .25s, border-color .6s var(--ease) .25s, box-shadow .6s var(--ease) .25s;
+}
+.cs-step.in-view .cs-step__node {
+  color: var(--accent);
+  border-color: rgba(159, 233, 255, 0.55);
+  box-shadow: 0 0 22px var(--glow-cyan);
+}
+.cs-step__body {
+  grid-row: 1;
+  padding: 22px 26px;
+  transition: border-color var(--transition), transform .4s var(--ease);
+}
+.cs-step:nth-child(odd)  .cs-step__body { grid-column: 1; text-align: right; }
+.cs-step:nth-child(even) .cs-step__body { grid-column: 3; }
+.cs-step__body:hover { border-color: rgba(255, 255, 255, 0.28); transform: translateY(-4px); }
+.cs-step__label {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.66rem;
+  font-weight: 500;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+.cs-step:nth-child(even) .cs-step__label { color: var(--violet); }
+.cs-step__title { font-size: 1.2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.25; margin-bottom: 6px; }
+.cs-step__desc { color: var(--text-dim); font-size: 0.93rem; line-height: 1.6; }
+
+/* ---- Status chips: completed vs recommended ---- */
+.cs-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: 1px solid;
+}
+.cs-status__mark { font-size: 0.85rem; line-height: 1; }
+.cs-status--done { color: #8ff3c9; border-color: rgba(70, 241, 176, 0.35); background: rgba(70, 241, 176, 0.06); }
+.cs-status--next { color: var(--violet); border-color: rgba(182, 166, 255, 0.4); border-style: dashed; background: rgba(182, 166, 255, 0.05); }
+
+/* ---- Outcomes: reuse .card, with a staggered rise ----
+   .card sets its own (hover) transition, so the entrance uses a one-shot
+   animation instead; with fill-mode "backwards" it releases the transform
+   when done, leaving the card's hover lift and tilt untouched. */
+.cs-cards { grid-template-columns: repeat(3, 1fr); }
+.cs-cards .card__icon svg { display: block; }
+.cs-cards .card.reveal.in-view { animation: csRise .8s var(--ease) backwards; }
+.cs-cards .card:nth-child(3n+2).in-view { animation-delay: .1s; }
+.cs-cards .card:nth-child(3n).in-view   { animation-delay: .2s; }
+@keyframes csRise {
+  from { opacity: 0; transform: translateY(34px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ---- Result statement ---- */
+.cs-result { padding-top: 40px; }
+.cs-result__panel {
+  position: relative;
+  overflow: hidden;
+  max-width: 940px;
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 72px) clamp(26px, 6vw, 80px);
+  text-align: center;
+}
+/* thin gradient accent along the top edge */
+.cs-result__panel::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 15%; right: 15%;
+  height: 1px;
+  background: var(--accent-grad);
+  opacity: 0.7;
+}
+.cs-result__panel .section__eyebrow { position: relative; }
+.cs-result__statement {
+  position: relative;
+  font-size: clamp(1.35rem, 2.6vw, 2rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  text-wrap: balance;
+}
+
+/* ---- What's next: dashed "not yet built" cards ---- */
+.cs-next__grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+.cs-next__item {
+  padding: 28px 24px;
+  border-radius: var(--radius);
+  border: 1px dashed rgba(182, 166, 255, 0.32);
+  background: rgba(255, 255, 255, 0.015);
+  transition: border-color var(--transition), background var(--transition), opacity .8s var(--ease), transform .8s var(--ease);
+}
+.cs-next__item:hover { border-color: rgba(182, 166, 255, 0.7); background: rgba(182, 166, 255, 0.05); }
+.cs-next__item h3 { font-size: 1.12rem; font-weight: 600; letter-spacing: -0.015em; line-height: 1.35; }
+.cs-next__item .cap__index { font-size: 1.3rem; margin-bottom: 18px; }
+.cs-next__item:nth-child(2) { transition-delay: .08s; }
+.cs-next__item:nth-child(3) { transition-delay: .16s; }
+.cs-next__item:nth-child(4) { transition-delay: .24s; }
+/* once revealed, hovers respond immediately */
+.cs-meta__item.in-view, .cs-pain.in-view, .cs-next__item.in-view { transition-delay: 0s; }
+
+/* ---- Responsive ---- */
+@media (max-width: 960px) {
+  .cs-cards { grid-template-columns: repeat(2, 1fr); }
+  .cs-next__grid { grid-template-columns: repeat(2, 1fr); }
+  .cs-split { grid-template-columns: 1fr; gap: 40px; }
+
+  /* spine to the left */
+  .cs-timeline { max-width: 640px; }
+  .cs-timeline::before { left: 23px; transform: none; }
+  .cs-step { grid-template-columns: 46px 1fr; column-gap: 18px; }
+  .cs-step__node { grid-column: 1; }
+  .cs-step:nth-child(odd) .cs-step__body,
+  .cs-step:nth-child(even) .cs-step__body { grid-column: 2; text-align: left; }
+}
+
+@media (max-width: 720px) {
+  .cs-hero { padding: 120px 0 100px; min-height: auto; }
+  .cs-hero__title { margin-bottom: 40px; }
+  .cs-meta { grid-template-columns: 1fr 1fr; }
+  .cs-meta__item--wide { grid-column: span 2; }
+  .cs-cards { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 520px) {
+  .cs-meta { grid-template-columns: 1fr; }
+  .cs-meta__item--wide { grid-column: auto; }
+  .cs-pains { grid-template-columns: 1fr; }
+  .cs-next__grid { grid-template-columns: 1fr; }
+  .cs-step__body { padding: 18px 20px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-cards .card.reveal.in-view { animation: none; }
+}
+
+/* Six nav links (Case Studies added): tighten spacing on mid-width screens
+   so the row never crowds the logo before the mobile menu takes over. */
+@media (min-width: 721px) and (max-width: 1000px) {
+  .nav__links { gap: 20px; }
+  .nav__cta { padding: 8px 16px; }
+}
+@media (min-width: 721px) and (max-width: 820px) {
+  .nav__links { gap: 14px; }
+}
+
 </style>
 
   <!-- ===================================================================
@@ -1366,6 +1663,7 @@ body::after {
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#capabilities">Capabilities</a>
+        <a href="case-studies.html">Case Studies</a>
         <a href="#why">Approach</a>
         <a href="#contact" class="nav__cta">Start a Conversation</a>
       </nav>
